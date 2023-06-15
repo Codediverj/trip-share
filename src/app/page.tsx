@@ -1,58 +1,97 @@
-import { Poppins } from "next/font/google";
+"use client";
 import Image from "next/image";
 import styles from "./page.module.css";
+import { faker } from "@faker-js/faker";
+
+// Import Swiper React components
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css";
+
+// components
+import AddNewButton from "./components/AddNewButton";
+import MainImg from "./components/MainImg";
+import ImageList from "./components/ImageList";
 
 export default function Home() {
+  const randomCountry = faker.location.country();
+  const randomImage = faker.image.url();
+
   return (
-    <>
-      <header>
-        <h2>My Trips</h2>
-      </header>
+    <main>
       <div className="container">
         <div className={styles.continue_plan}>
           <h3 className={styles.dashboard_title}>Continue Planning</h3>
-          <div className={styles.continue_plan_item}>
-            <div></div>
-            <h4>2023 New York</h4>
-            <p>Nov.12 ~ Dec.2 2023</p>
-          </div>
-          <div className="add_new_button">
-            <Image
-              src="/plus-square.svg"
-              alt="plus icon"
-              width="24"
-              height="24"
+          <MainImg randomImage={randomImage} randomCountry={randomCountry} />
+          <AddNewButton />
+        </div>
+      </div>
+      <div className={styles.completed}>
+        <h3 className={styles.dashboard_title}>Completed</h3>
+        <Swiper
+          className={styles.completed_swipe}
+          spaceBetween={20}
+          slidesPerView={3.5}
+          onSlideChange={() => console.log("slide change")}
+          onSwiper={(swiper) => console.log(swiper)}
+        >
+          <SwiperSlide className={styles.completed_swipe_item}>
+            <ImageList
+              randomImage={randomImage}
+              randomCountry={randomCountry}
             />
-            Add New Plan
-          </div>
+          </SwiperSlide>
+          <SwiperSlide className={styles.completed_swipe_item}>
+            <ImageList
+              randomImage={randomImage}
+              randomCountry={randomCountry}
+            />
+          </SwiperSlide>
+          <SwiperSlide className={styles.completed_swipe_item}>
+            <ImageList
+              randomImage={randomImage}
+              randomCountry={randomCountry}
+            />
+          </SwiperSlide>
+          <SwiperSlide className={styles.completed_swipe_item}>
+            <ImageList
+              randomImage={randomImage}
+              randomCountry={randomCountry}
+            />
+          </SwiperSlide>
+        </Swiper>
+        <div className={styles.completed_swipe}>
+          <div className={styles.completed_swipe_item}></div>
         </div>
-        <div className={styles.completed}>
-          <h3 className={styles.dashboard_title}>Completed</h3>
-          <div className={styles.completed_swipe}>
-            <div className={styles.completed_swipe_item}>
-              <Image
-                src="/plus-square.svg"
-                alt="plus icon"
-                width="125"
-                height="135"
-              />
-              <h5>Japan</h5>
-              <p>2018.04.07 ~ 04.10</p>
-            </div>
-          </div>
-        </div>
+      </div>
+      <div className="container">
         <div className={styles.plan_with}>
           <h3 className={styles.dashboard_title}>I plan trip with...</h3>
           <ul>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
+            <li>
+              <Image src={randomImage} alt="plus icon" width="50" height="50" />
+            </li>
+            <li>
+              <Image src={randomImage} alt="plus icon" width="50" height="50" />
+            </li>
+            <li>
+              <Image src={randomImage} alt="plus icon" width="50" height="50" />
+            </li>
+            <li>
+              <Image src={randomImage} alt="plus icon" width="50" height="50" />
+            </li>
+            <li>
+              <Image src={randomImage} alt="plus icon" width="50" height="50" />
+            </li>
+            <li>
+              <Image src={randomImage} alt="plus icon" width="50" height="50" />
+            </li>
+            <li>
+              <Image src={randomImage} alt="plus icon" width="50" height="50" />
+            </li>
           </ul>
         </div>
       </div>
-    </>
+      <footer>Footer</footer>
+    </main>
   );
 }

@@ -12,8 +12,9 @@ h1, h2, h3, h4, h5 {
 }
 li {list-style: none;}
 * {padding:0; margin:0; box-sizing: border-box;}
-header {position: relative; background:#687398; color:#fff; height:204px;}
+header {position: relative; background:#687398; color:#fff; height:204px; padding:24px}
 .container { padding: 0 24px;}
+footer {background:#9AA1B8; height:50px; margin-top: 24px; color:#fff; text-align: center; line-height: 50px;}
 
 /*Button*/
 .add_new_button {
