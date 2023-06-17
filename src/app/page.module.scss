@@ -1,7 +1,7 @@
 /*countinue Planning*/
 .dashboard_title {
   margin: 40px 0 16px 0;
-  font-family: "Poppins";
+  font-family: var(--poppins);
   font-size: 24px;
   font-weight: 700;
   color: #2e313c;
@@ -24,12 +24,12 @@
   width: 100%;
 }
 .continue_plan_txt_box h4 {
-  font-family: "Poppins";
+  font-family: var(--poppins);
   font-size: 24px;
   font-weight: 700;
 }
 .continue_plan_txt_box p {
-  font-family: "Inter";
+  font-family: var(--inter);
   font-size: 14px;
   font-weight: 400;
 }
@@ -74,14 +74,14 @@
   border-radius: 10px;
 }
 .completed_swipe_item h5 {
-  font-family: "Poppins";
+  font-family: var(--poppins);
   font-size: 16px;
   font-weight: 700;
   line-height: 20px;
   margin: 4px 0 2px 0;
 }
 .completed_swipe_item p {
-  font-family: "Poppins";
+  font-family: var(--poppins);
   font-size: 12px;
   font-weight: 500;
 }

@@ -28,7 +28,7 @@ function HomeHeader({ randomImage, randomName }: MainImgProps) {
         </div>
       </div>
       <div className={styles.profile_button}>
-        {/* <Image src={randomImage} alt="plus icon" width="50" height="50" /> */}
+        <Image src={randomImage} alt="plus icon" width="50" height="50" />
       </div>
     </>
   );

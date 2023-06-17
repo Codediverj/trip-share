@@ -2,25 +2,14 @@ import Image from "next/image";
 import styles from "./page.module.scss";
 import { faker } from "@faker-js/faker";
 
-// Import Swiper React components
-import { Swiper, SwiperSlide } from "swiper/react";
-import "swiper/css";
-
 // components
 import AddNewButton from "./components/AddNewButton";
 import MainImg from "./components/MainImg";
-import ImageList from "./components/ImageList";
-import { useEffect, useState } from "react";
 import SwiperComp from "./components/Swiper";
 
 export default function Home() {
   const randomCountry = faker.location.country();
   const randomImage = faker.image.url();
-  // const [randomCountry, setCountry] = useState<string>("");
-
-  // useEffect(() => {
-  //   setCountry(faker.location.country());
-  // }, []);
 
   return (
     <main>
@@ -43,25 +32,25 @@ export default function Home() {
           <h3 className={styles.dashboard_title}>I plan trip with...</h3>
           <ul>
             <li>
-              {/* <Image src={randomImage} alt="plus icon" width="50" height="50" /> */}
+              <Image src={randomImage} alt="plus icon" width="50" height="50" />
             </li>
             <li>
-              {/* <Image src={randomImage} alt="plus icon" width="50" height="50" /> */}
+              <Image src={randomImage} alt="plus icon" width="50" height="50" />
             </li>
             <li>
-              {/* <Image src={randomImage} alt="plus icon" width="50" height="50" /> */}
+              <Image src={randomImage} alt="plus icon" width="50" height="50" />
             </li>
             <li>
-              {/* <Image src={randomImage} alt="plus icon" width="50" height="50" /> */}
+              <Image src={randomImage} alt="plus icon" width="50" height="50" />
             </li>
             <li>
-              {/* <Image src={randomImage} alt="plus icon" width="50" height="50" /> */}
+              <Image src={randomImage} alt="plus icon" width="50" height="50" />
             </li>
             <li>
-              {/* <Image src={randomImage} alt="plus icon" width="50" height="50" /> */}
+              <Image src={randomImage} alt="plus icon" width="50" height="50" />
             </li>
             <li>
-              {/* <Image src={randomImage} alt="plus icon" width="50" height="50" /> */}
+              <Image src={randomImage} alt="plus icon" width="50" height="50" />
             </li>
           </ul>
         </div>
