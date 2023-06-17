@@ -1,6 +1,6 @@
 import React from "react";
 import Image from "next/image";
-import styles from "../page.module.css";
+import styles from "../page.module.scss";
 
 interface MainImgProps {
   randomImage: string;
@@ -12,7 +12,7 @@ function MainImg({ randomImage, randomCountry }: MainImgProps) {
     <div className={styles.continue_plan_item}>
       <div className={styles.continue_plan_item_img}>
         <div>
-          <Image src={randomImage} alt="plus icon" width="900" height="700" />
+          {/* <Image src={randomImage} alt="plus icon" width="900" height="700" /> */}
         </div>
       </div>
       <div className={styles.continue_plan_txt_box}>

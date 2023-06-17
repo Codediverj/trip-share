@@ -17,6 +17,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   const randomImage = faker.image.url();
+  console.log(randomImage);
   const randomName = faker.person.firstName();
 
   return (
