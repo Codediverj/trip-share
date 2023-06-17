@@ -1,9 +1,9 @@
 "use client";
-import styles from "../page.module.scss";
+import styles from "./Swiper.module.scss";
 // Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
-import ImageList from "./ImageList";
+import ImageList from "../ImageList";
 
 export default function SwiperComp({ randomImage, randomCountry }: any) {
   return (

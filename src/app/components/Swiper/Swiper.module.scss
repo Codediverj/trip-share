@@ -1,0 +1,24 @@
+/*Completed*/
+.completed {
+  padding-left: 24px;
+}
+.completed_swipe_item {
+  img {
+    width: 100%;
+    height: auto;
+    min-height: 135px;
+    border-radius: 10px;
+  }
+  h5 {
+    font-family: var(--poppins);
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 20px;
+    margin: 4px 0 2px 0;
+  }
+  p {
+    font-family: var(--poppins);
+    font-size: 12px;
+    font-weight: 500;
+  }
+}

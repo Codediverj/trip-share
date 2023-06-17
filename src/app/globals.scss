@@ -9,7 +9,8 @@ h2,
 h3,
 h4,
 h5 {
-  font-family: var(--poppins); font-weight: 700;
+  font-family: var(--poppins);
+  font-weight: 700;
 }
 li {
   list-style: none;
@@ -21,7 +22,7 @@ li {
 }
 header {
   position: relative;
-  background: #687398;
+  background: linear-gradient(180deg, #877ad5 0%, #5e75cb 100%);
   color: #fff;
   height: 204px;
   padding: 24px;
@@ -53,4 +54,27 @@ footer {
   font-size: 12px;
   font-weight: 500;
   color: #687398;
+}
+.back_button {
+  position: absolute;
+  top: 24px;
+  left: 24px;
+  width: 30px;
+  height: 30px;
+}
+.bottom_line_button {
+  font-family: var(--poppins);
+  font-weight: 500;
+  font-size: 14px;
+  color: #6276cc;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: 40px 24px;
+  div {
+    border: 1px solid #6276cc;
+    padding: 10px 0;
+    border-radius: 5px;
+  }
 }

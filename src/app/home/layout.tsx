@@ -1,4 +1,8 @@
-import "./globals.scss";
+import "../globals.scss";
+import { faker } from "@faker-js/faker";
+
+//components
+import HomeHeader from "../components/HomeHeader/HomeHeader";
 
 //Font
 import {Poppins, Inter } from 'next/font/google';
@@ -29,11 +33,17 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const randomImage = faker.image.url();
+  console.log(randomImage);
+  const randomName = faker.person.firstName();
 
   return (
     <html lang="en">
       <body>
         <div className={cls(poppins.variable, inter.variable)}>
+        <header>
+          <HomeHeader randomImage={randomImage} randomName={randomName} />
+        </header>
         {children}
         </div>
       </body>

@@ -29,16 +29,16 @@
       justify-content: center;
     }
   }
-}
-.info_box strong {
-  font-family: var(--poppins);
-  font-size: 30px;
-  font-weight: 600;
-}
-.info_box span {
-  font-family: var(--inter);
-  font-size: 14px;
-  font-weight: 400;
+  strong {
+    font-family: var(--poppins);
+    font-size: 30px;
+    font-weight: 600;
+  }
+  span {
+    font-family: var(--inter);
+    font-size: 14px;
+    font-weight: 400;
+  }
 }
 .profile_button {
   position: absolute;

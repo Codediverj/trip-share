@@ -1,0 +1,100 @@
+/*Layout - Profile Header*/
+.profle_info {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  height: 100%;
+}
+.profle_name {
+  font-family: var(--poppins);
+  font-weight: 700;
+  font-size: 24px;
+  img {
+    margin-left: 6px;
+  }
+}
+.profle_email {
+  font-family: var(--poppins);
+  font-weight: 500;
+  font-size: 12px;
+  margin-bottom: 20px;
+}
+.profle_image {
+  position: relative;
+  width: 80px;
+  height: 80px;
+  .profle_image_wrap {
+    width: 80px;
+    height: 80px;
+    background: #9aa1b8;
+    border-radius: 50%;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .profle_edit_icon {
+    position: absolute;
+    bottom: -5px;
+    right: -5px;
+    width: 32px;
+    height: 32px;
+    background: white;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+/*Profile Page Content*/
+.profle_main {
+  text-align: center;
+  position: relative;
+  .qr_box {
+    width: 200px;
+    height: 200px;
+    border: 1px solid black;
+    margin: 64px auto 24px auto;
+  }
+  h4 {
+    font-family: var(--inter);
+    font-weight: 500;
+    font-size: 12px;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  .traveler_num {
+    font-family: var(--poppins);
+    font-weight: 700;
+    font-size: 24px;
+    margin-bottom: 8px;
+  }
+  span {
+    font-family: var(--poppins);
+    font-weight: 500;
+    font-size: 14px;
+    color: #c80000;
+    margin-bottom: 16px;
+    display: block;
+  }
+  .refresh_button {
+    font-family: var(--poppins);
+    font-weight: 500;
+    font-size: 14px;
+    color: #fff;
+    background: #6276cc;
+    padding: 10px 50px;
+    display: inline-block;
+    border-radius: 5px;
+    div {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    img {
+      margin-right: 8px;
+    }
+  }
+}
