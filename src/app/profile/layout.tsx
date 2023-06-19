@@ -1,11 +1,23 @@
+"use client";
 import Image from "next/image";
 import styles from "./profile.module.scss";
+import { useState } from "react";
+import Popup from "../components/Popup/Popup";
 
 export default function ProfileLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
+
+  const openPopup = () => {
+    setIsPopupOpen(true);
+  };
+
+  const closePopup = () => {
+    setIsPopupOpen(false);
+  };
   return (
     <section>
       <header>
@@ -26,6 +38,7 @@ export default function ProfileLayout({
                 alt="edit icon"
                 width="18"
                 height="18"
+                onClick={openPopup}
               />
             </h3>
             <p className={styles.profle_email}>sample@gmail.com</p>
@@ -54,6 +67,7 @@ export default function ProfileLayout({
         </div>
       </header>
       {children}
+      {isPopupOpen && <Popup onClose={closePopup} />}
     </section>
   );
 }

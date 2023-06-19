@@ -3,7 +3,7 @@ import styles from "./profile.module.scss";
 
 export default function Page() {
   return (
-    <div className={styles.profle_main}>
+    <div className={`page_container ${styles.profle_main}`}>
       <div className={styles.qr_box}>qr code box</div>
       <h4>Your Traveler Code :</h4>
       <div className={styles.traveler_num}>2308 5990 7420</div>

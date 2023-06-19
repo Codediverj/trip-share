@@ -13,7 +13,7 @@ export default function Home() {
   return (
     <>
       <main>
-        <div className="container">
+        <div className="page_container">
           <div className={styles.continue_plan}>
             <h3 className={styles.dashboard_title}>Continue Planning</h3>
             <div className={styles.continue_plan_item}>

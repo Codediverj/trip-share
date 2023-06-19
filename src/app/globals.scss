@@ -21,14 +21,21 @@ li {
   box-sizing: border-box;
 }
 header {
-  position: relative;
+  position: fixed;
+  top: 0;
+  left: 0;
   background: linear-gradient(180deg, #877ad5 0%, #5e75cb 100%);
   color: #fff;
   height: 204px;
+  width: 100%;
   padding: 24px;
+  z-index: 100;
 }
 .container {
   padding: 0 24px;
+}
+.page_container {
+  padding: 204px 24px 0 24px;
 }
 footer {
   background: #9aa1b8;
