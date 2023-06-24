@@ -73,29 +73,27 @@ export default function ProfileLayout({
         </div>
         <div className={styles.main_tab}>
           <button
-            className={activeTab === 0 ? "active" : ""}
+            className={`main_tab1 ${activeTab === 0 ? "active" : ""}`}
             onClick={() => handleTabClick(0)}
           >
             Day Plan
           </button>
           <button
-            className={activeTab === 1 ? "active" : ""}
+            className={`main_tab2 ${activeTab === 0 ? "active" : ""}`}
             onClick={() => handleTabClick(1)}
           >
             Expense
           </button>
           <button
-            className={activeTab === 2 ? "active" : ""}
+            className={`main_tab3 ${activeTab === 0 ? "active" : ""}`}
             onClick={() => handleTabClick(2)}
           >
             Moment
           </button>
         </div>
       </header>
-      <div className={`page_container ${styles.plan_main}`}>
-        <div>
-          <Page activeTab={activeTab} />
-        </div>
+      <div className="page_container_swipe">
+        <Page activeTab={activeTab} />
       </div>
       {isPopupOpen && <Popup onClose={closePopup}>{popupContent}</Popup>}
     </section>

@@ -93,19 +93,53 @@
     width: 100%;
     height: 100%;
     border: 0 none;
-    background: #6276cc;
-    color: #fff;
     border-radius: 15px 15px 0px 0px;
     font-family: var(--poppins);
     font-size: 12px;
     font-weight: 500;
     cursor: pointer;
-    &.active {
-      background: #fff !important;
-      color: #2e313c;
-    }
-    &:nth-child(2) {
-      background: #867bd5;
-    }
   }
+  .main_tab1,
+  .main_tab3 {
+    background: #6276cc;
+    color: #fff;
+  }
+  .main_tab2 {
+    background: #867bd5;
+    color: #fff;
+  }
+  .main_tab1.active,
+  .main_tab2.active,
+  .main_tab3.active {
+    background: #fff;
+    color: #2e313c;
+  }
+}
+
+/*Days - swiper*/
+.sub_tab_menu {
+  height: 45px;
+}
+.sub_tab_swipe {
+  height: 100%;
+}
+.sub_tab_item {
+  border: 1px solid blue;
+  padding: 0 24px;
+  font-family: var(--poppins);
+  font-size: 12px;
+  font-weight: 500;
+  text-align: center;
+  line-height: 43px;
+  color: #9aa1b8;
+  &.swiper-slide-active {
+    /*왜 이 더블이 안먹힐까....????*/
+    color: #2e313c;
+    font-weight: 700;
+  }
+}
+.sub_tab_item.swiper-slide-active {
+  /*왜 이 더블이 안먹힐까....????*/
+  color: #2e313c;
+  font-weight: 700;
 }
