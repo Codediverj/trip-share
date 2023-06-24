@@ -1,7 +1,15 @@
+"use client";
+import React from "react";
 import Image from "next/image";
 import styles from "./profile.module.scss";
 
+// Popup useContext
+import { usePopupContext } from "../contexts/PopupContext";
+// Popup Content
+import DeleteAccount from "../components/Popup/DeleteAccount";
+
 export default function Page() {
+  const { openPopup } = usePopupContext();
   return (
     <div className={`page_container ${styles.profle_main}`}>
       <div className={styles.qr_box}>qr code box</div>
@@ -14,9 +22,8 @@ export default function Page() {
           Refresh
         </div>
       </div>
-      {/* maybe... component?*/}
       <div className="bottom_line_button">
-        <div>Delete Account</div>
+        <div onClick={() => openPopup(<DeleteAccount />)}>Delete Account</div>
       </div>
     </div>
   );

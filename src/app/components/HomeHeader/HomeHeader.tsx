@@ -1,5 +1,6 @@
 import React from "react";
 import Image from "next/image";
+import Link from "next/link";
 import styles from "./HomeHeader.module.scss";
 
 interface MainImgProps {
@@ -28,7 +29,9 @@ function HomeHeader({ randomImage, randomName }: MainImgProps) {
         </div>
       </div>
       <div className={styles.profile_button}>
-        <Image src={randomImage} alt="plus icon" width="50" height="50" />
+        <Link href={`/profile`}>
+          <Image src={randomImage} alt="plus icon" width="50" height="50" />
+        </Link>
       </div>
     </>
   );

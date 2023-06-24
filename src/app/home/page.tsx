@@ -1,6 +1,12 @@
+"use client";
 import Image from "next/image";
+import Link from "next/link";
 import styles from "./page.module.scss";
 import { faker } from "@faker-js/faker";
+
+// Popup
+import Popup from "../components/Popup/Popup";
+import { usePopupContext } from "../contexts/PopupContext";
 
 // components
 import AddNewButton from "../components/AddNewButton";
@@ -9,6 +15,8 @@ import SwiperComp from "../components/Swiper/Swiper";
 export default function Home() {
   const randomCountry = faker.location.country();
   const randomImage = faker.image.url();
+  const { isPopupOpen, popupContent, openPopup, closePopup } =
+    usePopupContext();
 
   return (
     <>
@@ -17,20 +25,22 @@ export default function Home() {
           <div className={styles.continue_plan}>
             <h3 className={styles.dashboard_title}>Continue Planning</h3>
             <div className={styles.continue_plan_item}>
-              <div className={styles.continue_plan_item_img}>
-                <div>
-                  <Image
-                    src={randomImage}
-                    alt="plus icon"
-                    width="900"
-                    height="700"
-                  />
+              <Link href={`/plan`}>
+                <div className={styles.continue_plan_item_img}>
+                  <div>
+                    <Image
+                      src={randomImage}
+                      alt="plus icon"
+                      width="900"
+                      height="700"
+                    />
+                  </div>
                 </div>
-              </div>
-              <div className={styles.continue_plan_txt_box}>
-                <h4>2023 {randomCountry}</h4>
-                <p>Nov.12 ~ Dec.2 2023</p>
-              </div>
+                <div className={styles.continue_plan_txt_box}>
+                  <h4>2023 {randomCountry}</h4>
+                  <p>Nov.12 ~ Dec.2 2023</p>
+                </div>
+              </Link>
             </div>
             <AddNewButton />
           </div>
@@ -106,6 +116,7 @@ export default function Home() {
           </div>
         </div>
       </main>
+      {isPopupOpen && <Popup onClose={closePopup}>{popupContent}</Popup>}
       <footer>Footer</footer>
     </>
   );

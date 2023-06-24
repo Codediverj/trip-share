@@ -11,6 +11,7 @@
   font-size: 24px;
   img {
     margin-left: 6px;
+    cursor: pointer;
   }
 }
 .profle_email {
@@ -45,6 +46,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    cursor: pointer;
   }
 }
 
@@ -88,6 +90,7 @@
     padding: 10px 50px;
     display: inline-block;
     border-radius: 5px;
+    cursor: pointer;
     div {
       display: flex;
       justify-content: center;
