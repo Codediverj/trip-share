@@ -28,7 +28,7 @@ export default function ProfileLayout({
 
   return (
     <section>
-      <header>
+      <header className={styles.plan_header}>
         <Image
           src={profileMockData.background}
           alt="Background"

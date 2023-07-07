@@ -11,10 +11,16 @@ import { usePopupContext } from "../contexts/PopupContext";
 // components
 import AddNewButton from "../components/AddNewButton";
 import SwiperComp from "../components/Swiper/Swiper";
+import MainImage from "../components/HomePage/MainImage";
+import PlanWithList from "../components/HomePage/PlanWithList";
 
 export default function Home() {
-  const randomCountry = faker.location.country();
-  const randomImage = faker.image.url();
+  // const randomCountry = faker.location.country();
+  //const randomImage = faker.image.url();
+  const randomCountry = "New York";
+  const randomImage =
+    "https://images.unsplash.com/photo-1543158266-0066955047b1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80";
+
   const { isPopupOpen, popupContent, openPopup, closePopup } =
     usePopupContext();
 
@@ -24,24 +30,10 @@ export default function Home() {
         <div className="page_container">
           <div className={styles.continue_plan}>
             <h3 className={styles.dashboard_title}>Continue Planning</h3>
-            <div className={styles.continue_plan_item}>
-              <Link href={`/plan`}>
-                <div className={styles.continue_plan_item_img}>
-                  <div>
-                    <Image
-                      src={randomImage}
-                      alt="plus icon"
-                      width="900"
-                      height="700"
-                    />
-                  </div>
-                </div>
-                <div className={styles.continue_plan_txt_box}>
-                  <h4>2023 {randomCountry}</h4>
-                  <p>Nov.12 ~ Dec.2 2023</p>
-                </div>
-              </Link>
-            </div>
+            <MainImage
+              randomImage={randomImage}
+              randomCountry={randomCountry}
+            />
             <AddNewButton />
           </div>
         </div>
@@ -53,67 +45,7 @@ export default function Home() {
           </div>
         </div>
         <div className="container">
-          <div className={styles.plan_with}>
-            <h3 className={styles.dashboard_title}>I plan trip with...</h3>
-            <ul>
-              <li>
-                <Image
-                  src={randomImage}
-                  alt="plus icon"
-                  width="50"
-                  height="50"
-                />
-              </li>
-              <li>
-                <Image
-                  src={randomImage}
-                  alt="plus icon"
-                  width="50"
-                  height="50"
-                />
-              </li>
-              <li>
-                <Image
-                  src={randomImage}
-                  alt="plus icon"
-                  width="50"
-                  height="50"
-                />
-              </li>
-              <li>
-                <Image
-                  src={randomImage}
-                  alt="plus icon"
-                  width="50"
-                  height="50"
-                />
-              </li>
-              <li>
-                <Image
-                  src={randomImage}
-                  alt="plus icon"
-                  width="50"
-                  height="50"
-                />
-              </li>
-              <li>
-                <Image
-                  src={randomImage}
-                  alt="plus icon"
-                  width="50"
-                  height="50"
-                />
-              </li>
-              <li>
-                <Image
-                  src={randomImage}
-                  alt="plus icon"
-                  width="50"
-                  height="50"
-                />
-              </li>
-            </ul>
-          </div>
+          <PlanWithList randomImage={randomImage} />
         </div>
       </main>
       {isPopupOpen && <Popup onClose={closePopup}>{popupContent}</Popup>}

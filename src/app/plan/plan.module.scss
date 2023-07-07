@@ -1,4 +1,8 @@
 /*Layout - plan Header*/
+.plan_header {
+  overflow: hidden;
+}
+
 .plan_background {
   width: 100%;
   position: absolute;
@@ -119,27 +123,25 @@
 /*Days - swiper*/
 .sub_tab_menu {
   height: 45px;
+
+  :global {
+    .sub_tab_item {
+      border: 1px solid blue;
+      padding: 0 24px;
+      font-family: var(--poppins);
+      font-size: 12px;
+      font-weight: 500;
+      text-align: center;
+      line-height: 43px;
+      color: #9aa1b8;
+
+      &.swiper-slide-active {
+        color: #2e313c;
+        font-weight: 700;
+      }
+    }
+  }
 }
 .sub_tab_swipe {
   height: 100%;
-}
-.sub_tab_item {
-  border: 1px solid blue;
-  padding: 0 24px;
-  font-family: var(--poppins);
-  font-size: 12px;
-  font-weight: 500;
-  text-align: center;
-  line-height: 43px;
-  color: #9aa1b8;
-  &.swiper-slide-active {
-    /*왜 이 더블이 안먹힐까....????*/
-    color: #2e313c;
-    font-weight: 700;
-  }
-}
-.sub_tab_item.swiper-slide-active {
-  /*왜 이 더블이 안먹힐까....????*/
-  color: #2e313c;
-  font-weight: 700;
 }

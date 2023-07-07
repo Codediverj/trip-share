@@ -6,6 +6,7 @@ import { useState } from "react";
 // Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
+import { cx } from "../utils/classname.utils";
 
 export default function Page({ activeTab }: { activeTab: number }) {
   const [activeSubTab, setActiveSubTab] = useState(0);
@@ -24,25 +25,28 @@ export default function Page({ activeTab }: { activeTab: number }) {
               slidesPerView={2.5}
             >
               <SwiperSlide
-                className={`${styles.sub_tab_item} ${
+                className={cx(
+                  "sub_tab_item",
                   activeSubTab === 0 ? "active" : ""
-                }`}
+                )}
                 onClick={() => handleSubTabClick(0)}
               >
                 Day 1
               </SwiperSlide>
               <SwiperSlide
-                className={`${styles.sub_tab_item} ${
+                className={cx(
+                  "sub_tab_item",
                   activeSubTab === 1 ? "active" : ""
-                }`}
+                )}
                 onClick={() => handleSubTabClick(1)}
               >
                 Day 2
               </SwiperSlide>
               <SwiperSlide
-                className={`${styles.sub_tab_item} ${
+                className={cx(
+                  "sub_tab_item",
                   activeSubTab === 2 ? "active" : ""
-                }`}
+                )}
                 onClick={() => handleSubTabClick(2)}
               >
                 Day 3
