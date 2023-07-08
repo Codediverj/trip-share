@@ -51,7 +51,7 @@ function DayPlan() {
           </SwiperSlide>
         </Swiper>
       </div>
-      <div className="sub-tab-content page_container_middle">
+      <div className="sub-tab-content page_container_middle page_gray_bg">
         {activeSubTab === 0 && <DayPlanContent />}
         {activeSubTab === 1 && <DayPlanContent />}
         {activeSubTab === 2 && <DayPlanContent />}

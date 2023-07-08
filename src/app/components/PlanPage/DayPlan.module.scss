@@ -35,3 +35,169 @@
 .sub_tab_swipe {
   height: 100%;
 }
+
+/*DayPlanContent component*/
+.day_plan_content {
+  padding-top: 20px;
+  :global {
+    .plan_date {
+      font-family: var(--poppins);
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 20px;
+    }
+  }
+}
+
+/*DayPlanContentSingle component*/
+.day_plan_content_single {
+  background: #fff;
+  border-radius: 10px;
+  position: relative;
+  :global {
+    .top_part {
+      padding: 14px 20px 10px 44px;
+
+      .number {
+        width: 26px;
+        height: 26px;
+        background: #6276cc;
+        border-radius: 50%;
+        color: #fff;
+        text-align: center;
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        font-family: var(--poppins);
+        font-size: 12px;
+        font-weight: 500;
+        line-height: 26px;
+      }
+      .location {
+        display: flex;
+        font-family: var(--poppins);
+        font-size: 12px;
+        font-weight: 700;
+        .location_from,
+        .location_to {
+          width: 50%;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+      }
+      .middle_block {
+        display: flex;
+        margin-top: 10px;
+        align-items: center;
+        .plan_content {
+          font-family: var(--poppins);
+          font-size: 12px;
+          font-weight: 400;
+          padding-right: 6px;
+        }
+        .link_button {
+          background: #6276cc;
+          color: #fff;
+          border-radius: 5px;
+          padding: 9px 12px;
+          font-family: var(--poppins);
+          font-size: 12px;
+          font-weight: 500;
+        }
+      }
+    }
+    .bottom_part {
+      padding: 10px 20px 20px 20px;
+      display: flex;
+      .price_part {
+        display: flex;
+        flex-direction: column;
+        position: relative;
+        padding-right: 12px;
+        margin-right: 12px;
+        .each {
+          font-family: var(--poppins);
+          font-size: 10px;
+          font-weight: 400;
+          color: #6276cc;
+        }
+        .price {
+          font-family: var(--poppins);
+          font-size: 12px;
+          font-weight: 500;
+          margin-top: 3px;
+        }
+        &:after {
+          display: block;
+          content: "";
+          position: absolute;
+          top: 0;
+          right: 0;
+          width: 1px;
+          height: 100%;
+          background: #c1c7d7;
+        }
+      }
+      .join_list {
+        display: flex;
+        align-items: center;
+        .join_list_ul {
+          display: flex;
+          .join_list_li {
+            width: 24px;
+            height: 24px;
+            background: black;
+            border-radius: 50%;
+            overflow: hidden;
+            margin-right: 4px;
+          }
+        }
+        .paid,
+        .unpaid {
+          font-family: var(--poppins);
+          font-size: 12px;
+          font-weight: 400;
+          display: flex;
+          align-items: center;
+          padding-left: 4px;
+          img {
+            margin-right: 4px;
+          }
+        }
+        .paid {
+          color: #14802b;
+        }
+        .unpaid {
+          color: #c80000;
+        }
+      }
+    }
+    .edit_area {
+      display: flex;
+      button {
+        width: 50%;
+        height: 30px;
+        font-family: var(--poppins);
+        font-size: 12px;
+        font-weight: 400;
+        line-height: 30px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 5px;
+      }
+      .edit_button {
+        background: #e9e7f3;
+        color: #867bd5;
+      }
+      .delete_button {
+        background: #faeaea;
+        color: #c80000;
+      }
+      span {
+        padding-left: 6px;
+      }
+    }
+  }
+}

@@ -9,9 +9,9 @@ import DayPlanContentSingle from "./DayPlanContentSingle";
 
 function DayPlanContent() {
   return (
-    <div>
+    <div className={styles.day_plan_content}>
       {/* 날짜가 자동으로 늘어나야함.*/}
-      <h2 className={styles.plan_header}>November 12, Friday</h2>
+      <h2 className="plan_date">November 12, Friday</h2>
       {/* 데이터 갯수에 맞게 아래 컴포넌트가 반복되어야 함.*/}
       <DayPlanContentSingle />
       <AddNewButton />

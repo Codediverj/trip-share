@@ -1,1 +1,27 @@
 /*Moment*/
+.moment {
+  padding: 16px 0;
+  :global {
+    .box_image {
+      width: 100%;
+      height: 300px;
+      background: #d9d9d9;
+    }
+    .box_title {
+      font-family: var(--poppins);
+      font-size: 12px;
+      font-weight: 700;
+    }
+    .box_date {
+      font-family: var(--poppins);
+      font-size: 12px;
+      font-weight: 500;
+      color: #a0a0a0;
+    }
+    .box_content {
+      font-family: var(--poppins);
+      font-size: 12px;
+      font-weight: 400;
+    }
+  }
+}
