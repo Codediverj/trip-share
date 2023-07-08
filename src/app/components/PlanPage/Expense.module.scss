@@ -1,6 +1,98 @@
 /*Expense*/
 .expense {
-  padding: 16px 0;
+  padding: 24px 0;
   :global {
+    .total_expense {
+      border-radius: 10px;
+      background: #fff;
+      padding: 20px;
+      .total_expense_head {
+        display: flex;
+        justify-content: space-between;
+        padding-bottom: 30px;
+        border-bottom: 1px solid #c1c7d7;
+        h4 {
+          font-family: var(--poppins);
+          font-size: 16px;
+          font-weight: 700;
+        }
+        h5 {
+          font-family: var(--poppins);
+          font-size: 16px;
+          font-weight: 700;
+        }
+      }
+    }
+
+    .owe_expense {
+      margin-top: 32px;
+      .owe_expense_title {
+        display: flex;
+        align-items: center;
+        font-family: var(--poppins);
+        font-size: 16px;
+        font-weight: 700;
+        margin-bottom: 4px;
+      }
+      .owe_expense_con {
+        border-radius: 10px;
+        background: #fff;
+        padding: 20px;
+        .send_money {
+          text-align: center;
+          p {
+            font-family: var(--poppins);
+            font-size: 12px;
+            font-weight: 500;
+            margin-bottom: 14px;
+          }
+          button {
+            background: #6276cc;
+            color: #fff;
+            padding: 10px 32px;
+            border-radius: 5px;
+          }
+        }
+      }
+    }
+
+    .expense_list {
+      li {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 12px 0;
+        border-bottom: 1px solid #e0e3eb;
+        .expense_con {
+          h6 {
+            font-family: var(--poppins);
+            font-size: 12px;
+            font-weight: 700;
+          }
+          span {
+            font-family: var(--poppins);
+            font-size: 12px;
+            font-weight: 500;
+            color: #a0a0a0;
+          }
+        }
+        .expense_price {
+          display: flex;
+          align-items: center;
+          .number {
+            font-family: var(--poppins);
+            font-size: 12px;
+            font-weight: 500;
+            color: #6276cc;
+          }
+          .detail {
+            margin-left: 8px;
+          }
+        }
+        &:last-child {
+          border-bottom: 0 none;
+        }
+      }
+    }
   }
 }

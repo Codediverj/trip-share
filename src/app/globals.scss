@@ -46,12 +46,14 @@ header {
 }
 .page_container_swipe {
   padding: 204px 0 0 0;
+  position: relative;
 }
 .page_container_middle {
   padding: 0 24px 0 24px;
 }
 .page_gray_bg {
   background: #f8f8f8;
+  min-height: calc(100vh - 204px);
 }
 footer {
   background: #9aa1b8;

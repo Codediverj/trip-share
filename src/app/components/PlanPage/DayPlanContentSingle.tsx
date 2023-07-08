@@ -3,10 +3,15 @@ import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import styles from "./DayPlan.module.scss";
-
 import { cx } from "../../utils/classname.utils";
 
+// Popup useContext
+import { usePopupContext } from "../../contexts/PopupContext";
+import AddNewPlan from "../Popup/AddNewPlan";
+import DeletePlan from "../Popup/DeletePlan";
+
 function DayPlanContentSingle() {
+  const { openPopup } = usePopupContext();
   return (
     <div className={styles.day_plan_content_single}>
       <div className="top_part">
@@ -67,7 +72,10 @@ function DayPlanContentSingle() {
         </div>
       </div>
       <div className="edit_area">
-        <button className="edit_button">
+        <button
+          className="edit_button"
+          onClick={() => openPopup(<AddNewPlan />)}
+        >
           <Image
             src="/edit_purple.svg"
             alt="edit icon"
@@ -77,7 +85,10 @@ function DayPlanContentSingle() {
           />
           <span>Edit</span>
         </button>
-        <button className="delete_button">
+        <button
+          className="delete_button"
+          onClick={() => openPopup(<DeletePlan />)}
+        >
           <Image
             src="/close-red-14x14.svg"
             alt="delete icon"
