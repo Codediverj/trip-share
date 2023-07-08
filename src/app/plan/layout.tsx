@@ -74,18 +74,22 @@ export default function ProfileLayout({
         <div className={styles.main_tab}>
           <button
             className={`main_tab1 ${activeTab === 0 ? "active" : ""}`}
+            // className={cx(
+            //   "sub_tab_item",
+            //   activeSubTab === 2 ? "active" : ""
+            // )}
             onClick={() => handleTabClick(0)}
           >
             Day Plan
           </button>
           <button
-            className={`main_tab2 ${activeTab === 0 ? "active" : ""}`}
+            className={`main_tab2 ${activeTab === 1 ? "active" : ""}`}
             onClick={() => handleTabClick(1)}
           >
             Expense
           </button>
           <button
-            className={`main_tab3 ${activeTab === 0 ? "active" : ""}`}
+            className={`main_tab3 ${activeTab === 2 ? "active" : ""}`}
             onClick={() => handleTabClick(2)}
           >
             Moment

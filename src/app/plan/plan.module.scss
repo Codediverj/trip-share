@@ -93,55 +93,35 @@
   display: flex;
   justify-content: space-between;
   padding: 0 24px;
-  button {
-    width: 100%;
-    height: 100%;
-    border: 0 none;
-    border-radius: 15px 15px 0px 0px;
-    font-family: var(--poppins);
-    font-size: 12px;
-    font-weight: 500;
-    cursor: pointer;
-  }
-  .main_tab1,
-  .main_tab3 {
-    background: #6276cc;
-    color: #fff;
-  }
-  .main_tab2 {
-    background: #867bd5;
-    color: #fff;
-  }
-  .main_tab1.active,
-  .main_tab2.active,
-  .main_tab3.active {
-    background: #fff;
-    color: #2e313c;
-  }
-}
-
-/*Days - swiper*/
-.sub_tab_menu {
-  height: 45px;
-
   :global {
-    .sub_tab_item {
-      border: 1px solid blue;
-      padding: 0 24px;
+    button {
+      width: 100%;
+      height: 100%;
+      border: 0 none;
+      border-radius: 15px 15px 0px 0px;
       font-family: var(--poppins);
       font-size: 12px;
       font-weight: 500;
-      text-align: center;
-      line-height: 43px;
-      color: #9aa1b8;
-
-      &.swiper-slide-active {
+      cursor: pointer;
+    }
+    .main_tab1,
+    .main_tab3 {
+      background: #6276cc;
+      color: #fff;
+      &.active {
+        background: #fff;
+        color: #2e313c;
+        font-weight: 700;
+      }
+    }
+    .main_tab2 {
+      background: #867bd5;
+      color: #fff;
+      &.active {
+        background: #fff;
         color: #2e313c;
         font-weight: 700;
       }
     }
   }
-}
-.sub_tab_swipe {
-  height: 100%;
 }
