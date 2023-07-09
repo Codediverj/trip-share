@@ -10,7 +10,7 @@ const RootPage = () => {
   return (
     <>
       {/* <TestComp date={now} /> */}
-      {now}
+      {/*now*/}
     </>
   );
 };

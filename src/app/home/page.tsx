@@ -13,6 +13,8 @@ import AddNewButton from "../components/AddNewButton";
 import SwiperComp from "../components/Swiper/Swiper";
 import MainImage from "../components/HomePage/MainImage";
 import PlanWithList from "../components/HomePage/PlanWithList";
+import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import { useEffect } from "react";
 
 export default function Home() {
   // const randomCountry = faker.location.country();
@@ -23,6 +25,18 @@ export default function Home() {
 
   const { isPopupOpen, popupContent, openPopup, closePopup } =
     usePopupContext();
+
+  const supabase = createClientComponentClient();
+  useEffect(() => {
+    supabase.auth.getUser().then(console.log);
+
+    supabase
+      .from("User")
+      .select("created_at, user_id, profile_image, nickname ")
+      .then((data) => {
+        console.log(data);
+      });
+  }, [supabase.auth]);
 
   return (
     <>
