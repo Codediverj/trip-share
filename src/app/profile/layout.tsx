@@ -1,4 +1,6 @@
 "use client";
+import { useEffect, useState } from "react";
+import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import Image from "next/image";
 import Link from "next/link";
 import styles from "./profile.module.scss";
@@ -11,6 +13,7 @@ import { usePopupContext } from "../contexts/PopupContext";
 // Popup Content
 import EditNickname from "../components/Popup/EditNickname";
 import EditProfileImage from "../components/Popup/EditProfileImage";
+import { UserData } from "./profile.types";
 
 export default function ProfileLayout({
   children,
@@ -19,6 +22,63 @@ export default function ProfileLayout({
 }) {
   const { isPopupOpen, popupContent, openPopup, closePopup } =
     usePopupContext();
+
+  const [userData, setUserData] = useState<UserData>();
+
+  const supabase = createClientComponentClient();
+  useEffect(() => {
+    // const fetchUserData = async () => {
+    //   const { data, error } = await supabase
+    //     .from("User")
+    //     .select("user_id, profile_image, nickname, email, traveler_code");
+
+    //   if (error) {
+    //     console.log(error);
+    //   }
+    //   if (data) {
+    //     console.log(data);
+    //   }
+    // };
+
+    // fetchUserData();
+
+    // (async () => {
+    //   const { data, error } = await supabase
+    //     .from("User")
+    //     .select("user_id, profile_image, nickname, email, traveler_code");
+
+    //   if (error) {
+    //     console.log(error);
+    //   }
+    //   if (data) {
+    //     console.log(data);
+    //   }
+    // })();
+
+    supabase
+      .from("User")
+      .select("user_id, profile_image, nickname, email, traveler_code")
+      .single()
+      .then(({ data, error }) => {
+        if (error) {
+          console.log(error);
+        }
+        if (data) {
+          console.log(data);
+          setUserData(data);
+        }
+
+        console.log("done first");
+
+        return supabase
+          .from("User")
+          .select("user_id, nickname, email, traveler_code")
+          .single();
+      })
+      .then(({ data }) => {
+        console.log(data);
+      });
+  }, []);
 
   return (
     <section>
@@ -36,7 +96,7 @@ export default function ProfileLayout({
         <div className={styles.profle_info}>
           <div className={styles.profle_left}>
             <h3 className={styles.profle_name}>
-              {profileMockData.name}
+              {userData && <span>{userData.nickname}</span>}
               <Image
                 src="/edit-white.svg"
                 alt="edit icon"

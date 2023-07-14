@@ -37,7 +37,7 @@ export default function Page() {
       <canvas id="qrCodeContainer" className={styles.qr_box}></canvas>
       <h4>Your Traveler Code :</h4>
       <div className={styles.traveler_num}>{travelerCode}</div>
-      <span>Expired in 2:59</span>
+
       <div className={styles.refresh_button} onClick={refreshCode}>
         <div>
           <Image src="/refresh.svg" alt="refresh icon" width="16" height="16" />
