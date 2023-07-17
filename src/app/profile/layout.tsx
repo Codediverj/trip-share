@@ -4,7 +4,6 @@ import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import Image from "next/image";
 import Link from "next/link";
 import styles from "./profile.module.scss";
-import { profileMockData } from "./data"; //temp data
 
 // Popup
 import Popup from "../components/Popup/Popup";
@@ -27,34 +26,6 @@ export default function ProfileLayout({
 
   const supabase = createClientComponentClient();
   useEffect(() => {
-    // const fetchUserData = async () => {
-    //   const { data, error } = await supabase
-    //     .from("User")
-    //     .select("user_id, profile_image, nickname, email, traveler_code");
-
-    //   if (error) {
-    //     console.log(error);
-    //   }
-    //   if (data) {
-    //     console.log(data);
-    //   }
-    // };
-
-    // fetchUserData();
-
-    // (async () => {
-    //   const { data, error } = await supabase
-    //     .from("User")
-    //     .select("user_id, profile_image, nickname, email, traveler_code");
-
-    //   if (error) {
-    //     console.log(error);
-    //   }
-    //   if (data) {
-    //     console.log(data);
-    //   }
-    // })();
-
     supabase
       .from("User")
       .select("user_id, profile_image, nickname, email, traveler_code")
@@ -64,21 +35,74 @@ export default function ProfileLayout({
           console.log(error);
         }
         if (data) {
-          console.log(data);
           setUserData(data);
         }
-
-        console.log("done first");
-
-        return supabase
-          .from("User")
-          .select("user_id, nickname, email, traveler_code")
-          .single();
-      })
-      .then(({ data }) => {
-        console.log(data);
       });
   }, []);
+
+  const handleNicknameSave = (newNickname: string) => {
+    if (!userData) {
+      return;
+    }
+    supabase
+      .from("User")
+      .upsert({
+        user_id: userData.user_id,
+        profile_image: userData.profile_image,
+        nickname: newNickname,
+        email: userData.email,
+        traveler_code: userData.traveler_code,
+      })
+      .select()
+      .single()
+      .then(({ data, error }) => {
+        console.log(data);
+        if (error) {
+          console.log(error);
+        }
+        if (data) {
+          setUserData((prevData) => {
+            if (prevData) {
+              return { ...prevData, nickname: newNickname };
+            }
+            return prevData;
+          });
+          closePopup();
+        }
+      });
+  };
+
+  const handleProfileImageSave = (profileImage: string) => {
+    if (!userData) {
+      return;
+    }
+    supabase
+      .from("User")
+      .upsert({
+        user_id: userData.user_id,
+        profile_image: userData.profile_image,
+        nickname: profileImage,
+        email: userData.email,
+        traveler_code: userData.traveler_code,
+      })
+      .select()
+      .single()
+      .then(({ data, error }) => {
+        console.log(data);
+        if (error) {
+          console.log(error);
+        }
+        if (data) {
+          setUserData((prevData) => {
+            if (prevData) {
+              return { ...prevData, profile_image: profileImage };
+            }
+            return prevData;
+          });
+          closePopup();
+        }
+      });
+  };
 
   return (
     <section>
@@ -102,21 +126,32 @@ export default function ProfileLayout({
                 alt="edit icon"
                 width="18"
                 height="18"
-                onClick={() => openPopup(<EditNickname />)}
+                onClick={() =>
+                  openPopup(
+                    <EditNickname
+                      nickname={userData?.nickname}
+                      onSave={handleNicknameSave}
+                    />
+                  )
+                }
               />
             </h3>
-            <p className={styles.profle_email}>{profileMockData.email}</p>
+            {userData && (
+              <p className={styles.profle_email}>{userData.email}</p>
+            )}
           </div>
           <div className={styles.profle_right}>
             <div className={styles.profle_image}>
-              {/*profile imge Components => default or URL*/}
+              {/*profile imge Components => URL*/}
               <div className={styles.profle_image_wrap}>
-                <Image
-                  src="/profile_icon.svg"
-                  alt="profile icon"
-                  width="30"
-                  height="30"
-                />
+                {userData && (
+                  <Image
+                    src={`/${userData.profile_image}`}
+                    alt="profile image"
+                    width="80"
+                    height="80"
+                  />
+                )}
               </div>
               <div className={styles.profle_edit_icon}>
                 <Image
@@ -124,7 +159,14 @@ export default function ProfileLayout({
                   alt="edit icon"
                   width="19"
                   height="19"
-                  onClick={() => openPopup(<EditProfileImage />)}
+                  onClick={() =>
+                    openPopup(
+                      <EditProfileImage
+                        profileImage={userData?.profile_image}
+                        onSave={handleProfileImageSave}
+                      />
+                    )
+                  }
                 />
               </div>
             </div>

@@ -32,7 +32,7 @@ export default function Home() {
 
     supabase
       .from("User")
-      .select("created_at, user_id, profile_image, nickname ")
+      .select("created_at, user_id, profile_image, nickname")
       .then((data) => {
         console.log(data);
       });
