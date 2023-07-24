@@ -6,7 +6,7 @@ import styles from "./DayPlan.module.scss";
 import { cx } from "../../utils/classname.utils";
 
 // Popup useContext
-import { usePopupContext } from "../../contexts/PopupContext";
+import { usePopupContext } from "../../../contexts/popup/PopupContext";
 import AddNewPlan from "../Popup/AddNewPlan";
 import DeletePlan from "../Popup/DeletePlan";
 
@@ -25,14 +25,12 @@ function DayPlanContentSingle() {
             height="16"
             className="arrow_left"
           />
-          <span className="location_to">
-            Olympic village station Olympic village station
-          </span>
+          <span className="location_to">Olympic village station Olympic village station</span>
         </h3>
         <div className="middle_block">
           <p className="plan_content">
-            Lorem Ipsum is simply dummy text of the printing and typesetting.
-            Lorem Ipsum is simply dummy text of the printing and typesetting.
+            Lorem Ipsum is simply dummy text of the printing and typesetting. Lorem Ipsum is simply
+            dummy text of the printing and typesetting.
           </p>
           <Link href={""} className="link_button">
             Link
@@ -72,10 +70,7 @@ function DayPlanContentSingle() {
         </div>
       </div>
       <div className="edit_area">
-        <button
-          className="edit_button"
-          onClick={() => openPopup(<AddNewPlan />)}
-        >
+        <button className="edit_button" onClick={() => openPopup(<AddNewPlan />)}>
           <Image
             src="/edit_purple.svg"
             alt="edit icon"
@@ -85,10 +80,7 @@ function DayPlanContentSingle() {
           />
           <span>Edit</span>
         </button>
-        <button
-          className="delete_button"
-          onClick={() => openPopup(<DeletePlan />)}
-        >
+        <button className="delete_button" onClick={() => openPopup(<DeletePlan />)}>
           <Image
             src="/close-red-14x14.svg"
             alt="delete icon"

@@ -5,40 +5,22 @@ import Image from "next/image";
 import Link from "next/link";
 import styles from "./profile.module.scss";
 
+//data
+import { useUserData } from "../../contexts/useUserData";
+
 // Popup
-import Popup from "../components/Popup/Popup";
-import { usePopupContext } from "../contexts/PopupContext";
+import Popup from "../../components/Popup/Popup";
+import { usePopupContext } from "../../../contexts/popup/PopupContext";
 
 // Popup Content
-import EditNickname from "../components/Popup/EditNickname";
-import EditProfileImage from "../components/Popup/EditProfileImage";
+import EditNickname from "../../components/Popup/EditNickname";
+import EditProfileImage from "../../components/Popup/EditProfileImage";
 import { UserData } from "./profile.types";
 
-export default function ProfileLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
-  const { isPopupOpen, popupContent, openPopup, closePopup } =
-    usePopupContext();
-
-  const [userData, setUserData] = useState<UserData>();
-
+export default function ProfileLayout({ children }: { children: React.ReactNode }) {
+  const { isPopupOpen, popupContent, openPopup, closePopup } = usePopupContext();
+  const { userData, setUserData } = useUserData();
   const supabase = createClientComponentClient();
-  useEffect(() => {
-    supabase
-      .from("User")
-      .select("user_id, profile_image, nickname, email, traveler_code")
-      .single()
-      .then(({ data, error }) => {
-        if (error) {
-          console.log(error);
-        }
-        if (data) {
-          setUserData(data);
-        }
-      });
-  }, []);
 
   const handleNicknameSave = (newNickname: string) => {
     if (!userData) {
@@ -109,12 +91,7 @@ export default function ProfileLayout({
       <header>
         <div className="back_button">
           <Link href={`/home`}>
-            <Image
-              src="/back_button.svg"
-              alt="Back icon"
-              width="30"
-              height="30"
-            />
+            <Image src="/back_button.svg" alt="Back icon" width="30" height="30" />
           </Link>
         </div>
         <div className={styles.profle_info}>
@@ -128,17 +105,12 @@ export default function ProfileLayout({
                 height="18"
                 onClick={() =>
                   openPopup(
-                    <EditNickname
-                      nickname={userData?.nickname}
-                      onSave={handleNicknameSave}
-                    />
+                    <EditNickname nickname={userData?.nickname} onSave={handleNicknameSave} />
                   )
                 }
               />
             </h3>
-            {userData && (
-              <p className={styles.profle_email}>{userData.email}</p>
-            )}
+            {userData && <p className={styles.profle_email}>{userData.email}</p>}
           </div>
           <div className={styles.profle_right}>
             <div className={styles.profle_image}>
@@ -146,7 +118,7 @@ export default function ProfileLayout({
               <div className={styles.profle_image_wrap}>
                 {userData && (
                   <Image
-                    src={`/${userData.profile_image}`}
+                    src={`${userData.profile_image}`}
                     alt="profile image"
                     width="80"
                     height="80"

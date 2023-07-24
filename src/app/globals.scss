@@ -100,9 +100,18 @@ footer {
   width: 100%;
   padding: 40px 24px;
   div {
-    border: 1px solid #6276cc;
     padding: 10px 0;
     border-radius: 5px;
     cursor: pointer;
+  }
+  .blue {
+    border: 1px solid #6276cc;
+  }
+  .red {
+    border: 1px solid red;
+    color: red;
+  }
+  .second {
+    margin-top: 10px;
   }
 }

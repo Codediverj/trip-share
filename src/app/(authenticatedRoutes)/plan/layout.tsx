@@ -7,24 +7,19 @@ import { profileMockData } from "./data"; //temp data
 import Page from "./page";
 
 // Popup
-import Popup from "../components/Popup/Popup";
-import { usePopupContext } from "../contexts/PopupContext";
+import Popup from "../../components/Popup/Popup";
+import { usePopupContext } from "../../../contexts/popup/PopupContext";
 
 // Popup Content
-import EditFriendsList from "../components/Popup/EditFriendsList";
-import AddNewPlan from "../components/Popup/AddNewPlan";
+import EditFriendsList from "../../components/Popup/EditFriendsList";
+import AddNewPlan from "../../components/Popup/AddNewPlan";
 
-export default function ProfileLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function ProfileLayout({ children }: { children: React.ReactNode }) {
   const [activeTab, setActiveTab] = useState(0);
   const handleTabClick = (index: number) => {
     setActiveTab(index);
   };
-  const { isPopupOpen, popupContent, openPopup, closePopup } =
-    usePopupContext();
+  const { isPopupOpen, popupContent, openPopup, closePopup } = usePopupContext();
 
   return (
     <section>
@@ -38,36 +33,20 @@ export default function ProfileLayout({
         />
         <div className="back_button">
           <Link href={`/home`}>
-            <Image
-              src="/back_button.svg"
-              alt="Back icon"
-              width="30"
-              height="30"
-            />
+            <Image src="/back_button.svg" alt="Back icon" width="30" height="30" />
           </Link>
         </div>
         <div className={styles.plan_info}>
           <div className={styles.plan_title}>
             2023 New York
-            <div
-              className={styles.plan_edit_button}
-              onClick={() => openPopup(<AddNewPlan />)}
-            >
-              <Image
-                src="/edit_purple.svg"
-                alt="edit icon"
-                width="12"
-                height="12"
-              />
+            <div className={styles.plan_edit_button} onClick={() => openPopup(<AddNewPlan />)}>
+              <Image src="/edit_purple.svg" alt="edit icon" width="12" height="12" />
               Edit
             </div>
           </div>
           <div className={styles.plan_date}>Nov.12 ~ Dec.2 2023</div>
         </div>
-        <div
-          className={styles.friend_join}
-          onClick={() => openPopup(<EditFriendsList />)}
-        >
+        <div className={styles.friend_join} onClick={() => openPopup(<EditFriendsList />)}>
           <strong>1</strong> people join
           <div>+</div>
         </div>

@@ -3,7 +3,7 @@ import React from "react";
 import Image from "next/image";
 
 // Popup useContext
-import { usePopupContext } from "../contexts/PopupContext";
+import { usePopupContext } from "../../contexts/popup/PopupContext";
 
 // Popup Content
 import AddNewPlan from "./Popup/AddNewPlan";

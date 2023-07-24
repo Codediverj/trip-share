@@ -27,7 +27,7 @@ export default function EditProfileImage({
       <div className={styles.find_input_box}>
         <input
           className={styles.input_box}
-          type="text"
+          type="file"
           placeholder="Profile Image"
           value={inputValue}
           onChange={handleInputChange}
@@ -36,7 +36,7 @@ export default function EditProfileImage({
         <div className={styles.found_image}>
           {profileImage && (
             <Image
-              src={`/${profileImage}`}
+              src={`${profileImage}`}
               alt="profile image"
               width="136"
               height="136"

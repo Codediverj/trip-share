@@ -1,5 +1,5 @@
 import "./globals.scss";
-import { PopupContextProvider } from "./contexts/PopupContext";
+import { PopupContextProvider } from "../contexts/popup/PopupContext";
 
 //Font
 import { Poppins, Inter } from "next/font/google";
@@ -23,11 +23,7 @@ export const metadata = {
   description: "Share your trip plan",
 };
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
       <body>

@@ -6,17 +6,17 @@ import QRCode from "qrcode";
 import styles from "./profile.module.scss";
 
 // Popup useContext
-import { usePopupContext } from "../contexts/PopupContext";
+import { usePopupContext } from "../../../contexts/popup/PopupContext";
 // Popup Content
-import DeleteAccount from "../components/Popup/DeleteAccount";
+import DeleteAccount from "../../components/Popup/DeleteAccount";
 
 //type
 import { UserData } from "./profile.types";
 
 //Component
-import GeneratedTravlerCode from "../components/GenerateTravelerCode";
+import GeneratedTravlerCode from "../../components/GenerateTravelerCode";
 
-export default function Page() {
+export default function ProfilePage() {
   const { openPopup } = usePopupContext();
   const supabase = createClientComponentClient();
   const [travelerCode, setTravelerCode] = useState("000000000000");
@@ -80,6 +80,20 @@ export default function Page() {
       });
   };
 
+  const signOut = () => {
+    supabase.auth.signOut();
+    //redirect
+  };
+
+  // const handleSignOut = () => {
+  //   //   const {
+  //   //     data: { session },
+  //   //   } = await supabase.auth.getSession();
+  //   //   if (session) {
+  //   //     await supabase.auth.signOut();
+  //   //   }
+  //   // };
+
   return (
     <div className={`page_container ${styles.profle_main}`}>
       <canvas id="qrCodeContainer" className={styles.qr_box}></canvas>
@@ -93,7 +107,12 @@ export default function Page() {
         </div>
       </div>
       <div className="bottom_line_button">
-        <div onClick={() => openPopup(<DeleteAccount />)}>Delete Account</div>
+        <div className="blue" onClick={signOut}>
+          Sign Out
+        </div>
+        <div className="red second" onClick={() => openPopup(<DeleteAccount />)}>
+          Delete Account
+        </div>
       </div>
     </div>
   );
