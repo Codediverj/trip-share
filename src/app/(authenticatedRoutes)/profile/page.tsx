@@ -10,8 +10,8 @@ import { usePopupContext } from "../../../contexts/popup/PopupContext";
 // Popup Content
 import DeleteAccount from "../../components/Popup/DeleteAccount";
 
-//type
-import { UserData } from "./profile.types";
+//UserData(Context)
+import { useUserDataStore } from "@/contexts/userData/userData.provider";
 
 //Component
 import GeneratedTravlerCode from "../../components/GenerateTravelerCode";
@@ -20,7 +20,8 @@ export default function ProfilePage() {
   const { openPopup } = usePopupContext();
   const supabase = createClientComponentClient();
   const [travelerCode, setTravelerCode] = useState("000000000000");
-  const [userData, setUserData] = useState<UserData>();
+  const userData = useUserDataStore(); //server
+  const [userDataState, setUserDataState] = useState(userData); //client
 
   useEffect(() => {
     supabase
@@ -33,7 +34,7 @@ export default function ProfilePage() {
         }
         if (data) {
           setTravelerCode(data.traveler_code);
-          setUserData(data);
+          setUserDataState(data);
         }
       });
   }, []);
@@ -55,8 +56,8 @@ export default function ProfilePage() {
     supabase
       .from("User")
       .upsert({
-        user_id: userData.user_id,
-        profile_image: userData.profile_image,
+        user_id: userData.userId,
+        profile_image: userData.profileImage,
         nickname: userData.nickname,
         email: userData.email,
         traveler_code: newCode,
@@ -68,7 +69,7 @@ export default function ProfilePage() {
           console.log(error);
         }
         if (data) {
-          setUserData((prevData) => {
+          setUserDataState((prevData) => {
             if (prevData) {
               return { ...prevData, traveler_code: newCode };
             }

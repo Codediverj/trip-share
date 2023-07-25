@@ -1,6 +1,6 @@
 "use client";
 import React, { createContext, useContext, useEffect, useState } from "react";
-import { UserDataStore } from "./userData.types";
+import { UserDataStore, initUserDataStore } from "./userData.types";
 import { getUser } from "@/app/api/user/user.apis";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 
@@ -16,7 +16,7 @@ export const useUserDataStore = (): UserDataStore => {
 };
 
 export const UserDataProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [data, setData] = useState<UserDataStore | undefined>(undefined);
+  const [data, setData] = useState<UserDataStore>(initUserDataStore);
   const supabase = createClientComponentClient();
 
   useEffect(() => {

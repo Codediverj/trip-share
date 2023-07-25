@@ -5,7 +5,7 @@ import { DateTime } from "luxon";
 export const getUser = async (supabase: SupabaseClient): Promise<User> => {
   const { data, error } = await supabase
     .from("User")
-    .select("created_at, user_id, profile_image, nickname")
+    .select("created_at, user_id, profile_image, nickname, email, traveler_code")
     .single();
   if (error) throw error;
 
@@ -14,5 +14,7 @@ export const getUser = async (supabase: SupabaseClient): Promise<User> => {
     nickname: data.nickname,
     profileImage: data.profile_image,
     createdAt: DateTime.fromISO(data.created_at).toJSDate(),
+    email: data.email,
+    travelerCode: data.traveler_code,
   };
 };

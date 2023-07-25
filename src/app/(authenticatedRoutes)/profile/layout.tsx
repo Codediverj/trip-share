@@ -1,26 +1,29 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import Image from "next/image";
 import Link from "next/link";
 import styles from "./profile.module.scss";
 
-//data
-import { useUserData } from "../../contexts/useUserData";
-
 // Popup
 import Popup from "../../components/Popup/Popup";
 import { usePopupContext } from "../../../contexts/popup/PopupContext";
-
 // Popup Content
 import EditNickname from "../../components/Popup/EditNickname";
 import EditProfileImage from "../../components/Popup/EditProfileImage";
-import { UserData } from "./profile.types";
+
+//UserData(Context)
+import { useUserDataStore } from "@/contexts/userData/userData.provider";
 
 export default function ProfileLayout({ children }: { children: React.ReactNode }) {
   const { isPopupOpen, popupContent, openPopup, closePopup } = usePopupContext();
-  const { userData, setUserData } = useUserData();
+  const userData = useUserDataStore(); //server
+  const [userDataState, setUserDataState] = useState(userData); //client
   const supabase = createClientComponentClient();
+
+  useEffect(() => {
+    setUserDataState(userData);
+  }, [userData]);
 
   const handleNicknameSave = (newNickname: string) => {
     if (!userData) {
@@ -29,11 +32,11 @@ export default function ProfileLayout({ children }: { children: React.ReactNode 
     supabase
       .from("User")
       .upsert({
-        user_id: userData.user_id,
-        profile_image: userData.profile_image,
+        user_id: userData.userId,
+        profile_image: userData.profileImage,
         nickname: newNickname,
         email: userData.email,
-        traveler_code: userData.traveler_code,
+        traveler_code: userData.travelerCode,
       })
       .select()
       .single()
@@ -43,7 +46,7 @@ export default function ProfileLayout({ children }: { children: React.ReactNode 
           console.log(error);
         }
         if (data) {
-          setUserData((prevData) => {
+          setUserDataState((prevData) => {
             if (prevData) {
               return { ...prevData, nickname: newNickname };
             }
@@ -61,11 +64,11 @@ export default function ProfileLayout({ children }: { children: React.ReactNode 
     supabase
       .from("User")
       .upsert({
-        user_id: userData.user_id,
-        profile_image: userData.profile_image,
+        user_id: userData.userId,
+        profile_image: userData.profileImage,
         nickname: profileImage,
         email: userData.email,
-        traveler_code: userData.traveler_code,
+        traveler_code: userData.travelerCode,
       })
       .select()
       .single()
@@ -75,7 +78,7 @@ export default function ProfileLayout({ children }: { children: React.ReactNode 
           console.log(error);
         }
         if (data) {
-          setUserData((prevData) => {
+          setUserDataState((prevData) => {
             if (prevData) {
               return { ...prevData, profile_image: profileImage };
             }
@@ -85,7 +88,6 @@ export default function ProfileLayout({ children }: { children: React.ReactNode 
         }
       });
   };
-
   return (
     <section>
       <header>
@@ -97,7 +99,7 @@ export default function ProfileLayout({ children }: { children: React.ReactNode 
         <div className={styles.profle_info}>
           <div className={styles.profle_left}>
             <h3 className={styles.profle_name}>
-              {userData && <span>{userData.nickname}</span>}
+              <span>{userDataState.nickname}</span>
               <Image
                 src="/edit-white.svg"
                 alt="edit icon"
@@ -105,25 +107,23 @@ export default function ProfileLayout({ children }: { children: React.ReactNode 
                 height="18"
                 onClick={() =>
                   openPopup(
-                    <EditNickname nickname={userData?.nickname} onSave={handleNicknameSave} />
+                    <EditNickname nickname={userDataState.nickname} onSave={handleNicknameSave} />
                   )
                 }
               />
             </h3>
-            {userData && <p className={styles.profle_email}>{userData.email}</p>}
+            <p className={styles.profle_email}>{userDataState.email}</p>
           </div>
           <div className={styles.profle_right}>
             <div className={styles.profle_image}>
               {/*profile imge Components => URL*/}
               <div className={styles.profle_image_wrap}>
-                {userData && (
-                  <Image
-                    src={`${userData.profile_image}`}
-                    alt="profile image"
-                    width="80"
-                    height="80"
-                  />
-                )}
+                <Image
+                  src={`${userDataState.profileImage}`}
+                  alt="profile image"
+                  width="80"
+                  height="80"
+                />
               </div>
               <div className={styles.profle_edit_icon}>
                 <Image
@@ -134,7 +134,7 @@ export default function ProfileLayout({ children }: { children: React.ReactNode 
                   onClick={() =>
                     openPopup(
                       <EditProfileImage
-                        profileImage={userData?.profile_image}
+                        profileImage={userDataState.profileImage}
                         onSave={handleProfileImageSave}
                       />
                     )
