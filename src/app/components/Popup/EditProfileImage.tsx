@@ -7,10 +7,7 @@ interface EditProfileImageProps {
   onSave: (nickname: string) => void;
 }
 
-export default function EditProfileImage({
-  profileImage,
-  onSave,
-}: EditProfileImageProps) {
+export default function EditProfileImage({ profileImage, onSave }: EditProfileImageProps) {
   const [inputValue, setInputValue] = useState(profileImage || "");
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -27,7 +24,7 @@ export default function EditProfileImage({
       <div className={styles.find_input_box}>
         <input
           className={styles.input_box}
-          type="file"
+          type="input"
           placeholder="Profile Image"
           value={inputValue}
           onChange={handleInputChange}
@@ -35,20 +32,12 @@ export default function EditProfileImage({
         <button>Find Image</button>
         <div className={styles.found_image}>
           {profileImage && (
-            <Image
-              src={`${profileImage}`}
-              alt="profile image"
-              width="136"
-              height="136"
-            />
+            <Image src={`${profileImage}`} alt="profile image" width="136" height="136" />
           )}
         </div>
       </div>
 
-      <div
-        className={`${styles.line_button} ${styles.popup_button_text}`}
-        onClick={handleSave}
-      >
+      <div className={`${styles.line_button} ${styles.popup_button_text}`} onClick={handleSave}>
         Save
       </div>
     </div>

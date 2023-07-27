@@ -86,15 +86,6 @@ export default function ProfilePage() {
     //redirect
   };
 
-  // const handleSignOut = () => {
-  //   //   const {
-  //   //     data: { session },
-  //   //   } = await supabase.auth.getSession();
-  //   //   if (session) {
-  //   //     await supabase.auth.signOut();
-  //   //   }
-  //   // };
-
   return (
     <div className={`page_container ${styles.profle_main}`}>
       <canvas id="qrCodeContainer" className={styles.qr_box}></canvas>

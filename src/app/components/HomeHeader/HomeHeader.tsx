@@ -1,17 +1,19 @@
+"use client";
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import styles from "./HomeHeader.module.scss";
 
-interface MainImgProps {
-  randomImage: string;
-  randomName: string;
-}
+//UserData(Context)
+import { useUserDataStore } from "@/contexts/userData/userData.provider";
 
-function HomeHeader({ randomImage, randomName }: MainImgProps) {
+function HomeHeader() {
+  const userData = useUserDataStore();
+  console.log(userData);
+
   return (
     <>
-      <h2 className={styles.header_h2}>{`${randomName}'s Trips`}</h2>
+      <h2 className={styles.header_h2}>{`${userData.nickname}'s Trips`}</h2>
       <div className={styles.info_box}>
         <div>
           <div>
@@ -30,7 +32,7 @@ function HomeHeader({ randomImage, randomName }: MainImgProps) {
       </div>
       <div className={styles.profile_button}>
         <Link href={`/profile`}>
-          <Image src={randomImage} alt="plus icon" width="50" height="50" />
+          <Image src={userData.profileImage} alt="plus icon" width="50" height="50" />
         </Link>
       </div>
     </>
