@@ -29,12 +29,12 @@ export default function EditNickname({ nickname, onSave }: EditNicknameProps) {
         onChange={handleInputChange}
       />
 
-      <div
-        className={`${styles.line_button} ${styles.popup_button_text}`}
+      <button
+        className={`${styles.full_bg_button} ${styles.popup_button_text}`}
         onClick={handleSave}
       >
         Save
-      </div>
+      </button>
     </div>
   );
 }

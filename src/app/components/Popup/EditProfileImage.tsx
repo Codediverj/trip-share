@@ -37,9 +37,12 @@ export default function EditProfileImage({ profileImage, onSave }: EditProfileIm
         </div>
       </div>
 
-      <div className={`${styles.line_button} ${styles.popup_button_text}`} onClick={handleSave}>
+      <button
+        className={`${styles.full_bg_button} ${styles.popup_button_text}`}
+        onClick={handleSave}
+      >
         Save
-      </div>
+      </button>
     </div>
   );
 }

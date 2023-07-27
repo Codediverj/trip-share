@@ -1,5 +1,6 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useReducer } from "react";
+import { Router, useRouter } from "next/router";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import Image from "next/image";
 import QRCode from "qrcode";
@@ -22,6 +23,7 @@ export default function ProfilePage() {
   const [travelerCode, setTravelerCode] = useState("000000000000");
   const userData = useUserDataStore(); //server
   const [userDataState, setUserDataState] = useState(userData); //client
+  //const router = useRouter();
 
   useEffect(() => {
     supabase
@@ -82,8 +84,8 @@ export default function ProfilePage() {
   };
 
   const signOut = () => {
-    supabase.auth.signOut();
-    //redirect
+    //router.push("/home");
+    //supabase.auth.signOut();
   };
 
   return (
@@ -99,12 +101,12 @@ export default function ProfilePage() {
         </div>
       </div>
       <div className="bottom_line_button">
-        <div className="blue" onClick={signOut}>
+        <button className="blue" onClick={signOut}>
           Sign Out
-        </div>
-        <div className="red second" onClick={() => openPopup(<DeleteAccount />)}>
+        </button>
+        <button className="red second" onClick={() => openPopup(<DeleteAccount />)}>
           Delete Account
-        </div>
+        </button>
       </div>
     </div>
   );

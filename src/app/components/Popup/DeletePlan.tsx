@@ -8,12 +8,8 @@ export default function DeletePlan() {
       <p className={styles.delete_notice}>
         <span>Do you want to delete this plan?</span>
       </p>
-      <div className={`${styles.cancel_button} ${styles.popup_button_text}`}>
-        Cancel
-      </div>
-      <div className={`${styles.delete_button} ${styles.popup_button_text}`}>
-        Delete
-      </div>
+      <button className={`${styles.cancel_button} ${styles.popup_button_text}`}>Cancel</button>
+      <button className={`${styles.delete_button} ${styles.popup_button_text}`}>Delete</button>
     </div>
   );
 }

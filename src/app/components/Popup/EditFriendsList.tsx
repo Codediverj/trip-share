@@ -29,16 +29,9 @@ export default function EditFriendsList() {
               height="30"
               className={styles.edit_friends_list_item_image}
             />
-            <span className={styles.edit_friends_list_name}>
-              Mahyar Sabouniaghdam
-            </span>
+            <span className={styles.edit_friends_list_name}>Mahyar Sabouniaghdam</span>
             <div className={styles.edit_friends_delete}>
-              <Image
-                src="close-blue.svg"
-                alt="close icon"
-                width="16"
-                height="16"
-              />
+              <Image src="close-blue.svg" alt="close icon" width="16" height="16" />
             </div>
           </div>
         </div>
@@ -51,16 +44,9 @@ export default function EditFriendsList() {
               height="30"
               className={styles.edit_friends_list_item_image}
             />
-            <span className={styles.edit_friends_list_name}>
-              Melissa Torres
-            </span>
+            <span className={styles.edit_friends_list_name}>Melissa Torres</span>
             <div className={styles.edit_friends_delete}>
-              <Image
-                src="close-blue.svg"
-                alt="close icon"
-                width="16"
-                height="16"
-              />
+              <Image src="close-blue.svg" alt="close icon" width="16" height="16" />
             </div>
           </div>
         </div>
@@ -70,14 +56,10 @@ export default function EditFriendsList() {
       <div className={styles.add_traveler}>
         <span>To add someone to your friend list,</span>
         <span>enter their Traveler Code.</span>
-        <input
-          className={styles.input_box_code}
-          type="text"
-          placeholder="0000 0000 0000"
-        />
+        <input className={styles.input_box_code} type="text" placeholder="0000 0000 0000" />
       </div>
 
-      <div className={`${styles.line_button} ${styles.popup_button_text}`}>
+      <button className={`${styles.line_button} ${styles.popup_button_text}`}>
         <Image
           src="camera.svg"
           alt="camera icon"
@@ -86,7 +68,7 @@ export default function EditFriendsList() {
           className={styles.camera_icon}
         />
         {`Scan Other Traveler's OR code`}
-      </div>
+      </button>
     </div>
   );
 }

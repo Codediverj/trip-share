@@ -99,17 +99,21 @@ footer {
   left: 0;
   width: 100%;
   padding: 40px 24px;
-  div {
+  button {
     padding: 10px 0;
     border-radius: 5px;
     cursor: pointer;
+    width: 100%;
   }
   .blue {
     border: 1px solid #6276cc;
+    color: #6276cc;
+    background: #fff;
   }
   .red {
     border: 1px solid red;
     color: red;
+    background: #fff;
   }
   .second {
     margin-top: 10px;
