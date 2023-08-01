@@ -61,6 +61,14 @@
   margin: 24px 0 8px 0;
 }
 
+.find_input_box_date {
+  position: relative;
+  text-align: center;
+  .input_box {
+    padding: 10px 14px;
+  }
+}
+
 .find_input_box {
   position: relative;
   text-align: center;
@@ -88,9 +96,6 @@
     height: 136px;
     border-radius: 50%;
     margin-top: 24px;
-  }
-  .calendar_img {
-    margin-top: 4px;
   }
 }
 

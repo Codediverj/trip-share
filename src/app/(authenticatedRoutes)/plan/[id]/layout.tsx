@@ -1,25 +1,42 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-import styles from "./plan.module.scss";
-import { useState } from "react";
-import { profileMockData } from "./data"; //temp data
+import styles from "../plan.module.scss";
+import { useState, useEffect } from "react";
+import { profileMockData } from "../data"; //temp data
 import Page from "./page";
+import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 
 // Popup
-import Popup from "../../components/Popup/Popup";
-import { usePopupContext } from "../../../contexts/popup/PopupContext";
+import Popup from "../../../components/Popup/Popup";
+import { usePopupContext } from "../../../../contexts/popup/PopupContext";
 
 // Popup Content
-import EditFriendsList from "../../components/Popup/EditFriendsList";
-import AddNewPlan from "../../components/Popup/AddNewPlan";
+import EditFriendsList from "../../../components/Popup/EditFriendsList";
+import AddNewPlan from "../../../components/Popup/AddNewPlan";
 
-export default function ProfileLayout({ children }: { children: React.ReactNode }) {
+//UserData(Context)
+import { useUserDataStore } from "@/contexts/userData/userData.provider";
+import { getPlan } from "@/app/api/plan/plan.apis";
+//types
+import { Plan } from "../../../api/plan/plan.types";
+
+export default function PlanLayout({ children }: { children: React.ReactNode }) {
   const [activeTab, setActiveTab] = useState(0);
   const handleTabClick = (index: number) => {
     setActiveTab(index);
   };
   const { isPopupOpen, popupContent, openPopup, closePopup } = usePopupContext();
+
+  const supabase = createClientComponentClient();
+  const userData = useUserDataStore();
+  // const [singlePlanList, setSinglePlanList] = useState<Plan>();
+
+  // useEffect(() => {
+  //   getPlan(supabase, userData.userId)
+  //     .then((data) => setSinglePlanList(data))
+  //     .catch((error) => console.error(error));
+  // }, [supabase, userData.userId]);
 
   return (
     <section>

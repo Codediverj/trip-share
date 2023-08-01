@@ -5,6 +5,7 @@
   overflow: hidden;
   color: #fff;
   position: relative;
+  margin-bottom: 20px;
 }
 .continue_plan_txt_box {
   position: absolute;
@@ -56,6 +57,9 @@
 }
 
 /*Plan with...*/
+.plan_with h3 {
+  margin-bottom: 16px;
+}
 .plan_with ul {
   display: flex;
   flex-wrap: wrap;

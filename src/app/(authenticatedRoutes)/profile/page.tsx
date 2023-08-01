@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect, useReducer } from "react";
-import { Router, useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import Image from "next/image";
 import QRCode from "qrcode";
@@ -23,7 +23,7 @@ export default function ProfilePage() {
   const [travelerCode, setTravelerCode] = useState("000000000000");
   const userData = useUserDataStore(); //server
   const [userDataState, setUserDataState] = useState(userData); //client
-  //const router = useRouter();
+  const router = useRouter();
 
   useEffect(() => {
     supabase
@@ -84,8 +84,8 @@ export default function ProfilePage() {
   };
 
   const signOut = () => {
-    //router.push("/home");
-    //supabase.auth.signOut();
+    supabase.auth.signOut();
+    router.push("/auth/login");
   };
 
   return (

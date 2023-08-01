@@ -9,9 +9,7 @@ export const metadata = {
 export default function HomeLayout({ children }: { children: React.ReactNode }) {
   return (
     <>
-      <header>
-        <HomeHeader />
-      </header>
+      <HomeHeader />
       {children}
     </>
   );
