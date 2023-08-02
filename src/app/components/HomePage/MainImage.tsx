@@ -9,11 +9,11 @@ interface MainImgProps {
   date: string;
 }
 
-function MainImage({ backgroundImage, planTitle, date, key }: any) {
+function MainImage({ backgroundImage, planTitle, date, id }: any) {
   return (
     <>
       <div className={styles.continue_plan_item}>
-        <Link href={`/plan/${key}`}>
+        <Link href={`/plan/${id}`}>
           <div className={styles.continue_plan_item_img}>
             <div>
               <Image src={backgroundImage} alt="plus icon" width="900" height="700" />

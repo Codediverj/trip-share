@@ -51,6 +51,7 @@ export default function HomePage() {
             {futurePlans.map((plan) => (
               <MainImage
                 key={plan.planId}
+                id={plan.planId}
                 backgroundImage={plan.backgroundImage || defaultPlanImage}
                 planTitle={plan.title}
                 date={formatDateStartEnd(plan.startDate, plan.endDate)}

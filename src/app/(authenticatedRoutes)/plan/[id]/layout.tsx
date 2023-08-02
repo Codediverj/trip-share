@@ -21,6 +21,9 @@ import { getPlan } from "@/app/api/plan/plan.apis";
 //types
 import { Plan } from "../../../api/plan/plan.types";
 
+//util
+import { formatDateStartEnd } from "../../../utils/formatDateStartEnd.utils ";
+
 export default function PlanLayout({ children }: { children: React.ReactNode }) {
   const [activeTab, setActiveTab] = useState(0);
   const handleTabClick = (index: number) => {
@@ -30,13 +33,18 @@ export default function PlanLayout({ children }: { children: React.ReactNode }) 
 
   const supabase = createClientComponentClient();
   const userData = useUserDataStore();
-  // const [singlePlanList, setSinglePlanList] = useState<Plan>();
+  const [planContent, setPlanContent] = useState<Plan>();
 
-  // useEffect(() => {
-  //   getPlan(supabase, userData.userId)
-  //     .then((data) => setSinglePlanList(data))
-  //     .catch((error) => console.error(error));
-  // }, [supabase, userData.userId]);
+  const currentURL = window.location.href;
+  const planId = currentURL.split("/plan/")[1];
+
+  useEffect(() => {
+    getPlan(supabase, planId)
+      .then((data) => setPlanContent(data))
+      .catch((error) => console.error(error));
+  }, [supabase, planId]);
+
+  console.log(planContent);
 
   return (
     <section>
@@ -55,13 +63,15 @@ export default function PlanLayout({ children }: { children: React.ReactNode }) 
         </div>
         <div className={styles.plan_info}>
           <div className={styles.plan_title}>
-            2023 New York
+            {planContent?.title}
             <div className={styles.plan_edit_button} onClick={() => openPopup(<AddNewPlan />)}>
               <Image src="/edit_purple.svg" alt="edit icon" width="12" height="12" />
               Edit
             </div>
           </div>
-          <div className={styles.plan_date}>Nov.12 ~ Dec.2 2023</div>
+          <div className={styles.plan_date}>
+            {formatDateStartEnd(planContent.startDate, planContent.endDate)}
+          </div>
         </div>
         <div className={styles.friend_join} onClick={() => openPopup(<EditFriendsList />)}>
           <strong>1</strong> people join
