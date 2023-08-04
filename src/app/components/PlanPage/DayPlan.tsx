@@ -11,51 +11,30 @@ import "swiper/css";
 import { cx } from "../../utils/classname.utils";
 import DayPlanContent from "./DayPlanContent";
 
-function DayPlan() {
+function DayPlan({ totaldays }: { totaldays: number }) {
   const [activeSubTab, setActiveSubTab] = useState(0);
   const handleSubTabClick = (index: number) => {
     setActiveSubTab(index);
   };
 
+  const swiperSlides = Array.from({ length: totaldays }, (_, index) => index + 1);
   return (
     <div>
       <div className={styles.sub_tab_menu}>
-        <Swiper
-          className={styles.sub_tab_swipe}
-          spaceBetween={0}
-          slidesPerView={3.5}
-        >
-          <SwiperSlide
-            className={cx("sub_tab_item", activeSubTab === 0 ? "active" : "")}
-            onClick={() => handleSubTabClick(0)}
-          >
-            Day 1
-          </SwiperSlide>
-          <SwiperSlide
-            className={cx("sub_tab_item", activeSubTab === 1 ? "active" : "")}
-            onClick={() => handleSubTabClick(1)}
-          >
-            Day 2
-          </SwiperSlide>
-          <SwiperSlide
-            className={cx("sub_tab_item", activeSubTab === 2 ? "active" : "")}
-            onClick={() => handleSubTabClick(2)}
-          >
-            Day 3
-          </SwiperSlide>
-          <SwiperSlide
-            className={cx("sub_tab_item", activeSubTab === 3 ? "active" : "")}
-            onClick={() => handleSubTabClick(3)}
-          >
-            Day 4
-          </SwiperSlide>
+        <Swiper className={styles.sub_tab_swipe} spaceBetween={0} slidesPerView={3.5}>
+          {swiperSlides.map((day) => (
+            <SwiperSlide
+              key={day}
+              className={cx("sub_tab_item", activeSubTab === day - 1 ? "active" : "")}
+              onClick={() => handleSubTabClick(day - 1)}
+            >
+              Day {day}
+            </SwiperSlide>
+          ))}
         </Swiper>
       </div>
       <div className="sub-tab-content page_container_middle page_gray_bg">
-        {activeSubTab === 0 && <DayPlanContent />}
-        {activeSubTab === 1 && <DayPlanContent />}
-        {activeSubTab === 2 && <DayPlanContent />}
-        {activeSubTab === 3 && <DayPlanContent />}
+        {activeSubTab >= 0 && activeSubTab < totaldays && <DayPlanContent />}
       </div>
     </div>
   );

@@ -11,7 +11,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 
 //util
-import { formatDateStartEnd } from "../../utils/formatDateStartEnd.utils ";
+import { formatDateStartEnd } from "../../utils/formatDateStartEnd.utils";
 
 interface SwiperCompProps {
   pastPlans: Plan[];
@@ -19,13 +19,7 @@ interface SwiperCompProps {
 
 export default function SwiperComp({ pastPlans }: SwiperCompProps) {
   return (
-    <Swiper
-      className={styles.completed_swipe}
-      spaceBetween={20}
-      slidesPerView={3.5}
-      onSlideChange={() => console.log("slide change")}
-      onSwiper={(swiper) => console.log(swiper)}
-    >
+    <Swiper className={styles.completed_swipe} spaceBetween={20} slidesPerView={3.5}>
       {pastPlans.map((plan) => (
         <SwiperSlide className={styles.completed_swipe_item} key={plan.planId}>
           <Link href={`/plan/${plan.planId}`}>

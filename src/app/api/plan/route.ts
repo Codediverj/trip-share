@@ -12,29 +12,49 @@ export async function POST(request: Request) {
     data: { user },
   } = await supabase.auth.getUser();
 
-  supabase
-    .from("Plan")
-    .insert({
-      title: body.title,
-      start_date: body.startDate,
-      end_date: body.endDate,
-      background_image: body.backgroundImage,
-      currency: body.currency || undefined,
-    })
-    .select()
-    .single()
-    .then(({ data, error }) => {
-      console.log(data);
-      if (error) {
-        console.log(error);
-      }
-      if (data) {
-        return supabase.from("People_Join").insert({
-          plan_id: data.plan_id,
-          user_id: user?.id,
-        });
-      }
-    });
+  if (body.planId) {
+    // When planId exists, perform upsert
+    supabase
+      .from("Plan")
+      .upsert({
+        title: body.title,
+        start_date: body.startDate,
+        end_date: body.endDate,
+        background_image: body.backgroundImage,
+        currency: body.currency || undefined,
+        plan_id: body.planId, // Assuming planId is the primary key
+      })
+      .then(({ data: upsertData, error: upsertError }) => {
+        if (upsertError) {
+          console.log(upsertError);
+        }
+      });
+  } else {
+    // When planId doesn't exist, perform insert
+    supabase
+      .from("Plan")
+      .insert({
+        title: body.title,
+        start_date: body.startDate,
+        end_date: body.endDate,
+        background_image: body.backgroundImage,
+        currency: body.currency || undefined,
+      })
+      .select()
+      .single()
+      .then(({ data, error }) => {
+        console.log(data);
+        if (error) {
+          console.log(error);
+        }
+        if (data) {
+          return supabase.from("People_Join").insert({
+            plan_id: data.plan_id,
+            user_id: user?.id,
+          });
+        }
+      });
+  }
 
   return NextResponse.json({ good: true });
 }

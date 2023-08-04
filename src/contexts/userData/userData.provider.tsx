@@ -22,7 +22,6 @@ export const UserDataProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   useEffect(() => {
     supabase.auth.getUser();
     getUser(supabase).then((userData) => {
-      //console.log(userData);
       setData(userData);
     });
   }, [supabase, supabase.auth]);

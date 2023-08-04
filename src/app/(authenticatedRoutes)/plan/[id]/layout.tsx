@@ -13,7 +13,7 @@ import { usePopupContext } from "../../../../contexts/popup/PopupContext";
 
 // Popup Content
 import EditFriendsList from "../../../components/Popup/EditFriendsList";
-import AddNewPlan from "../../../components/Popup/AddNewPlan";
+import EditPlan from "@/app/components/Popup/EditPlan";
 
 //UserData(Context)
 import { useUserDataStore } from "@/contexts/userData/userData.provider";
@@ -22,21 +22,26 @@ import { getPlan } from "@/app/api/plan/plan.apis";
 import { Plan } from "../../../api/plan/plan.types";
 
 //util
-import { formatDateStartEnd } from "../../../utils/formatDateStartEnd.utils ";
+import { formatDateStartEnd } from "../../../utils/formatDateStartEnd.utils";
+import { totaldays } from "../../../utils/totaldays.utils";
+import { cx } from "@/app/utils/classname.utils";
 
-export default function PlanLayout({ children }: { children: React.ReactNode }) {
+export default function PlanLayout({
+  children,
+  params,
+}: {
+  children: React.ReactNode;
+  params: { id: string };
+}) {
   const [activeTab, setActiveTab] = useState(0);
   const handleTabClick = (index: number) => {
     setActiveTab(index);
   };
   const { isPopupOpen, popupContent, openPopup, closePopup } = usePopupContext();
-
   const supabase = createClientComponentClient();
   const userData = useUserDataStore();
-  const [planContent, setPlanContent] = useState<Plan>();
-
-  const currentURL = window.location.href;
-  const planId = currentURL.split("/plan/")[1];
+  const [planContent, setPlanContent] = useState<Plan | undefined>(undefined);
+  const planId = params.id;
 
   useEffect(() => {
     getPlan(supabase, planId)
@@ -44,7 +49,7 @@ export default function PlanLayout({ children }: { children: React.ReactNode }) 
       .catch((error) => console.error(error));
   }, [supabase, planId]);
 
-  console.log(planContent);
+  const totalDays = planContent ? totaldays(planContent.startDate, planContent.endDate) : 0;
 
   return (
     <section>
@@ -64,13 +69,16 @@ export default function PlanLayout({ children }: { children: React.ReactNode }) 
         <div className={styles.plan_info}>
           <div className={styles.plan_title}>
             {planContent?.title}
-            <div className={styles.plan_edit_button} onClick={() => openPopup(<AddNewPlan />)}>
+            <div
+              className={styles.plan_edit_button}
+              onClick={() => openPopup(<EditPlan planContent={planContent as Plan} />)}
+            >
               <Image src="/edit_purple.svg" alt="edit icon" width="12" height="12" />
               Edit
             </div>
           </div>
           <div className={styles.plan_date}>
-            {formatDateStartEnd(planContent.startDate, planContent.endDate)}
+            {planContent ? formatDateStartEnd(planContent.startDate, planContent.endDate) : ""}
           </div>
         </div>
         <div className={styles.friend_join} onClick={() => openPopup(<EditFriendsList />)}>
@@ -79,23 +87,19 @@ export default function PlanLayout({ children }: { children: React.ReactNode }) 
         </div>
         <div className={styles.main_tab}>
           <button
-            className={`main_tab1 ${activeTab === 0 ? "active" : ""}`}
-            // className={cx(
-            //   "sub_tab_item",
-            //   activeSubTab === 2 ? "active" : ""
-            // )}
+            className={cx("main_tab1", activeTab === 0 ? "active" : "")}
             onClick={() => handleTabClick(0)}
           >
             Day Plan
           </button>
           <button
-            className={`main_tab2 ${activeTab === 1 ? "active" : ""}`}
+            className={cx("main_tab2", activeTab === 1 ? "active" : "")}
             onClick={() => handleTabClick(1)}
           >
             Expense
           </button>
           <button
-            className={`main_tab3 ${activeTab === 2 ? "active" : ""}`}
+            className={cx("main_tab3", activeTab === 2 ? "active" : "")}
             onClick={() => handleTabClick(2)}
           >
             Moment
@@ -103,7 +107,7 @@ export default function PlanLayout({ children }: { children: React.ReactNode }) 
         </div>
       </header>
       <div className="page_container_swipe">
-        <Page activeTab={activeTab} />
+        <Page activeTab={activeTab} totaldays={totalDays} />
       </div>
       {isPopupOpen && <Popup onClose={closePopup}>{popupContent}</Popup>}
     </section>

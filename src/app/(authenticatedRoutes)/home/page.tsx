@@ -21,7 +21,7 @@ import { listPlan } from "@/app/api/plan/plan.apis";
 import { Plan } from "../../api/plan/plan.types";
 
 //util
-import { formatDateStartEnd } from "../../utils/formatDateStartEnd.utils ";
+import { formatDateStartEnd } from "../../utils/formatDateStartEnd.utils";
 
 export default function HomePage() {
   const defaultPlanImage =
