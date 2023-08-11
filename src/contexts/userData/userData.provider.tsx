@@ -20,9 +20,12 @@ export const UserDataProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   const supabase = createClientComponentClient();
 
   useEffect(() => {
-    supabase.auth.getUser();
-    getUser(supabase).then((userData) => {
-      setData(userData);
+    supabase.auth.getUser().then(({ data: { user } }) => {
+      if (user) {
+        return getUser(supabase, user.id).then((userData) => {
+          setData(userData);
+        });
+      }
     });
   }, [supabase, supabase.auth]);
 

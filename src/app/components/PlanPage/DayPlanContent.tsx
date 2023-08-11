@@ -4,8 +4,8 @@ import Image from "next/image";
 import Link from "next/link";
 import styles from "./DayPlan.module.scss";
 
-import AddNewButton from "../AddNewButton";
 import DayPlanContentSingle from "./DayPlanContentSingle";
+import AddNewScheduleButton from "../AddNewScheduleButton";
 
 function DayPlanContent() {
   return (
@@ -14,7 +14,7 @@ function DayPlanContent() {
       <h2 className="plan_date">November 12, Friday</h2>
       {/* 데이터 갯수에 맞게 아래 컴포넌트가 반복되어야 함.*/}
       <DayPlanContentSingle />
-      <AddNewButton />
+      <AddNewScheduleButton />
     </div>
   );
 }

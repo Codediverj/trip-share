@@ -14,7 +14,7 @@ export async function POST(request: Request) {
 
   if (body.planId) {
     // When planId exists, perform upsert
-    supabase
+    const updatedItem = await supabase
       .from("Plan")
       .upsert({
         title: body.title,
@@ -22,13 +22,12 @@ export async function POST(request: Request) {
         end_date: body.endDate,
         background_image: body.backgroundImage,
         currency: body.currency || undefined,
-        plan_id: body.planId, // Assuming planId is the primary key
+        plan_id: body.planId,
       })
-      .then(({ data: upsertData, error: upsertError }) => {
-        if (upsertError) {
-          console.log(upsertError);
-        }
-      });
+      .select()
+      .single();
+
+    return NextResponse.json(updatedItem.data);
   } else {
     // When planId doesn't exist, perform insert
     supabase

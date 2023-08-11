@@ -1,7 +1,16 @@
+import { useState, useEffect } from "react";
 import styles from "./Popup.module.scss";
 import Image from "next/image";
+import { getFriends } from "@/app/api/plan/plan.apis";
+import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 
-export default function EditFriendsList() {
+export default function EditFriendsList({ planId }: { planId: string }) {
+  const supabase = createClientComponentClient();
+  useEffect(() => {
+    getFriends(supabase, planId)
+      .then((data) => console.log(data))
+      .catch((error) => console.error(error));
+  }, [supabase, planId]);
   return (
     <div>
       <h2 className={styles.popupBox_title}>Edit Traveler List</h2>
@@ -9,7 +18,7 @@ export default function EditFriendsList() {
         <div className={styles.edit_friends_list_item}>
           <div className={styles.edit_friends_list_item_inner}>
             <Image
-              src="https://images.unsplash.com/photo-1548182880-8b7b2af2caa2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80"
+              src="/profile_default_image.svg"
               alt="profile image"
               width="30"
               height="30"
@@ -18,36 +27,6 @@ export default function EditFriendsList() {
             <span className={styles.edit_friends_list_name}>Eunji Oh</span>
 
             <div className={styles.edit_friends_owner}>Owner</div>
-          </div>
-        </div>
-        <div className={styles.edit_friends_list_item}>
-          <div className={styles.edit_friends_list_item_inner}>
-            <Image
-              src="https://images.unsplash.com/photo-1548182880-8b7b2af2caa2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80"
-              alt="profile image"
-              width="30"
-              height="30"
-              className={styles.edit_friends_list_item_image}
-            />
-            <span className={styles.edit_friends_list_name}>Mahyar Sabouniaghdam</span>
-            <div className={styles.edit_friends_delete}>
-              <Image src="close-blue.svg" alt="close icon" width="16" height="16" />
-            </div>
-          </div>
-        </div>
-        <div className={styles.edit_friends_list_item}>
-          <div className={styles.edit_friends_list_item_inner}>
-            <Image
-              src="https://images.unsplash.com/photo-1548182880-8b7b2af2caa2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80"
-              alt="profile image"
-              width="30"
-              height="30"
-              className={styles.edit_friends_list_item_image}
-            />
-            <span className={styles.edit_friends_list_name}>Melissa Torres</span>
-            <div className={styles.edit_friends_delete}>
-              <Image src="close-blue.svg" alt="close icon" width="16" height="16" />
-            </div>
           </div>
         </div>
       </div>

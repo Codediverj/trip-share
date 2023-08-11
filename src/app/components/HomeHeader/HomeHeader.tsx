@@ -15,9 +15,11 @@ function HomeHeader() {
   const userData = useUserDataStore();
   const [planAllListNum, setPlanAllListNum] = useState(0);
   useEffect(() => {
-    listPlan(supabase, userData.userId)
-      .then((data) => setPlanAllListNum(data.length))
-      .catch((error) => console.error(error));
+    if (userData.userId) {
+      listPlan(supabase, userData.userId)
+        .then((data) => setPlanAllListNum(data.length))
+        .catch((error) => console.error(error));
+    }
   }, [supabase, userData.userId]);
 
   return (

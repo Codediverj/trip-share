@@ -33,9 +33,11 @@ export default function HomePage() {
   const userData = useUserDataStore();
   const [planAllList, setPlanAllList] = useState<Plan[]>([]);
   useEffect(() => {
-    listPlan(supabase, userData.userId)
-      .then((data) => setPlanAllList(data))
-      .catch((error) => console.error(error));
+    if (userData.userId) {
+      listPlan(supabase, userData.userId)
+        .then((data) => setPlanAllList(data))
+        .catch((error) => console.error(error));
+    }
   }, [supabase, userData.userId]);
 
   const currentDate = new Date();
