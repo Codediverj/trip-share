@@ -59,9 +59,9 @@ export default function PlanPage({
       .catch((error) => console.error(error));
   }, [supabase, planId]);
 
-  useEffect(() => {
-    console.log("safjdkljf", planContent);
-  });
+  // useEffect(() => {
+  //   console.log("safjdkljf", planContent);
+  // });
 
   const totalDays = planContent ? totaldays(planContent.startDate, planContent.endDate) : 0;
 
