@@ -29,6 +29,7 @@ import { cx } from "@/app/utils/classname.utils";
 import DayPlan from "@/app/components/PlanPage/DayPlan";
 import Expense from "@/app/components/PlanPage/Expense";
 import Moment from "@/app/components/PlanPage/Moment";
+import { FriendsList } from "@/app/api/plan/FriendsList.types";
 
 export default function PlanPage({
   children,
@@ -45,6 +46,7 @@ export default function PlanPage({
   const supabase = createClientComponentClient();
   const userData = useUserDataStore();
   const [planContent, setPlanContent] = useState<Plan | undefined>(undefined);
+  const [friendsData, setFriendsData] = useState<FriendsList[] | undefined>([]);
   const planId = params.id;
 
   useEffect(() => {
@@ -55,13 +57,9 @@ export default function PlanPage({
 
   useEffect(() => {
     getFriends(supabase, planId)
-      .then((data) => console.log(data))
+      .then((data) => setFriendsData(data))
       .catch((error) => console.error(error));
   }, [supabase, planId]);
-
-  // useEffect(() => {
-  //   console.log("safjdkljf", planContent);
-  // });
 
   const totalDays = planContent ? totaldays(planContent.startDate, planContent.endDate) : 0;
 
@@ -103,7 +101,7 @@ export default function PlanPage({
           className={styles.friend_join}
           onClick={() => openPopup(<EditFriendsList planId={planId} />)}
         >
-          <strong>1</strong> people join
+          <strong>{friendsData && friendsData.length}</strong> people join
           <div>+</div>
         </div>
         <div className={styles.main_tab}>

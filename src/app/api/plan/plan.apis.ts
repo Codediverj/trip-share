@@ -61,3 +61,17 @@ export const getFriends = async (
     };
   });
 };
+
+export const searchIdByCode = async (
+  supabase: SupabaseClient,
+  travelerCode: string
+): Promise<string> => {
+  const { data, error } = await supabase
+    .from("User")
+    .select("user_id")
+    .eq("traveler_code", travelerCode)
+    .single();
+  if (error) throw error;
+
+  return data.user_id;
+};
