@@ -1,4 +1,5 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
+import { useRouter } from "next/navigation";
 import styles from "./Popup.module.scss";
 import Image from "next/image";
 import { getFriends, searchIdByCode } from "@/app/api/plan/plan.apis";
@@ -7,22 +8,36 @@ import { FriendsList } from "@/app/api/plan/FriendsList.types";
 
 //UserData(Context)
 import { useUserDataStore } from "@/contexts/userData/userData.provider";
+import { subscribeToChannel } from "@/app/utils/supabaseRealtime.utils";
+import { usePopupContext } from "../../../contexts/popup/PopupContext";
 
 export default function EditFriendsList({ planId }: { planId: string }) {
+  const router = useRouter();
+  const { closePopup } = usePopupContext();
   const supabase = createClientComponentClient();
   const userData = useUserDataStore();
   const [friendsData, setFriendsData] = useState<FriendsList[] | undefined>([]);
   const [newTravelerCode, setNewTravelerCode] = useState("");
   const [noticeMessage, setNoticeMessage] = useState("");
 
-  useEffect(() => {
+  const fetchFriends = useCallback(() => {
     getFriends(supabase, planId)
       .then((data) => {
         //console.log(data);
         setFriendsData(data);
       })
       .catch((error) => console.error(error));
-  }, [supabase, planId]);
+  }, [planId, supabase]);
+
+  useEffect(() => {
+    fetchFriends();
+
+    const channel = subscribeToChannel(supabase, fetchFriends, "People_Join");
+
+    return () => {
+      channel.unsubscribe();
+    };
+  }, [fetchFriends, supabase]);
 
   const handleTravelerCodeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setNewTravelerCode(event.target.value);
@@ -67,6 +82,11 @@ export default function EditFriendsList({ planId }: { planId: string }) {
         userId: userId,
         planId: planId,
       }),
+    }).then(() => {
+      if (userData && userData.userId === userId) {
+        router.push("/home");
+        closePopup();
+      }
     });
 
     return;
@@ -117,7 +137,7 @@ export default function EditFriendsList({ planId }: { planId: string }) {
         <input
           className={styles.input_box_code}
           type="text"
-          placeholder="0000 0000 0000"
+          placeholder="0000"
           value={newTravelerCode}
           onChange={handleTravelerCodeChange}
         />

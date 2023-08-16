@@ -20,7 +20,7 @@ import GeneratedTravlerCode from "../../components/GenerateTravelerCode";
 export default function ProfilePage() {
   const { openPopup } = usePopupContext();
   const supabase = createClientComponentClient();
-  const [travelerCode, setTravelerCode] = useState("000000000000");
+  const [travelerCode, setTravelerCode] = useState("0000");
   const userData = useUserDataStore(); //server
   const [userDataState, setUserDataState] = useState(userData); //client
   const router = useRouter();

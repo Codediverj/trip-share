@@ -9,6 +9,6 @@ export const initUserDataStore = (): UserDataStore => {
     profileImage: "/profile_default_image.svg",
     createdAt: new Date(),
     email: "",
-    travelerCode: "000000000000",
+    travelerCode: "0000",
   };
 };

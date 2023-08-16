@@ -1,6 +1,6 @@
 function GeneratedTravlerCode() {
-  const randomNumber = Math.floor(Math.random() * 1000000000000);
-  return String(randomNumber).padStart(12, "0");
+  const randomNumber = Math.floor(Math.random() * 10000);
+  return String(randomNumber).padStart(4, "0");
 }
 
 export default GeneratedTravlerCode;
