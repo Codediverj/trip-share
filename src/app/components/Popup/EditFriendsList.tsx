@@ -149,7 +149,7 @@ export default function EditFriendsList({ planId }: { planId: string }) {
 
       <button className={`${styles.line_button} ${styles.popup_button_text}`}>
         <Image
-          src="camera.svg"
+          src="/camera.svg"
           alt="camera icon"
           width="20"
           height="20"

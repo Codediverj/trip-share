@@ -2,6 +2,7 @@ import { SupabaseClient } from "@supabase/supabase-js";
 import { Plan } from "./plan.types";
 import { DateTime } from "luxon";
 import { FriendsList } from "./FriendsList.types";
+import { supabase } from "@supabase/auth-ui-shared";
 
 export const getPlan = async (supabase: SupabaseClient, planId: string): Promise<Plan> => {
   const { data, error } = await supabase
@@ -50,6 +51,12 @@ export const getFriends = async (
     .from("People_Join")
     .select("User(*)")
     .eq("plan_id", planId);
+
+  /**
+   * SELECT * FROM People_Join pj
+   * JOIN User u ON u.user_id = pj.user_id
+   * WHERE pj.plan_id = "planId"
+   */
   if (error) throw error;
 
   return data.map(({ User: user }: any) => {
@@ -74,4 +81,14 @@ export const searchIdByCode = async (
   if (error) throw error;
 
   return data.user_id;
+};
+
+export const getAllPlanDetail = async (supabase: SupabaseClient, planId: string) => {
+  const { data } = await supabase
+    .from("Plan")
+    .select("*, People_Join(*, User(*))")
+    .eq("plan_id", planId)
+    .single();
+
+  console.log(data);
 };
