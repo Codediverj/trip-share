@@ -1,20 +1,18 @@
 "use client";
-import { createContext, Dispatch, FC, PropsWithChildren, useContext, useReducer } from "react";
-import { initPlanDataStore, PlanDataAction, PlanDataStore } from "./planData.types";
-import { planDataReducer } from "./planData.reducer";
+import React, {
+  createContext,
+  FC,
+  PropsWithChildren,
+  useContext,
+  useState,
+  useEffect,
+} from "react";
+import { initPlanDataStore, PlanDataStore } from "./planData.types";
+import { getAllPlanDetail } from "@/app/api/plan/plan.apis";
+import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 
-const PlanDataActionContext = createContext<Dispatch<PlanDataAction> | undefined>(undefined);
-PlanDataActionContext.displayName = "PlanDataActionContext";
 const PlanDataStoreContext = createContext<PlanDataStore | undefined>(undefined);
 PlanDataStoreContext.displayName = "PlanDataStoreContext";
-
-export const usePlanDataAction = (): Dispatch<PlanDataAction> => {
-  const context = useContext(PlanDataActionContext);
-  if (!context) {
-    throw new Error("usePlanDataAction must be used within a PlanDataProvider");
-  }
-  return context;
-};
 
 export const usePlanDataStore = (): PlanDataStore => {
   const context = useContext(PlanDataStoreContext);
@@ -24,13 +22,23 @@ export const usePlanDataStore = (): PlanDataStore => {
   return context;
 };
 
-export const PlanDataProvider: FC<PropsWithChildren> = ({ children }) => {
-  const [state, action] = useReducer(planDataReducer, null, initPlanDataStore);
+export const PlanDataProvider: FC<PropsWithChildren<{ planId: string }>> = ({
+  children,
+  planId,
+}) => {
+  const [data, setData] = useState<PlanDataStore>(initPlanDataStore);
+  const supabase = createClientComponentClient();
 
-  return (
-    <PlanDataActionContext.Provider value={action}>
-      <PlanDataStoreContext.Provider value={state}>{children}</PlanDataStoreContext.Provider>
-    </PlanDataActionContext.Provider>
-  );
+  useEffect(() => {
+    supabase.auth.getUser().then(({ data: { user } }) => {
+      if (user) {
+        return getAllPlanDetail(supabase, planId).then((planData) => {
+          setData(planData);
+        });
+      }
+    });
+  }, [supabase, supabase.auth, planId]);
+
+  return <PlanDataStoreContext.Provider value={data}>{children}</PlanDataStoreContext.Provider>;
 };
 PlanDataProvider.displayName = "PlanDataProvider";
