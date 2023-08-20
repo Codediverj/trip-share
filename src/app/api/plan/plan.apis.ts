@@ -90,5 +90,6 @@ export const getAllPlanDetail = async (supabase: SupabaseClient, planId: string)
     .eq("plan_id", planId)
     .single();
 
-  console.log(data);
+  //console.log(data);
+  return { ...data, planId: data.plan_id, startDate: DateTime.fromISO(data.start_date).toJSDate() };
 };

@@ -16,8 +16,9 @@ export type PlanDataStore = {
     };
     planId: string;
     userId: string;
-  };
+  }[];
 };
+
 export const initPlanDataStore = (): PlanDataStore => {
   return {
     planId: "",
@@ -26,17 +27,19 @@ export const initPlanDataStore = (): PlanDataStore => {
     endDate: new Date(),
     backgroundImage: "",
     currency: "",
-    People_Join: {
-      user: {
+    People_Join: [
+      {
+        user: {
+          userId: "",
+          nickname: "",
+          profileImage: "/profile_default_image.svg",
+          createdAt: new Date(),
+          email: "",
+          travelerCode: "",
+        },
+        planId: "",
         userId: "",
-        nickname: "",
-        profileImage: "/profile_default_image.svg",
-        createdAt: new Date(),
-        email: "",
-        travelerCode: "",
       },
-      planId: "",
-      userId: "",
-    },
+    ],
   };
 };

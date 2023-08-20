@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import styles from "./DayPlan.module.scss";
@@ -10,11 +10,14 @@ import "swiper/css";
 
 import { cx } from "../../utils/classname.utils";
 import DayPlanContent from "./DayPlanContent";
+import { useSampleAction } from "@/contexts/sample/sample.provider";
 
 function DayPlan({ totaldays }: { totaldays: number }) {
   const [activeSubTab, setActiveSubTab] = useState(0);
+  const changeDate = useSampleAction();
   const handleSubTabClick = (index: number) => {
     setActiveSubTab(index);
+    changeDate(index);
   };
 
   const swiperSlides = Array.from({ length: totaldays }, (_, index) => index + 1);
