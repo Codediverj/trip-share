@@ -9,13 +9,13 @@ import styles from "./profile.module.scss";
 // Popup useContext
 import { usePopupContext } from "../../../contexts/popup/PopupContext";
 // Popup Content
-import DeleteAccount from "../../components/Popup/DeleteAccount";
+import DeleteAccount from "../../../components/Popup/DeleteAccount";
 
 //UserData(Context)
 import { useUserDataStore } from "@/contexts/userData/userData.provider";
 
 //Component
-import GeneratedTravlerCode from "../../components/GenerateTravelerCode";
+import GeneratedTravlerCode from "../../../components/GenerateTravelerCode";
 
 export default function ProfilePage() {
   const { openPopup } = usePopupContext();

@@ -3,7 +3,7 @@ import { PopupContextProvider } from "../contexts/popup/PopupContext";
 
 //Font
 import { Poppins, Inter } from "next/font/google";
-import { cx } from "./utils/classname.utils";
+import { cx } from "../utils/classname.utils";
 
 const poppins = Poppins({
   weight: ["400", "500", "600", "700"],

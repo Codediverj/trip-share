@@ -7,23 +7,23 @@ import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 //import { useUserDataStore } from "@/contexts/userData/userData.provider";
 
 // Popup useContext
-import { usePopupContext } from "../../../contexts/popup/PopupContext";
+import { usePopupContext } from "../../contexts/popup/PopupContext";
 import { Plan } from "@/app/api/plan/plan.types";
 import { getPlan } from "@/app/api/plan/plan.apis";
 import { useUserDataStore } from "@/contexts/userData/userData.provider";
 
-interface EditPlanProps {
-  planContent: Plan;
-  setPlanContent: (plan: Plan) => void;
-}
-
-export default function EditPlan({ planContent, setPlanContent }: EditPlanProps) {
+export default function AddNewPlan() {
   const { closePopup } = usePopupContext();
   const supabase = createClientComponentClient();
   const userData = useUserDataStore(); //user context data
-  const [planData, setPlanData] = useState<Plan>(planContent); //client
-
-  console.log(planData);
+  const [planData, setPlanData] = useState<Omit<Plan, "planId">>({
+    title: "",
+    startDate: new Date(),
+    endDate: new Date(),
+    backgroundImage:
+      "https://images.unsplash.com/photo-1543158266-0066955047b1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
+    currency: "",
+  }); //client
 
   const handleInputChange = (event: any) => {
     const { name, value } = event.target;
@@ -33,40 +33,28 @@ export default function EditPlan({ planContent, setPlanContent }: EditPlanProps)
     }));
   };
 
-  const handleEditPlan = () => {
-    const { planId, title, startDate, endDate, backgroundImage, currency } = planData;
+  const addNewPlan = () => {
+    const { title, startDate, endDate, backgroundImage, currency } = planData;
 
     if (!planData) {
       return;
     }
 
-    fetch("/api/updatePlan", {
+    fetch("/api/plan", {
       method: "POST",
       body: JSON.stringify({
-        planId: planId,
         title: title,
         startDate: startDate.toISOString().split("T")[0],
         endDate: endDate.toISOString().split("T")[0],
         backgroundImage: backgroundImage,
         currency: currency || undefined,
       }),
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        return response.json();
-      })
-      .then((data) => {
-        console.log(planData);
-        setPlanContent(data);
-        // closePopup();
-      });
+    }).then(() => closePopup());
   };
 
   return (
     <div>
-      <h2 className={styles.popupBox_title}>Edit Plan</h2>
+      <h2 className={styles.popupBox_title}>Add New Plan</h2>
 
       <h3 className={styles.input_box_h3}>Title</h3>
       <input
@@ -127,7 +115,7 @@ export default function EditPlan({ planContent, setPlanContent }: EditPlanProps)
 
       <button
         className={`${styles.full_bg_button} ${styles.popup_button_text}`}
-        onClick={handleEditPlan}
+        onClick={addNewPlan}
       >
         Save
       </button>

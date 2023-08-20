@@ -12,7 +12,7 @@ import {
 import { usePlanDataStore } from "../planData/planData.provider";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { DateTime } from "luxon";
-import { subscribeToChannel } from "@/app/utils/supabaseRealtime.utils";
+import { subscribeToChannel } from "@/utils/supabaseRealtime.utils";
 import { SampleStore } from "./sample.types";
 
 const SampleActionContext = createContext<((index: number) => void) | undefined>(undefined);

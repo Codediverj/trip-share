@@ -3,8 +3,8 @@ import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 
 //Component
-import GeneratedTravlerCode from "@/app/components/GenerateTravelerCode";
-import ExtractUsernameFromEmail from "@/app/components/ExtractUsernameFromEmail";
+import GeneratedTravlerCode from "@/components/GenerateTravelerCode";
+import ExtractUsernameFromEmail from "@/components/ExtractUsernameFromEmail";
 
 export async function GET(req: NextRequest) {
   const supabase = createRouteHandlerClient({ cookies });

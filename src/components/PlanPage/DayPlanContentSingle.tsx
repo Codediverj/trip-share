@@ -6,7 +6,7 @@ import styles from "./DayPlan.module.scss";
 import { cx } from "../../utils/classname.utils";
 
 // Popup useContext
-import { usePopupContext } from "../../../contexts/popup/PopupContext";
+import { usePopupContext } from "../../contexts/popup/PopupContext";
 import AddNewPlan from "../Popup/AddNewPlan";
 import DeletePlan from "../Popup/DeletePlan";
 

@@ -1,5 +1,5 @@
 //components
-import HomeHeader from "../../components/HomeHeader/HomeHeader";
+import HomeHeader from "../../../components/HomeHeader/HomeHeader";
 
 export const metadata = {
   title: "TripShare",

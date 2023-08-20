@@ -7,7 +7,7 @@ import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 //import { useUserDataStore } from "@/contexts/userData/userData.provider";
 
 // Popup useContext
-import { usePopupContext } from "../../../contexts/popup/PopupContext";
+import { usePopupContext } from "../../contexts/popup/PopupContext";
 import { Plan } from "@/app/api/plan/plan.types";
 import { getPlan } from "@/app/api/plan/plan.apis";
 import { useUserDataStore } from "@/contexts/userData/userData.provider";

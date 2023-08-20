@@ -7,7 +7,7 @@ import Image from "next/image";
 //UserData(Context)
 import { useUserDataStore } from "@/contexts/userData/userData.provider";
 // Popup useContext
-import { usePopupContext } from "../../../contexts/popup/PopupContext";
+import { usePopupContext } from "../../contexts/popup/PopupContext";
 
 export default function DeleteAccount() {
   const { closePopup } = usePopupContext();

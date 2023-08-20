@@ -4,24 +4,24 @@ import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import styles from "./page.module.scss";
 
 // Popup
-import Popup from "../../components/Popup/Popup";
+import Popup from "../../../components/Popup/Popup";
 import { usePopupContext } from "../../../contexts/popup/PopupContext";
 
 //UserData(Context)
 import { useUserDataStore } from "@/contexts/userData/userData.provider";
 
 // components
-import AddNewButton from "../../components/AddNewButton";
-import SwiperComp from "../../components/Swiper/Swiper";
-import MainImage from "../../components/HomePage/MainImage";
-import PlanWithList from "../../components/HomePage/PlanWithList";
+import AddNewButton from "../../../components/AddNewButton";
+import SwiperComp from "../../../components/Swiper/Swiper";
+import MainImage from "../../../components/HomePage/MainImage";
+import PlanWithList from "../../../components/HomePage/PlanWithList";
 import { listPlan } from "@/app/api/plan/plan.apis";
 
 //types
 import { Plan } from "../../api/plan/plan.types";
 
 //util
-import { formatDateStartEnd } from "../../utils/formatDateStartEnd.utils";
+import { formatDateStartEnd } from "../../../utils/formatDateStartEnd.utils";
 
 export default function HomePage() {
   const defaultPlanImage =

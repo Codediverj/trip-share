@@ -10,7 +10,7 @@ import React, {
 import { initPlanDataStore, PlanDataStore } from "./planData.types";
 import { getAllPlanDetail } from "@/app/api/plan/plan.apis";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
-import { subscribeToChannel } from "@/app/utils/supabaseRealtime.utils";
+import { subscribeToChannel } from "@/utils/supabaseRealtime.utils";
 
 const PlanDataStoreContext = createContext<PlanDataStore | undefined>(undefined);
 PlanDataStoreContext.displayName = "PlanDataStoreContext";

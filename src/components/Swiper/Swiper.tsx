@@ -4,7 +4,7 @@ import styles from "./Swiper.module.scss";
 import Link from "next/link";
 
 //types
-import { Plan } from "../../api/plan/plan.types";
+import { Plan } from "../../app/api/plan/plan.types";
 
 // Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react";

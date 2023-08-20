@@ -8,8 +8,8 @@ import { FriendsList } from "@/app/api/plan/FriendsList.types";
 
 //UserData(Context)
 import { useUserDataStore } from "@/contexts/userData/userData.provider";
-import { subscribeToChannel } from "@/app/utils/supabaseRealtime.utils";
-import { usePopupContext } from "../../../contexts/popup/PopupContext";
+import { subscribeToChannel } from "@/utils/supabaseRealtime.utils";
+import { usePopupContext } from "../../contexts/popup/PopupContext";
 
 export default function EditFriendsList({ planId }: { planId: string }) {
   const router = useRouter();

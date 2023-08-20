@@ -8,12 +8,12 @@ import Page from "./page";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 
 // Popup
-import Popup from "../../../components/Popup/Popup";
+import Popup from "../../../../components/Popup/Popup";
 import { usePopupContext } from "../../../../contexts/popup/PopupContext";
 
 // Popup Content
-import EditFriendsList from "../../../components/Popup/EditFriendsList";
-import EditPlan from "@/app/components/Popup/EditPlan";
+import EditFriendsList from "../../../../components/Popup/EditFriendsList";
+import EditPlan from "@/components/Popup/EditPlan";
 
 //UserData(Context)
 import { useUserDataStore } from "@/contexts/userData/userData.provider";
@@ -25,12 +25,12 @@ import { Plan } from "../../../api/plan/plan.types";
 import { usePlanDataStore } from "@/contexts/planData/planData.provider";
 
 //util
-import { formatDateStartEnd } from "../../../utils/formatDateStartEnd.utils";
-import { totaldays } from "../../../utils/totaldays.utils";
-import { cx } from "@/app/utils/classname.utils";
-import DayPlan from "@/app/components/PlanPage/DayPlan";
-import Expense from "@/app/components/PlanPage/Expense";
-import Moment from "@/app/components/PlanPage/Moment";
+import { formatDateStartEnd } from "../../../../utils/formatDateStartEnd.utils";
+import { totaldays } from "../../../../utils/totaldays.utils";
+import { cx } from "@/utils/classname.utils";
+import DayPlan from "@/components/PlanPage/DayPlan";
+import Expense from "@/components/PlanPage/Expense";
+import Moment from "@/components/PlanPage/Moment";
 import { FriendsList } from "@/app/api/plan/FriendsList.types";
 import { SampleProvider } from "@/contexts/sample/sample.provider";
 

@@ -6,11 +6,11 @@ import Link from "next/link";
 import styles from "./profile.module.scss";
 
 // Popup
-import Popup from "../../components/Popup/Popup";
+import Popup from "../../../components/Popup/Popup";
 import { usePopupContext } from "../../../contexts/popup/PopupContext";
 // Popup Content
-import EditNickname from "../../components/Popup/EditNickname";
-import EditProfileImage from "../../components/Popup/EditProfileImage";
+import EditNickname from "../../../components/Popup/EditNickname";
+import EditProfileImage from "../../../components/Popup/EditProfileImage";
 
 //UserData(Context)
 import { useUserDataStore } from "@/contexts/userData/userData.provider";
