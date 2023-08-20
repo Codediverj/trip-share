@@ -10,11 +10,11 @@ import "swiper/css";
 
 import { cx } from "../../utils/classname.utils";
 import DayPlanContent from "./DayPlanContent";
-import { useSampleAction } from "@/contexts/sample/sample.provider";
+import { useDayPlanData } from "@/contexts/dayPlanData/dayPlanData.provider";
 
 function DayPlan({ totaldays }: { totaldays: number }) {
   const [activeSubTab, setActiveSubTab] = useState(0);
-  const changeDate = useSampleAction();
+  const changeDate = useDayPlanData();
   const handleSubTabClick = (index: number) => {
     setActiveSubTab(index);
     changeDate(index);

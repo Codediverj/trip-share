@@ -1,16 +1,14 @@
 "use client";
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import styles from "./DayPlan.module.scss";
 
 import DayPlanContentSingle from "./DayPlanContentSingle";
 import AddNewScheduleButton from "../AddNewScheduleButton";
-import { useSampleStore } from "@/contexts/sample/sample.provider";
 
 function DayPlanContent() {
-  const dayPlanContext = useSampleStore();
-  console.log(dayPlanContext);
+  useEffect(() => {}, []);
 
   return (
     <div className={styles.day_plan_content}>

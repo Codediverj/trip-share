@@ -1,28 +1,17 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import styles from "./Popup.module.scss";
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
-
-//UserData(Context)
-//import { useUserDataStore } from "@/contexts/userData/userData.provider";
 
 // Popup useContext
 import { usePopupContext } from "../../contexts/popup/PopupContext";
 import { Plan } from "@/app/api/plan/plan.types";
-import { getPlan } from "@/app/api/plan/plan.apis";
-import { useUserDataStore } from "@/contexts/userData/userData.provider";
+import { usePlanDataStore } from "@/contexts/planData/planData.provider";
+import { PlanDataStore } from "@/contexts/planData/planData.types";
 
-interface EditPlanProps {
-  planContent: Plan;
-  setPlanContent: (plan: Plan) => void;
-}
-
-export default function EditPlan({ planContent, setPlanContent }: EditPlanProps) {
+export default function EditPlan() {
   const { closePopup } = usePopupContext();
-  const supabase = createClientComponentClient();
-  const userData = useUserDataStore(); //user context data
-  const [planData, setPlanData] = useState<Plan>(planContent); //client
-
+  const planContextData = usePlanDataStore();
+  const [planData, setPlanData] = useState<PlanDataStore>(planContextData);
   console.log(planData);
 
   const handleInputChange = (event: any) => {
@@ -34,8 +23,6 @@ export default function EditPlan({ planContent, setPlanContent }: EditPlanProps)
   };
 
   const handleEditPlan = () => {
-    const { planId, title, startDate, endDate, backgroundImage, currency } = planData;
-
     if (!planData) {
       return;
     }
@@ -43,25 +30,33 @@ export default function EditPlan({ planContent, setPlanContent }: EditPlanProps)
     fetch("/api/updatePlan", {
       method: "POST",
       body: JSON.stringify({
-        planId: planId,
-        title: title,
-        startDate: startDate.toISOString().split("T")[0],
-        endDate: endDate.toISOString().split("T")[0],
-        backgroundImage: backgroundImage,
-        currency: currency || undefined,
+        planId: planData.planId,
+        title: planData.title,
+        startDate: planData.startDate.toISOString().split("T")[0],
+        endDate: planData.endDate.toISOString().split("T")[0],
+        backgroundImage: planData.backgroundImage,
+        currency: planData.currency || undefined,
       }),
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        return response.json();
-      })
-      .then((data) => {
-        console.log(planData);
-        setPlanContent(data);
-        // closePopup();
-      });
+    }).then((response) => {
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      return response.json();
+    });
+    // .then((data) => {
+    //   console.log(planData);
+    //   setPlanData((prevPlanData) => ({
+    //     ...prevPlanData,
+    //     planId: data.planId,
+    //     title: data.title,
+    //     startDate: new Date(data.startDate),
+    //     endDate: new Date(data.endDate),
+    //     backgroundImage: data.backgroundImage,
+    //     currency: data.currency,
+    //   }));
+    //   closePopup();
+    // });
+    closePopup();
   };
 
   return (

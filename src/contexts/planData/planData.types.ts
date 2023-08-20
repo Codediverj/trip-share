@@ -6,14 +6,14 @@ export type PlanDataStore = {
   backgroundImage?: string;
   currency: string;
   People_Join: {
-    user: {
+    User: {
       userId: string;
       nickname: string;
       profileImage: string;
       createdAt: Date;
       email: string;
       travelerCode: string;
-    };
+    }[];
     planId: string;
     userId: string;
   }[];
@@ -29,14 +29,16 @@ export const initPlanDataStore = (): PlanDataStore => {
     currency: "",
     People_Join: [
       {
-        user: {
-          userId: "",
-          nickname: "",
-          profileImage: "/profile_default_image.svg",
-          createdAt: new Date(),
-          email: "",
-          travelerCode: "",
-        },
+        User: [
+          {
+            userId: "",
+            nickname: "",
+            profileImage: "/profile_default_image.svg",
+            createdAt: new Date(),
+            email: "",
+            travelerCode: "",
+          },
+        ],
         planId: "",
         userId: "",
       },

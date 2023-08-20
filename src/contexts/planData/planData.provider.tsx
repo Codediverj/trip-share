@@ -39,16 +39,6 @@ export const PlanDataProvider: FC<PropsWithChildren<{ planId: string }>> = ({
       }
     });
 
-    // const channel = supabase
-    //   .channel("planSummary")
-    // .on("postgres_changes", { event: "*", schema: "public", table: "*" }, (payload) => {
-    //   console.log(payload);
-    //   getAllPlanDetail(supabase, planId)
-    //     .then((data) => setData(data))
-    //     .catch((error) => console.error(error));
-    // })
-    // .subscribe();
-
     const channel = subscribeToChannel(supabase, (payload) => {
       console.log(payload);
       getAllPlanDetail(supabase, planId)

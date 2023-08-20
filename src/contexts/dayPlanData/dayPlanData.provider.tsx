@@ -13,34 +13,34 @@ import { usePlanDataStore } from "../planData/planData.provider";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { DateTime } from "luxon";
 import { subscribeToChannel } from "@/utils/supabaseRealtime.utils";
-import { SampleStore } from "./sample.types";
+import { DayPlanDataStore } from "./dayPlanData.types";
 
-const SampleActionContext = createContext<((index: number) => void) | undefined>(undefined);
-SampleActionContext.displayName = "SampleActionContext";
-const SampleStoreContext = createContext<SampleStore | undefined>(undefined);
-SampleStoreContext.displayName = "SampleStoreContext";
+const DayPlanDataContext = createContext<((index: number) => void) | undefined>(undefined);
+DayPlanDataContext.displayName = "DayPlanDataContext";
+const DayPlanDataStoreContext = createContext<DayPlanDataStore | undefined>(undefined);
+DayPlanDataStoreContext.displayName = "DayPlanDataStoreContext";
 
-export const useSampleAction = (): ((index: number) => void) => {
-  const context = useContext(SampleActionContext);
+export const useDayPlanData = (): ((index: number) => void) => {
+  const context = useContext(DayPlanDataContext);
   if (!context) {
-    throw new Error("useSampleAction must be used within a SampleProvider");
+    throw new Error("useDayPlanData must be used within a DayPlanDataProvider");
   }
   return context;
 };
 
-export const useSampleStore = (): SampleStore => {
-  const context = useContext(SampleStoreContext);
+export const useDayPlanDataStore = (): DayPlanDataStore => {
+  const context = useContext(DayPlanDataStoreContext);
   if (!context) {
-    throw new Error("useSampleStore must be used within a SampleProvider");
+    throw new Error("useDayPlanDataStore must be used within a DayPlanDataProvider");
   }
   return context;
 };
 
-export const SampleProvider: FC<PropsWithChildren> = ({ children }) => {
+export const DayPlanDataProvider: FC<PropsWithChildren> = ({ children }) => {
   const supabase = createClientComponentClient();
   const { planId, startDate } = usePlanDataStore();
   const [selectedDate, setSelectedDate] = useState<DateTime>();
-  const [dayPlans, setDayPlans] = useState<SampleStore>();
+  const [dayPlans, setDayPlans] = useState<DayPlanDataStore>();
 
   useEffect(() => {
     if (!planId || !startDate) return;
@@ -79,9 +79,11 @@ export const SampleProvider: FC<PropsWithChildren> = ({ children }) => {
   );
 
   return (
-    <SampleActionContext.Provider value={changeDate}>
-      <SampleStoreContext.Provider value={dayPlans}>{children}</SampleStoreContext.Provider>
-    </SampleActionContext.Provider>
+    <DayPlanDataContext.Provider value={changeDate}>
+      <DayPlanDataStoreContext.Provider value={dayPlans}>
+        {children}
+      </DayPlanDataStoreContext.Provider>
+    </DayPlanDataContext.Provider>
   );
 };
-SampleProvider.displayName = "SampleProvider";
+DayPlanDataProvider.displayName = "DayPlanDataProvider";
