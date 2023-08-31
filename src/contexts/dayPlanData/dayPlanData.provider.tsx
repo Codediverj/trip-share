@@ -13,7 +13,8 @@ import { usePlanDataStore } from "../planData/planData.provider";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { DateTime } from "luxon";
 import { subscribeToChannel } from "@/utils/supabaseRealtime.utils";
-import { DayPlanDataStore } from "./dayPlanData.types";
+import { DayPlanDataStore, initDayPlanDataStore } from "./dayPlanData.types";
+import { Database } from "@/supabase.types";
 
 const DayPlanDataContext = createContext<((index: number) => void) | undefined>(undefined);
 DayPlanDataContext.displayName = "DayPlanDataContext";
@@ -37,10 +38,10 @@ export const useDayPlanDataStore = (): DayPlanDataStore => {
 };
 
 export const DayPlanDataProvider: FC<PropsWithChildren> = ({ children }) => {
-  const supabase = createClientComponentClient();
+  const supabase = createClientComponentClient<Database>();
   const { planId, startDate } = usePlanDataStore();
   const [selectedDate, setSelectedDate] = useState<DateTime>();
-  const [dayPlans, setDayPlans] = useState<DayPlanDataStore>();
+  const [dayPlans, setDayPlans] = useState<DayPlanDataStore>(initDayPlanDataStore());
 
   useEffect(() => {
     if (!planId || !startDate) return;
@@ -57,7 +58,7 @@ export const DayPlanDataProvider: FC<PropsWithChildren> = ({ children }) => {
         .select("single_plan_id")
         .match({ plan_id: planId, date: selectedDate.toFormat("yyyy-MM-dd") });
 
-      setDayPlans(data?.[0].single_plan_id);
+      // setDayPlans({ singlePlanId: data?.[0].single_plan_id });
     };
 
     getSinglePlanForDate();

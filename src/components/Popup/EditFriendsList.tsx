@@ -8,43 +8,26 @@ import { FriendsList } from "@/app/api/plan/FriendsList.types";
 
 //UserData(Context)
 import { useUserDataStore } from "@/contexts/userData/userData.provider";
-import { subscribeToChannel } from "@/utils/supabaseRealtime.utils";
 import { usePopupContext } from "../../contexts/popup/PopupContext";
+import { usePlanDataStore } from "@/contexts/planData/planData.provider";
 
 export default function EditFriendsList({ planId }: { planId: string }) {
   const router = useRouter();
   const { closePopup } = usePopupContext();
   const supabase = createClientComponentClient();
   const userData = useUserDataStore();
-  const [friendsData, setFriendsData] = useState<FriendsList[] | undefined>([]);
+  const planContextData = usePlanDataStore();
   const [newTravelerCode, setNewTravelerCode] = useState("");
   const [noticeMessage, setNoticeMessage] = useState("");
-
-  const fetchFriends = useCallback(() => {
-    getFriends(supabase, planId)
-      .then((data) => {
-        //console.log(data);
-        setFriendsData(data);
-      })
-      .catch((error) => console.error(error));
-  }, [planId, supabase]);
-
-  useEffect(() => {
-    fetchFriends();
-
-    const channel = subscribeToChannel(supabase, fetchFriends, "People_Join");
-
-    return () => {
-      channel.unsubscribe();
-    };
-  }, [fetchFriends, supabase]);
 
   const handleTravelerCodeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setNewTravelerCode(event.target.value);
   };
 
   const addTraveler = () => {
-    const matchingFriend = friendsData?.find((friend) => friend.travelerCode === newTravelerCode);
+    const matchingFriend = planContextData.peopleJoin?.find(
+      (friend) => friend.travelerCode === newTravelerCode
+    );
     setNoticeMessage("");
 
     if (matchingFriend) {
@@ -96,8 +79,8 @@ export default function EditFriendsList({ planId }: { planId: string }) {
     <div>
       <h2 className={styles.popupBox_title}>Edit Traveler List</h2>
       <div className={styles.edit_friends_list}>
-        {friendsData &&
-          friendsData.map((friend, index) => (
+        {planContextData.peopleJoin &&
+          planContextData.peopleJoin.map((friend, index) => (
             <div className={styles.edit_friends_list_item} key={index}>
               <div className={styles.edit_friends_list_item_inner}>
                 <Image
@@ -113,7 +96,7 @@ export default function EditFriendsList({ planId }: { planId: string }) {
                 ) : (
                   <div className={styles.edit_friends_owner}></div>
                 )}
-                {friendsData.length < 2 ? (
+                {planContextData.peopleJoin.length < 2 ? (
                   ""
                 ) : (
                   <Image

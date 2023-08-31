@@ -104,7 +104,7 @@ export default function PlanPage({
           className={styles.friend_join}
           onClick={() => openPopup(<EditFriendsList planId={planId} />)}
         >
-          <strong>{planContextData && planContextData.People_Join.length}</strong> people join
+          <strong>{planContextData && planContextData.peopleJoin.length}</strong> people join
           <div>+</div>
         </div>
         <div className={styles.main_tab}>

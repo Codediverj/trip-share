@@ -8,7 +8,7 @@ import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 
 // Popup useContext
 import { usePopupContext } from "../../contexts/popup/PopupContext";
-import { Plan } from "@/app/api/plan/plan.types";
+import { SinglePlan } from "@/app/api/(single_plan)/singleplan.types";
 import { getPlan } from "@/app/api/plan/plan.apis";
 import { useUserDataStore } from "@/contexts/userData/userData.provider";
 
@@ -16,109 +16,282 @@ export default function AddNewSchedule() {
   const { closePopup } = usePopupContext();
   const supabase = createClientComponentClient();
   const userData = useUserDataStore(); //user context data
-  const [planData, setPlanData] = useState<Omit<Plan, "planId">>({
-    title: "",
-    startDate: new Date(),
-    endDate: new Date(),
-    backgroundImage:
-      "https://images.unsplash.com/photo-1543158266-0066955047b1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
-    currency: "",
-  }); //client
+  const [isNotMoving, setIsNotMoving] = useState(false);
+
+  const [planData, setPlanData] = useState<Omit<SinglePlan, "singlePlanId" | "planId" | "date">>({
+    order: 0,
+    placeFromId: "",
+    placeFromName: "",
+    placeToId: "",
+    placeToName: "",
+    note: "",
+    links: "",
+    createdAt: new Date(),
+    createdBy: "",
+    updatedAt: new Date(),
+    updatedBy: "",
+    Single_Plan_Expense: [
+      {
+        expenseId: "",
+        singlePlanId: "",
+        groupPayment: false,
+        expense: 0,
+        attended_user_id: "",
+        paidUserId: "",
+      },
+    ],
+  });
 
   const handleInputChange = (event: any) => {
     const { name, value } = event.target;
-    setPlanData((prevPlanData) => ({
-      ...prevPlanData,
-      [name]: name === "startDate" || name === "endDate" ? new Date(value) : value,
-    }));
+
+    if (name === "expense") {
+      setPlanData((prevPlanData) => ({
+        ...prevPlanData,
+        Single_Plan_Expense: [
+          {
+            ...prevPlanData.Single_Plan_Expense[0],
+            expense: value,
+          },
+        ],
+      }));
+    } else {
+      setPlanData((prevPlanData) => ({
+        ...prevPlanData,
+        [name]: value,
+      }));
+    }
   };
 
   const addNewPlan = () => {
-    const { title, startDate, endDate, backgroundImage, currency } = planData;
+    //closePopup();
+  };
 
-    if (!planData) {
-      return;
+  const handleCheckboxChange = () => {
+    setIsNotMoving(!isNotMoving);
+    if (!isNotMoving) {
+      setPlanData((prevPlanData) => ({
+        ...prevPlanData,
+        placeToId: "",
+        placeToName: "",
+      }));
     }
+  };
+  const handleRadioChange = (event: any) => {
+    const { value } = event.target;
+    setPlanData((prevData) => ({
+      ...prevData,
+      Single_Plan_Expense: [
+        {
+          ...prevData.Single_Plan_Expense[0],
+          groupPayment: value === "group",
+        },
+      ],
+    }));
+  };
+  const handleRadioChange2 = (event: any) => {
+    const { value } = event.target;
+    //
+  };
 
-    fetch("/api/plan", {
-      method: "POST",
-      body: JSON.stringify({
-        title: title,
-        startDate: startDate.toISOString().split("T")[0],
-        endDate: endDate.toISOString().split("T")[0],
-        backgroundImage: backgroundImage,
-        currency: currency || undefined,
-      }),
-    }).then(() => closePopup());
+  const handleRadioChange3 = (event: any) => {
+    const { value } = event.target;
+    //
+  };
+
+  const handleRadioChange4 = (event: any) => {
+    const { value } = event.target;
+    //
   };
 
   return (
     <div>
-      <h2 className={styles.popupBox_title}>Add New Schedule</h2>
+      <form>
+        <h2 className={styles.popupBox_title}>Add New Schedule</h2>
 
-      <h3 className={styles.input_box_h3}>From</h3>
-      <input
-        className={styles.input_box}
-        type="text"
-        placeholder="Location"
-        name="title"
-        value={planData.title}
-        onChange={handleInputChange}
-      />
-
-      <h3 className={styles.input_box_h3}>From</h3>
-      <div className={styles.find_input_box_date}>
-        <input
-          className={styles.input_box}
-          type="date"
-          placeholder="Select Date"
-          name="startDate"
-          value={planData.startDate.toISOString().split("T")[0]}
-          onChange={handleInputChange}
-        />
-      </div>
-
-      <h3 className={styles.input_box_h3}>To</h3>
-      <div className={styles.find_input_box_date}>
-        <input
-          className={styles.input_box}
-          type="date"
-          placeholder="Select Date"
-          name="endDate"
-          value={planData.endDate.toISOString().split("T")[0]}
-          onChange={handleInputChange}
-        />
-      </div>
-
-      <h3 className={styles.input_box_h3}>Background Image</h3>
-      <div className={styles.find_input_box}>
+        <h3 className={styles.input_box_h3}>From</h3>
         <input
           className={styles.input_box}
           type="text"
-          placeholder="Profile Image"
-          name="backgroundImage"
-          value={planData.backgroundImage}
+          placeholder="Location"
+          name="placeFromName"
+          value={planData.placeFromName}
           onChange={handleInputChange}
         />
-        <button>Find Image</button>
-      </div>
 
-      <h3 className={styles.input_box_h3}>Default Currency for this trip</h3>
-      <input
-        className={styles.input_box}
-        type="text"
-        placeholder="$ / ￥ / ₩ / €"
-        name="currency"
-        value={planData.currency}
-        onChange={handleInputChange}
-      />
+        <div className={`${styles.input_checkbox_wrap} ${isNotMoving ? styles.disabled : ""}`}>
+          <h3 className={styles.input_box_h3}>To</h3>
+          <label className={`${styles.input_disable_checkbox} ${styles.checkbox_label}`}>
+            <input
+              type="checkbox"
+              checked={isNotMoving}
+              onChange={handleCheckboxChange}
+              className={styles.checkbox_input}
+            />
+            I am not moving
+            <span
+              className={`${styles.custom_checkbox} ${isNotMoving ? styles.clicked : ""}`}
+            ></span>
+          </label>
 
-      <button
-        className={`${styles.full_bg_button} ${styles.popup_button_text}`}
-        onClick={addNewPlan}
-      >
-        Save
-      </button>
+          <input
+            className={styles.input_box}
+            type="text"
+            placeholder="Location"
+            name="placeToName"
+            onChange={handleInputChange}
+            value={planData.placeToName}
+            disabled={isNotMoving}
+          />
+        </div>
+
+        <h3 className={styles.input_box_h3}>What are you going to do here?</h3>
+        <textarea
+          className={styles.input_box}
+          placeholder="Type your Plan"
+          name="note"
+          onChange={handleInputChange}
+          value={planData.note}
+          rows={5}
+        />
+
+        <h3 className={styles.input_box_h3}>Expense</h3>
+        <div className={styles.radio_container}>
+          <input
+            type="radio"
+            className={styles.radio_input}
+            name="paymentType"
+            value="personal"
+            onChange={handleRadioChange}
+          />
+          <label className={styles.radio_label}>Personal Payment</label>
+        </div>
+        <div className={styles.radio_container}>
+          <input
+            type="radio"
+            className={styles.radio_input}
+            name="paymentType"
+            value="group"
+            onChange={handleRadioChange}
+          />
+          <label className={styles.radio_label}>Group Payment</label>
+        </div>
+
+        {/* Personal Pyment */}
+        {planData.Single_Plan_Expense[0].groupPayment === false && (
+          <div className={styles.personal_payment}>
+            <div className={styles.personal_total_expense}>
+              <span>$</span>
+              <input
+                className={styles.personal_total_expense_input}
+                type="text"
+                placeholder="0"
+                name="expense"
+                value={planData.Single_Plan_Expense[0].expense}
+                onChange={handleInputChange}
+              />
+              <span>Per Person</span>
+            </div>
+            <h3 className={styles.input_box_h3}>Have you already made the payment?</h3>
+            <div className={styles.radio_container}>
+              <input
+                type="radio"
+                className={styles.radio_input}
+                name="personal-payment"
+                value="yes"
+                onChange={handleRadioChange2}
+              />
+              <label className={styles.radio_label}>Yes</label>
+            </div>
+            <div className={styles.radio_container}>
+              <input
+                type="radio"
+                className={styles.radio_input}
+                name="personal-payment"
+                value="no"
+                onChange={handleRadioChange2}
+              />
+              <label className={styles.radio_label}>No</label>
+            </div>
+          </div>
+        )}
+
+        {/* Group Payment */}
+        {planData.Single_Plan_Expense[0].groupPayment === true && (
+          <div className={styles.group_payment}>
+            <div className={styles.group_total_expense}>
+              <span>$</span>
+              <input
+                className={styles.group_total_expense_input}
+                type="text"
+                placeholder="0"
+                name="expense"
+                value={planData.Single_Plan_Expense[0].expense}
+                onChange={handleInputChange}
+              />
+              <span>total</span>
+            </div>
+            <h3 className={styles.input_box_h3}>Has anyone already made the payment?</h3>
+            <div className={styles.radio_container}>
+              <input
+                type="radio"
+                className={styles.radio_input}
+                name="group-payment"
+                value="yes"
+                onChange={handleRadioChange3}
+              />
+              <label className={styles.radio_label}>Yes</label>
+            </div>
+            <div className={styles.radio_container}>
+              <input
+                type="radio"
+                className={styles.radio_input}
+                name="group-payment"
+                value="no"
+                onChange={handleRadioChange3}
+              />
+              <label className={styles.radio_label}>No</label>
+            </div>
+            <h3 className={styles.input_box_h3}>Who paid for it on behalf of everyone?</h3>
+            <div className={styles.radio_container_bg}>
+              <input
+                type="radio"
+                className={styles.radio_input}
+                name="who-paid"
+                value="user_name"
+                onChange={handleRadioChange4}
+              />
+              <label className={styles.radio_label}>Person A</label>
+            </div>
+            <div className={styles.radio_container_bg}>
+              <input
+                type="radio"
+                className={styles.radio_input}
+                name="who-paid"
+                value="user_name"
+                onChange={handleRadioChange4}
+              />
+              <label className={styles.radio_label}>Person B</label>
+            </div>
+          </div>
+        )}
+
+        <h3 className={styles.input_box_h3}>Links</h3>
+        <input
+          className={styles.input_box}
+          type="text"
+          placeholder="URL"
+          name="links"
+          value={planData.links}
+          onChange={handleInputChange}
+        />
+        <button
+          className={`${styles.full_bg_button} ${styles.popup_button_text}`}
+          onClick={addNewPlan}
+        >
+          Save
+        </button>
+      </form>
     </div>
   );
 }

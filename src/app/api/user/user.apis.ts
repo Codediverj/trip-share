@@ -1,8 +1,12 @@
 import { SupabaseClient } from "@supabase/supabase-js";
 import { User } from "./user.types";
 import { DateTime } from "luxon";
+import { Database } from "@/supabase.types";
 
-export const getUser = async (supabase: SupabaseClient, userId: string): Promise<User> => {
+export const getUser = async (
+  supabase: SupabaseClient<Database>,
+  userId: string
+): Promise<User> => {
   const { data, error } = await supabase
     .from("User")
     .select("created_at, user_id, profile_image, nickname, email, traveler_code")

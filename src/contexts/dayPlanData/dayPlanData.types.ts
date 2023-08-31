@@ -1,1 +1,3 @@
-export type DayPlanDataStore = any; // list of single plans
+export type DayPlanDataStore = { singlePlanId: string }; // list of single plans
+
+export const initDayPlanDataStore = (): DayPlanDataStore => ({ singlePlanId: "" });

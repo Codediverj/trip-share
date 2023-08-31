@@ -19,9 +19,11 @@
   background: #fff;
   width: 100%;
   max-width: 500px;
+  max-height: 80vh;
   padding: 30px;
   border-radius: 10px;
   position: relative;
+  overflow-y: auto;
 }
 .popupClose {
   position: absolute;
@@ -147,6 +149,83 @@
   border-radius: 5px;
 }
 
+/*Radio */
+.radio_container {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+.radio_container_bg {
+  display: flex;
+  align-items: center;
+  margin-bottom: 6px;
+  background-color: #e9e7f3;
+  padding: 8px 10px;
+  border-radius: 12px;
+}
+.radio_label {
+  margin-left: 6px;
+  font-family: var(--poppins);
+  font-weight: 500;
+  font-size: 12px;
+  color: #2e313c;
+}
+.radio_input {
+  width: 20px;
+  height: 20px;
+  margin: 0;
+  cursor: pointer;
+  color: #6276cc;
+
+  &:checked {
+    border-color: #007bff; /* Change the border color for checked radio */
+    background-color: #007bff; /* Change the background color for checked radio */
+  }
+}
+
+/*check mark custom style*/
+.checkbox_label {
+  display: inline-block;
+  position: relative;
+  padding-left: 28px;
+  line-height: 20px;
+  cursor: pointer;
+
+  .checkbox_input {
+    display: none;
+  }
+
+  .custom_checkbox {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 20px;
+    height: 20px;
+    background-color: #ffffff;
+    border: 1px solid #6276cc;
+    border-radius: 4px;
+
+    &:before {
+      content: "";
+      position: absolute;
+      display: none;
+    }
+
+    &.clicked {
+      background-color: #6276cc;
+      &:before {
+        display: block;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        content: "\2713";
+        font-size: 14px;
+        color: #fff;
+      }
+    }
+  }
+}
+
 /*Edit Traveler List*/
 .edit_friends_list {
   margin-bottom: 72px;
@@ -235,4 +314,76 @@
 }
 .camera_icon {
   margin-right: 4px;
+}
+
+/*Add new Schedule : Single Plan*/
+.input_checkbox_wrap {
+  position: relative;
+
+  .input_disable_checkbox {
+    position: absolute;
+    top: 0;
+    right: 0;
+    font-family: var(--poppins);
+    font-weight: 500;
+    font-size: 12px;
+  }
+
+  &.disabled {
+    .input_box_h3,
+    .input_box {
+      opacity: 0.5;
+    }
+  }
+}
+.personal_payment {
+  .personal_total_expense {
+    width: 100%;
+    height: 60px;
+    border-radius: 5px;
+    background: #e9e7f3;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 0 14px;
+    font-family: var(--poppins);
+    font-weight: 500;
+    font-size: 14px;
+    .personal_total_expense_input {
+      height: 40px;
+      border-radius: 5px;
+      border: 1px solid #9aa1b8;
+      margin: 10px 14px;
+      padding-left: 12px;
+      font-family: var(--poppins);
+      font-weight: 500;
+      font-size: 14px;
+    }
+  }
+}
+
+.group_payment {
+  .group_total_expense {
+    width: 100%;
+    height: 60px;
+    border-radius: 5px;
+    background: #e9e7f3;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 0 14px;
+    font-family: var(--poppins);
+    font-weight: 500;
+    font-size: 14px;
+    .group_total_expense_input {
+      height: 40px;
+      border-radius: 5px;
+      border: 1px solid #9aa1b8;
+      margin: 10px 14px;
+      padding-left: 12px;
+      font-family: var(--poppins);
+      font-weight: 500;
+      font-size: 14px;
+    }
+  }
 }

@@ -5,18 +5,27 @@ export type PlanDataStore = {
   endDate: Date;
   backgroundImage?: string;
   currency: string;
-  People_Join: {
-    User: {
-      userId: string;
-      nickname: string;
-      profileImage: string;
-      createdAt: Date;
-      email: string;
-      travelerCode: string;
-    }[];
-    planId: string;
+
+  peopleJoin: {
     userId: string;
+    nickname?: string;
+    profileImage?: string;
+    email?: string;
+    travelerCode: string;
   }[];
+
+  // People_Join: {
+  //   User: {
+  //     userId: string;
+  //     nickname: string;
+  //     profileImage: string;
+  //     createdAt: Date;
+  //     email: string;
+  //     travelerCode: string;
+  //   }[];
+  //   planId: string;
+  //   userId: string;
+  // }[];
 };
 
 export const initPlanDataStore = (): PlanDataStore => {
@@ -27,21 +36,6 @@ export const initPlanDataStore = (): PlanDataStore => {
     endDate: new Date(),
     backgroundImage: "",
     currency: "",
-    People_Join: [
-      {
-        User: [
-          {
-            userId: "",
-            nickname: "",
-            profileImage: "/profile_default_image.svg",
-            createdAt: new Date(),
-            email: "",
-            travelerCode: "",
-          },
-        ],
-        planId: "",
-        userId: "",
-      },
-    ],
+    peopleJoin: [],
   };
 };

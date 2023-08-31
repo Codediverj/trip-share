@@ -40,10 +40,7 @@ export const PlanDataProvider: FC<PropsWithChildren<{ planId: string }>> = ({
     });
 
     const channel = subscribeToChannel(supabase, (payload) => {
-      console.log(payload);
-      getAllPlanDetail(supabase, planId)
-        .then((data) => setData(data))
-        .catch((error) => console.error(error));
+      getAllPlanDetail(supabase, planId).then(setData).catch(console.error);
     });
 
     return () => {

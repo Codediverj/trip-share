@@ -6,9 +6,11 @@ import styles from "./DayPlan.module.scss";
 
 import DayPlanContentSingle from "./DayPlanContentSingle";
 import AddNewScheduleButton from "../AddNewScheduleButton";
+import { useDayPlanDataStore } from "@/contexts/dayPlanData/dayPlanData.provider";
 
 function DayPlanContent() {
-  useEffect(() => {}, []);
+  const dayPlanData = useDayPlanDataStore();
+  console.log(dayPlanData);
 
   return (
     <div className={styles.day_plan_content}>
