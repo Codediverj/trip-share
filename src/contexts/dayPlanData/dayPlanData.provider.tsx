@@ -15,6 +15,7 @@ import { DateTime } from "luxon";
 import { subscribeToChannel } from "@/utils/supabaseRealtime.utils";
 import { DayPlanDataStore, initDayPlanDataStore } from "./dayPlanData.types";
 import { Database } from "@/supabase.types";
+import { getSinglePlanForDate } from "@/app/api/(single_plan)/dayplansingle.apis";
 
 const DayPlanDataContext = createContext<((index: number) => void) | undefined>(undefined);
 DayPlanDataContext.displayName = "DayPlanDataContext";
@@ -51,20 +52,16 @@ export const DayPlanDataProvider: FC<PropsWithChildren> = ({ children }) => {
 
   useEffect(() => {
     if (!selectedDate) return;
+    supabase.auth.getUser().then(({ data: { user } }) => {
+      if (user) {
+        return getSinglePlanForDate(supabase, planId, selectedDate).then((planData) => {
+          setDayPlans(planData);
+        });
+      }
+    });
 
-    const getSinglePlanForDate = async () => {
-      const { data } = await supabase
-        .from("Single_Plan")
-        .select("single_plan_id")
-        .match({ plan_id: planId, date: selectedDate.toFormat("yyyy-MM-dd") });
-
-      // setDayPlans({ singlePlanId: data?.[0].single_plan_id });
-    };
-
-    getSinglePlanForDate();
-
-    const channel = subscribeToChannel(supabase, () => {
-      getSinglePlanForDate();
+    const channel = subscribeToChannel(supabase, (payload) => {
+      getSinglePlanForDate(supabase, planId, selectedDate).then(setDayPlans).catch(console.error);
     });
 
     return () => {

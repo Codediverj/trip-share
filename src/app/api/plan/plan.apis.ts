@@ -102,7 +102,6 @@ export const getAllPlanDetail = async (
     .single();
   if (error) throw error;
 
-  //console.log(data);
   return {
     planId: data.plan_id,
     title: data.title,
@@ -117,24 +116,5 @@ export const getAllPlanDetail = async (
       email: pj.User!.email || undefined,
       travelerCode: pj.User!.traveler_code,
     })),
-
-    // People_Join: [
-    //   {
-    //     User: [
-    //       {
-    //         userId: data.People_Join.user_id,
-    //         nickname: data.People_Join.nickname,
-    //         profileImage: data.People_Join.profile_image,
-    //         createdAt: data.People_Join.created_at,
-    //         email: data.People_Join.email,
-    //         travelerCode: data.People_Join.traveler_code,
-    //       },
-    //     ],
-    //     planId: data.People_Join.plan_id,
-    //     userId: data.People_Join.user_id,
-    //   },
-    // ],
   };
-
-  //{ ...data, planId: data.plan_id, startDate: DateTime.fromISO(data.start_date).toJSDate() };
 };
