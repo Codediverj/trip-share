@@ -6,7 +6,7 @@ import Image from "next/image";
 import { usePopupContext } from "../contexts/popup/PopupContext";
 
 // Popup Content
-import AddNewSchedule from "./Popup/AddNewSchedule";
+import AddNewSchedule from "./Popup/AddNewSchedule/AddNewSchedule";
 
 function AddNewScheduleButton() {
   const { openPopup } = usePopupContext();

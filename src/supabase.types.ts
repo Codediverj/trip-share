@@ -69,6 +69,7 @@ export interface Database {
           created_at: string
           created_by: string
           date: string
+          is_group_activity: boolean
           links: string | null
           note: string | null
           order: number
@@ -85,6 +86,7 @@ export interface Database {
           created_at?: string
           created_by: string
           date: string
+          is_group_activity?: boolean
           links?: string | null
           note?: string | null
           order: number
@@ -101,6 +103,7 @@ export interface Database {
           created_at?: string
           created_by?: string
           date?: string
+          is_group_activity?: boolean
           links?: string | null
           note?: string | null
           order?: number
@@ -146,7 +149,7 @@ export interface Database {
         Insert: {
           attended_user_id?: string | null
           expense: number
-          expense_id: number
+          expense_id?: number
           group_payment: boolean
           paid_user_id?: string | null
           single_plan_id: string
@@ -163,14 +166,14 @@ export interface Database {
           {
             foreignKeyName: "Single_Plan_Expense_attended_user_id_fkey"
             columns: ["attended_user_id"]
-            referencedRelation: "users"
-            referencedColumns: ["id"]
+            referencedRelation: "User"
+            referencedColumns: ["user_id"]
           },
           {
             foreignKeyName: "Single_Plan_Expense_paid_user_id_fkey"
             columns: ["paid_user_id"]
-            referencedRelation: "users"
-            referencedColumns: ["id"]
+            referencedRelation: "User"
+            referencedColumns: ["user_id"]
           },
           {
             foreignKeyName: "Single_Plan_Expense_single_plan_id_fkey"

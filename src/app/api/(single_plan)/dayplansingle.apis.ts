@@ -10,7 +10,9 @@ export const getSinglePlanForDate = async (
 ): Promise<DayPlanDataStore> => {
   const { data, error } = await supabase
     .from("Single_Plan")
-    .select("*, Single_Plan_Expense(*, User(*))")
+    .select(
+      "*, Single_Plan_Expense(*, attend:User!Single_Plan_Expense_attended_user_id_fkey(*),paid:User!Single_Plan_Expense_paid_user_id_fkey(*))"
+    )
     .match({ plan_id: planId, date: selectedDate.toFormat("yyyy-MM-dd") });
   if (error) throw error;
   console.log(data);

@@ -1,16 +1,16 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import styles from "./Popup.module.scss";
+import styles from "../Popup.module.scss";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 
 //UserData(Context)
 //import { useUserDataStore } from "@/contexts/userData/userData.provider";
 
 // Popup useContext
-import { usePopupContext } from "../../contexts/popup/PopupContext";
-import { SinglePlan } from "@/app/api/(single_plan)/singleplan.types";
+import { usePopupContext } from "../../../contexts/popup/PopupContext";
 import { getPlan } from "@/app/api/plan/plan.apis";
 import { useUserDataStore } from "@/contexts/userData/userData.provider";
+import { SinglePlan } from "./AddNewSchedule.types";
 
 export default function AddNewSchedule() {
   const { closePopup } = usePopupContext();
@@ -18,7 +18,7 @@ export default function AddNewSchedule() {
   const userData = useUserDataStore(); //user context data
   const [isNotMoving, setIsNotMoving] = useState(false);
 
-  const [planData, setPlanData] = useState<Omit<SinglePlan, "singlePlanId" | "planId" | "date">>({
+  const [planData, setPlanData] = useState<SinglePlan>({
     order: 0,
     placeFromId: "",
     placeFromName: "",
@@ -26,41 +26,18 @@ export default function AddNewSchedule() {
     placeToName: "",
     note: "",
     links: "",
-    createdAt: new Date(),
-    createdBy: "",
-    updatedAt: new Date(),
-    updatedBy: "",
-    Single_Plan_Expense: [
-      {
-        expenseId: "",
-        singlePlanId: "",
-        groupPayment: false,
-        expense: 0,
-        attended_user_id: "",
-        paidUserId: "",
-      },
-    ],
+
+    isGroupActivity: true,
+    expense: 0,
+    havePaid: false,
   });
 
   const handleInputChange = (event: any) => {
     const { name, value } = event.target;
-
-    if (name === "expense") {
-      setPlanData((prevPlanData) => ({
-        ...prevPlanData,
-        Single_Plan_Expense: [
-          {
-            ...prevPlanData.Single_Plan_Expense[0],
-            expense: value,
-          },
-        ],
-      }));
-    } else {
-      setPlanData((prevPlanData) => ({
-        ...prevPlanData,
-        [name]: value,
-      }));
-    }
+    setPlanData((prevPlanData) => ({
+      ...prevPlanData,
+      [name]: value,
+    }));
   };
 
   const addNewPlan = () => {
@@ -81,12 +58,8 @@ export default function AddNewSchedule() {
     const { value } = event.target;
     setPlanData((prevData) => ({
       ...prevData,
-      Single_Plan_Expense: [
-        {
-          ...prevData.Single_Plan_Expense[0],
-          groupPayment: value === "group",
-        },
-      ],
+      isGroupActivity: value === "group",
+      expense: 0,
     }));
   };
   const handleRadioChange2 = (event: any) => {
@@ -162,6 +135,7 @@ export default function AddNewSchedule() {
             className={styles.radio_input}
             name="paymentType"
             value="personal"
+            checked={!planData.isGroupActivity}
             onChange={handleRadioChange}
           />
           <label className={styles.radio_label}>Personal Payment</label>
@@ -172,13 +146,14 @@ export default function AddNewSchedule() {
             className={styles.radio_input}
             name="paymentType"
             value="group"
+            checked={planData.isGroupActivity}
             onChange={handleRadioChange}
           />
           <label className={styles.radio_label}>Group Payment</label>
         </div>
 
         {/* Personal Pyment */}
-        {planData.Single_Plan_Expense[0].groupPayment === false && (
+        {!planData.isGroupActivity && (
           <div className={styles.personal_payment}>
             <div className={styles.personal_total_expense}>
               <span>$</span>
@@ -187,7 +162,8 @@ export default function AddNewSchedule() {
                 type="text"
                 placeholder="0"
                 name="expense"
-                value={planData.Single_Plan_Expense[0].expense}
+                value={planData.expense}
+                onClick={(event) => event.currentTarget.select()}
                 onChange={handleInputChange}
               />
               <span>Per Person</span>
@@ -217,7 +193,7 @@ export default function AddNewSchedule() {
         )}
 
         {/* Group Payment */}
-        {planData.Single_Plan_Expense[0].groupPayment === true && (
+        {planData.isGroupActivity && (
           <div className={styles.group_payment}>
             <div className={styles.group_total_expense}>
               <span>$</span>
@@ -226,7 +202,8 @@ export default function AddNewSchedule() {
                 type="text"
                 placeholder="0"
                 name="expense"
-                value={planData.Single_Plan_Expense[0].expense}
+                value={planData.expense}
+                onClick={(event) => event.currentTarget.select()}
                 onChange={handleInputChange}
               />
               <span>total</span>
