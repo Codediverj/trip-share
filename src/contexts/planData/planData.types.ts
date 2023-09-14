@@ -13,19 +13,6 @@ export type PlanDataStore = {
     email?: string;
     travelerCode: string;
   }[];
-
-  // People_Join: {
-  //   User: {
-  //     userId: string;
-  //     nickname: string;
-  //     profileImage: string;
-  //     createdAt: Date;
-  //     email: string;
-  //     travelerCode: string;
-  //   }[];
-  //   planId: string;
-  //   userId: string;
-  // }[];
 };
 
 export const initPlanDataStore = (): PlanDataStore => {

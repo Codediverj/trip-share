@@ -38,7 +38,7 @@
 
 /*DayPlanContent component*/
 .day_plan_content {
-  padding-top: 20px;
+  padding: 20px 0;
   :global {
     .plan_date {
       font-family: var(--poppins);
@@ -175,6 +175,7 @@
     }
     .edit_area {
       display: flex;
+      margin-bottom: 10px;
       button {
         width: 50%;
         height: 30px;

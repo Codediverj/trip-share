@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from "react";
 import styles from "../Popup.module.scss";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import Image from "next/image";
 
 //UserData(Context)
 //import { useUserDataStore } from "@/contexts/userData/userData.provider";
@@ -10,12 +11,15 @@ import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { usePopupContext } from "../../../contexts/popup/PopupContext";
 import { getPlan } from "@/app/api/plan/plan.apis";
 import { useUserDataStore } from "@/contexts/userData/userData.provider";
+import { usePlanDataStore } from "@/contexts/planData/planData.provider";
+import { DayPlanDataProvider } from "@/contexts/dayPlanData/dayPlanData.provider";
 import { SinglePlan } from "./AddNewSchedule.types";
 
 export default function AddNewSchedule() {
   const { closePopup } = usePopupContext();
   const supabase = createClientComponentClient();
   const userData = useUserDataStore(); //user context data
+  const planContextData = usePlanDataStore();
   const [isNotMoving, setIsNotMoving] = useState(false);
 
   const [planData, setPlanData] = useState<SinglePlan>({
@@ -128,7 +132,7 @@ export default function AddNewSchedule() {
           rows={5}
         />
 
-        <h3 className={styles.input_box_h3}>Expense</h3>
+        <h3 className={styles.input_box_h3}>Group Expense</h3>
         <div className={styles.radio_container}>
           <input
             type="radio"
@@ -230,26 +234,24 @@ export default function AddNewSchedule() {
               <label className={styles.radio_label}>No</label>
             </div>
             <h3 className={styles.input_box_h3}>Who paid for it on behalf of everyone?</h3>
-            <div className={styles.radio_container_bg}>
-              <input
-                type="radio"
-                className={styles.radio_input}
-                name="who-paid"
-                value="user_name"
-                onChange={handleRadioChange4}
-              />
-              <label className={styles.radio_label}>Person A</label>
-            </div>
-            <div className={styles.radio_container_bg}>
-              <input
-                type="radio"
-                className={styles.radio_input}
-                name="who-paid"
-                value="user_name"
-                onChange={handleRadioChange4}
-              />
-              <label className={styles.radio_label}>Person B</label>
-            </div>
+            {planContextData.peopleJoin.map((person, index) => (
+              <div key={index} className={styles.radio_container_bg}>
+                <input
+                  type="radio"
+                  className={styles.radio_input}
+                  name="who-paid"
+                  value={person.userId}
+                  onChange={handleRadioChange4}
+                />
+                <Image
+                  src={person.profileImage || "/profile_default_image.svg"}
+                  alt="profile image"
+                  width="20"
+                  height="20"
+                />
+                <label className={styles.radio_label}>{person.nickname}</label>
+              </div>
+            ))}
           </div>
         )}
 

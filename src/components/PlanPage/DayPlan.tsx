@@ -11,10 +11,19 @@ import "swiper/css";
 import { cx } from "../../utils/classname.utils";
 import DayPlanContent from "./DayPlanContent";
 import { useDayPlanData } from "@/contexts/dayPlanData/dayPlanData.provider";
+import { usePlanDataStore } from "@/contexts/planData/planData.provider";
+import { DateTime } from "luxon";
 
 function DayPlan({ totaldays }: { totaldays: number }) {
+  const { startDate } = usePlanDataStore();
   const [activeSubTab, setActiveSubTab] = useState(0);
+  const selectedDate = DateTime.fromJSDate(startDate)
+    .startOf("day")
+    .plus({ day: activeSubTab })
+    .toJSDate();
+
   const changeDate = useDayPlanData();
+
   const handleSubTabClick = (index: number) => {
     setActiveSubTab(index);
     changeDate(index);
@@ -37,7 +46,9 @@ function DayPlan({ totaldays }: { totaldays: number }) {
         </Swiper>
       </div>
       <div className="sub-tab-content page_container_middle page_gray_bg">
-        {activeSubTab >= 0 && activeSubTab < totaldays && <DayPlanContent />}
+        {activeSubTab >= 0 && activeSubTab < totaldays && (
+          <DayPlanContent selectedDate={selectedDate} />
+        )}
       </div>
     </div>
   );
