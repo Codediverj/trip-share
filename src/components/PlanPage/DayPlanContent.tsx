@@ -18,7 +18,7 @@ function DayPlanContent({ selectedDate }: { selectedDate: Date }) {
         <DayPlanContentSingle key={data.singlePlanId} data={data} />
       ))}
 
-      <AddNewScheduleButton />
+      <AddNewScheduleButton selectedDate={selectedDate} />
     </div>
   );
 }

@@ -37,15 +37,17 @@ export const getSinglePlanForDate = async (
       expenseId: expense.expense_id,
       expense: expense.expense,
       attendedUser: {
-        attendedUserId: expense.attend?.user_id || undefined,
-        attendedUserNickname: expense.attend?.nickname || null,
-        attendedUserImage: expense.attend?.profile_image || null,
+        attendedUserId: expense.attend!.user_id,
+        attendedUserNickname: expense.attend!.nickname || undefined,
+        attendedUserImage: expense.attend!.profile_image || undefined,
       },
-      paidUser: {
-        paidUserId: expense.paid?.user_id || undefined,
-        paidUserrNickname: expense.paid?.nickname || null,
-        paidUserUserImage: expense.paid?.profile_image || null,
-      },
+      paidUser: expense.paid
+        ? {
+            paidUserId: expense.paid.user_id,
+            paidUserrNickname: expense.paid.nickname || undefined,
+            paidUserUserImage: expense.paid.profile_image || undefined,
+          }
+        : undefined,
     })),
   }));
 };

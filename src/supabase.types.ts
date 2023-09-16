@@ -139,26 +139,23 @@ export interface Database {
       }
       Single_Plan_Expense: {
         Row: {
-          attended_user_id: string | null
+          attended_user_id: string
           expense: number
           expense_id: number
-          group_payment: boolean
           paid_user_id: string | null
           single_plan_id: string
         }
         Insert: {
-          attended_user_id?: string | null
+          attended_user_id: string
           expense: number
           expense_id?: number
-          group_payment: boolean
           paid_user_id?: string | null
           single_plan_id: string
         }
         Update: {
-          attended_user_id?: string | null
+          attended_user_id?: string
           expense?: number
           expense_id?: number
-          group_payment?: boolean
           paid_user_id?: string | null
           single_plan_id?: string
         }

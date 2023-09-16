@@ -41,32 +41,6 @@ export default function PlanPage({
   const planId = params.id;
   const planContextData = usePlanDataStore();
 
-  // useEffect(() => {
-  //   getPlan(supabase, planId)
-  //     .then((data) => setPlanContent(data))
-  //     .catch((error) => console.error(error));
-  // }, [supabase, planId]);
-
-  // useEffect(() => {
-  //   getFriends(supabase, planId)
-  //     .then((data) => setFriendsData(data))
-  //     .catch((error) => console.error(error));
-
-  //   const channel = supabase
-  //     .channel("whateve23")
-  //     .on("postgres_changes", { event: "*", schema: "public", table: "*" }, (payload) => {
-  //       // console.log(payload);
-  //       getFriends(supabase, planId)
-  //         .then((data) => setFriendsData(data))
-  //         .catch((error) => console.error(error));
-  //     })
-  //     .subscribe();
-
-  //   return () => {
-  //     channel.unsubscribe();
-  //   };
-  // }, [supabase, planId]);
-
   const totalDays = planContextData
     ? totaldays(planContextData.startDate, planContextData.endDate)
     : 0;

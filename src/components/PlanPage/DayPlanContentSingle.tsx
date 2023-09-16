@@ -1,20 +1,31 @@
 "use client";
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import styles from "./DayPlan.module.scss";
-import { cx } from "../../utils/classname.utils";
 
 // Popup useContext
 import { usePopupContext } from "../../contexts/popup/PopupContext";
 import AddNewPlan from "../Popup/AddNewPlan";
 import DeletePlan from "../Popup/DeletePlan";
-import { DayPlanDataStore } from "@/contexts/dayPlanData/dayPlanData.types";
 import { useUserDataStore } from "@/contexts/userData/userData.provider";
+import { DayPlanDataStore } from "@/contexts/dayPlanData/dayPlanData.types";
 
-function DayPlanContentSingle({ data }: any) {
+function DayPlanContentSingle({ data }: { data: DayPlanDataStore[number] }) {
   const { openPopup } = usePopupContext();
   const userData = useUserDataStore();
+
+  console.log(data);
+
+  const isPaid = useMemo(() => {
+    if (data.IsGroupActivity) {
+      return data.Single_Plan_Expense.every((expense) => expense.paidUser);
+    }
+
+    return data.Single_Plan_Expense.filter(
+      (expense) => expense.attendedUser.attendedUserId === userData.userId
+    ).every((expense) => expense.paidUser);
+  }, [data.IsGroupActivity, data.Single_Plan_Expense, userData.userId]);
 
   return (
     <div className={styles.day_plan_content_single}>
@@ -73,35 +84,7 @@ function DayPlanContentSingle({ data }: any) {
           </div>
 
           <div className="join_list">
-            {data.IsGroupActivity ? (
-              data.Single_Plan_Expense.some(
-                (item: any) => item.paidUser.paidUserId !== undefined
-              ) ? (
-                <div className="paid">
-                  <Image
-                    src="/check-green-14x14.svg"
-                    alt="check icon"
-                    width="14"
-                    height="14"
-                    className="paid_icon"
-                  />
-                  <span>Paid</span>
-                </div>
-              ) : (
-                <div className="unpaid">
-                  <Image
-                    src="/close-red-14x14.svg"
-                    alt="x icon"
-                    width="14"
-                    height="14"
-                    className="unpaid_icon"
-                  />
-                  <span>Unpaid</span>
-                </div>
-              )
-            ) : data.Single_Plan_Expense.some(
-                (item: any) => item.paidUser.paidUserId === userData.userId
-              ) ? (
+            {isPaid ? (
               <div className="paid">
                 <Image
                   src="/check-green-14x14.svg"

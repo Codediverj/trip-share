@@ -1,28 +1,22 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, FormEvent } from "react";
 import styles from "../Popup.module.scss";
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import Image from "next/image";
-
-//UserData(Context)
-//import { useUserDataStore } from "@/contexts/userData/userData.provider";
 
 // Popup useContext
 import { usePopupContext } from "../../../contexts/popup/PopupContext";
-import { getPlan } from "@/app/api/plan/plan.apis";
 import { useUserDataStore } from "@/contexts/userData/userData.provider";
 import { usePlanDataStore } from "@/contexts/planData/planData.provider";
-import { DayPlanDataProvider } from "@/contexts/dayPlanData/dayPlanData.provider";
 import { SinglePlan } from "./AddNewSchedule.types";
 
-export default function AddNewSchedule() {
+export default function AddNewSchedule({ selectedDate }: { selectedDate: Date }) {
   const { closePopup } = usePopupContext();
-  const supabase = createClientComponentClient();
-  const userData = useUserDataStore(); //user context data
+  const userData = useUserDataStore();
   const planContextData = usePlanDataStore();
   const [isNotMoving, setIsNotMoving] = useState(false);
 
-  const [planData, setPlanData] = useState<SinglePlan>({
+  const [planData, setPlanData] = useState<Omit<SinglePlan, "singlePlanId" | "planId">>({
+    date: selectedDate,
     order: 0,
     placeFromId: "",
     placeFromName: "",
@@ -30,10 +24,13 @@ export default function AddNewSchedule() {
     placeToName: "",
     note: "",
     links: "",
-
     isGroupActivity: true,
+    createdAt: new Date(),
+    createdBy: "",
+    updatedAt: new Date(),
+    updatedBy: "",
     expense: 0,
-    havePaid: false,
+    paid: "",
   });
 
   const handleInputChange = (event: any) => {
@@ -44,8 +41,49 @@ export default function AddNewSchedule() {
     }));
   };
 
-  const addNewPlan = () => {
-    //closePopup();
+  const addNewSinglePlan = (event: FormEvent) => {
+    event.preventDefault();
+
+    const {
+      date,
+      order,
+      placeFromId,
+      placeFromName,
+      placeToId,
+      placeToName,
+      note,
+      links,
+      isGroupActivity,
+      expense,
+      createdBy,
+      updatedBy,
+    } = planData;
+
+    if (!planData) {
+      return;
+    }
+
+    fetch("/api/createSinglePlan", {
+      method: "POST",
+      body: JSON.stringify({
+        planId: planContextData.planId,
+        date: date.toISOString().split("T")[0],
+        order: order,
+        placeFromId: placeFromId,
+        placeFromName: placeFromName,
+        placeToId: placeToId || undefined,
+        placeToName: placeToName || undefined,
+        note: note || undefined,
+        links: links || undefined,
+        created_at: new Date().toISOString().split("T")[0],
+        createdBy: createdBy,
+        updatedAt: new Date().toISOString().split("T")[0],
+        updatedBy: updatedBy,
+        isGroupActivity: isGroupActivity,
+        expense: expense,
+      }),
+    }).then(console.log);
+    // .then(() => closePopup());
   };
 
   const handleCheckboxChange = () => {
@@ -266,7 +304,7 @@ export default function AddNewSchedule() {
         />
         <button
           className={`${styles.full_bg_button} ${styles.popup_button_text}`}
-          onClick={addNewPlan}
+          onClick={addNewSinglePlan}
         >
           Save
         </button>

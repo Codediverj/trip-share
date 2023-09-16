@@ -18,15 +18,15 @@ export type DayPlanDataStore = {
   Single_Plan_Expense: {
     expenseId: number;
     expense: number;
-    attendedUser?: {
+    attendedUser: {
       attendedUserId: string;
-      attendedUserNickname: string;
-      attendedUserImage: string;
+      attendedUserNickname?: string;
+      attendedUserImage?: string;
     };
     paidUser?: {
       paidUserId: string;
-      paidUserrNickname: string;
-      paidUserUserImage: string;
+      paidUserrNickname?: string;
+      paidUserUserImage?: string;
     };
   }[];
 }[];
