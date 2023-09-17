@@ -15,17 +15,17 @@ function DayPlanContentSingle({ data }: { data: DayPlanDataStore[number] }) {
   const { openPopup } = usePopupContext();
   const userData = useUserDataStore();
 
-  console.log(data);
+  //console.log(data);
 
   const isPaid = useMemo(() => {
-    if (data.IsGroupActivity) {
+    if (data.isGroupActivity) {
       return data.Single_Plan_Expense.every((expense) => expense.paidUser);
     }
 
     return data.Single_Plan_Expense.filter(
       (expense) => expense.attendedUser.attendedUserId === userData.userId
     ).every((expense) => expense.paidUser);
-  }, [data.IsGroupActivity, data.Single_Plan_Expense, userData.userId]);
+  }, [data.isGroupActivity, data.Single_Plan_Expense, userData.userId]);
 
   return (
     <div className={styles.day_plan_content_single}>
@@ -59,7 +59,7 @@ function DayPlanContentSingle({ data }: { data: DayPlanDataStore[number] }) {
       {data.Single_Plan_Expense.length > 0 && (
         <div className="bottom_part">
           <div className="price_part">
-            <span className="each">{data.IsGroupActivity ? "Group" : "For me"}</span>
+            <span className="each">{data.isGroupActivity ? "Group" : "For me"}</span>
 
             {/* 로직
             Group:Single_Plan_Expense 리스트 모두 받아와서 expense다 더한 값 
@@ -69,7 +69,7 @@ function DayPlanContentSingle({ data }: { data: DayPlanDataStore[number] }) {
             */}
             <span className="price">
               $
-              {data.IsGroupActivity
+              {data.isGroupActivity
                 ? `${data.Single_Plan_Expense.reduce(
                     (total: number, item: { expense: number }) => total + item.expense,
                     0

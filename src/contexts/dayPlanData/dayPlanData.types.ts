@@ -13,7 +13,7 @@ export type DayPlanDataStore = {
   createdBy: string;
   updatedAt: Date;
   updatedBy: string;
-  IsGroupActivity: boolean;
+  isGroupActivity: boolean;
 
   Single_Plan_Expense: {
     expenseId: number;

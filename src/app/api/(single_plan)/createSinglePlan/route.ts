@@ -30,11 +30,11 @@ export async function POST(request: Request) {
       place_to_name: body.placeToName || undefined,
       note: body.note || undefined,
       links: body.links || undefined,
-      created_at: body.created_at,
+      created_at: body.createdAt,
       created_by: user.id,
-      updated_at: body.updated_at,
+      updated_at: body.updatedAt,
       updated_by: user.id,
-      is_group_activity: body.IsGroupActivity,
+      is_group_activity: body.isGroupActivity,
     })
     .select()
     .single();
@@ -48,24 +48,22 @@ export async function POST(request: Request) {
   } = await supabase.from("People_Join").select("user_id").eq("plan_id", body.planId);
   if (joinUserError) return NextResponse.json(joinUserError, { status: joinUserStatus });
 
-  console.log(joinUsers);
-  console.log(singlePlanCreated);
+  const joined = joinUsers.map((user) => user.user_id);
 
-  // joined = ["1", "2", "3"] // user Ids
+  const expenseList = joined.map((userId) => ({
+    single_plan_id: singlePlanCreated.single_plan_id,
+    expense: body.isGroupActivity ? body.expense / joined.length : body.expense,
+    attended_user_id: userId,
+    paid_user_id: body.isGroupActivity ? body.paidID : userId === body.paidID ? body.paidID : null,
+  }));
 
-  // const expenseList = joined.map(userId => ({
-  //    expends: body.expense / joined.length
-  //    attended_user_id: userId,
-  //
-  // }))
+  const {
+    data: singlePlanExpenseCreated,
+    error: singlePlanExpenseError,
+    status: singlePlanExpenseStatus,
+  } = await supabase.from("Single_Plan_Expense").insert(expenseList).select();
+  if (singlePlanExpenseError)
+    return NextResponse.json(singlePlanCreateError, { status: singlePlanExpenseStatus });
 
-  // await supabase.from("Single_Plan_Expense").insert(expenseList)
-
-  // return supabase.from("Single_Plan_Expense").insert({
-  //   expense: body.expense,
-  //   attended_user_id: user?.id,
-  //   paid_user_id: ,
-  // });
-
-  return NextResponse.json(singlePlanCreated);
+  return NextResponse.json({ good: true });
 }

@@ -31,7 +31,7 @@ export const getSinglePlanForDate = async (
     createdBy: singlePlan.created_by,
     updatedAt: DateTime.fromISO(singlePlan.updated_at).toJSDate(),
     updatedBy: singlePlan.updated_by,
-    IsGroupActivity: singlePlan.is_group_activity,
+    isGroupActivity: singlePlan.is_group_activity,
 
     Single_Plan_Expense: singlePlan.Single_Plan_Expense.map((expense) => ({
       expenseId: expense.expense_id,

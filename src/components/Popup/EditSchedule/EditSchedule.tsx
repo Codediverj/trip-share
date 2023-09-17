@@ -7,9 +7,9 @@ import Image from "next/image";
 import { usePopupContext } from "../../../contexts/popup/PopupContext";
 import { useUserDataStore } from "@/contexts/userData/userData.provider";
 import { usePlanDataStore } from "@/contexts/planData/planData.provider";
-import { SinglePlan } from "./AddNewSchedule.types";
+import { SinglePlan } from "./EditSchedule.types";
 
-export default function AddNewSchedule({ selectedDate }: { selectedDate: Date }) {
+export default function EditSchedule({ selectedDate }: { selectedDate: Date }) {
   const { closePopup } = usePopupContext();
   const userData = useUserDataStore();
   const planContextData = usePlanDataStore();
