@@ -7,31 +7,81 @@ import Image from "next/image";
 import { usePopupContext } from "../../../contexts/popup/PopupContext";
 import { useUserDataStore } from "@/contexts/userData/userData.provider";
 import { usePlanDataStore } from "@/contexts/planData/planData.provider";
+import { DayPlanDataStore } from "@/contexts/dayPlanData/dayPlanData.types";
 import { SinglePlan } from "./EditSchedule.types";
 
-export default function EditSchedule({ selectedDate }: { selectedDate: Date }) {
+export default function EditSchedule({ data }: { data: DayPlanDataStore[number] }) {
   const { closePopup } = usePopupContext();
   const userData = useUserDataStore();
   const planContextData = usePlanDataStore();
-  const [isNotMoving, setIsNotMoving] = useState(false);
+  const [isNotMoving, setIsNotMoving] = useState(data.placeToName === undefined ? true : false);
   const [isGroupPaid, setIsGroupPaid] = useState(false);
 
+  console.log(data);
+
+  interface Expense {
+    expense: number;
+    expenseId: number;
+    attendedUser: {
+      attendedUserId: string;
+      attendedUserNickname?: string;
+      attendedUserImage?: string;
+    };
+    paidUser?: {
+      paidUserId: string;
+      paidUserrNickname?: string;
+      paidUserUserImage?: string;
+    };
+  }
+
+  function calculateExpense(isGroupActivity: boolean, expenses: { expense: number }[]) {
+    if (isGroupActivity) {
+      return expenses.reduce((total, expenseItem) => total + expenseItem.expense, 0);
+    } else {
+      const totalExpense = expenses.reduce((total, expenseItem) => total + expenseItem.expense, 0);
+      return expenses.length > 0 ? totalExpense / expenses.length : 0;
+    }
+  }
+
+  function findOutPaidUser(
+    isGroupActivity: boolean,
+    singlePlanExpenses: Expense[],
+    userId: string
+  ): string {
+    const paidUserIds: string[] = [];
+
+    singlePlanExpenses.forEach((expense) => {
+      const paidUserId = expense.paidUser?.paidUserId;
+      if (paidUserId) {
+        paidUserIds.push(paidUserId);
+      }
+    });
+
+    if (isGroupActivity) {
+      if (paidUserIds.length > 0) {
+        setIsGroupPaid(true);
+        return paidUserIds[0];
+      }
+      return "";
+    } else {
+      const matchingExpense = paidUserIds.find((paidId) => paidId === userId);
+      console.log(matchingExpense);
+      return matchingExpense ? matchingExpense : "";
+    }
+  }
+
   const [planData, setPlanData] = useState<Omit<SinglePlan, "singlePlanId" | "planId">>({
-    date: selectedDate,
-    order: 0,
-    placeFromId: "",
-    placeFromName: "",
-    placeToId: "",
-    placeToName: "",
-    note: "",
-    links: "",
-    isGroupActivity: true,
-    createdAt: new Date(),
-    createdBy: "",
+    placeFromId: data.placeFromId,
+    placeFromName: data.placeFromName,
+    placeToId: data.placeToId,
+    placeToName: data.placeToName,
+    note: data.note,
+    links: data.links,
+    isGroupActivity: data.isGroupActivity,
     updatedAt: new Date(),
-    updatedBy: "",
-    expense: 0,
-    paidID: "",
+    updatedBy: userData.userId,
+    expense: calculateExpense(data.isGroupActivity, data.Single_Plan_Expense),
+    paidID: findOutPaidUser(data.isGroupActivity, data.Single_Plan_Expense, userData.userId),
   });
 
   const handleInputChange = (event: any) => {
@@ -83,8 +133,6 @@ export default function EditSchedule({ selectedDate }: { selectedDate: Date }) {
     event.preventDefault();
 
     const {
-      date,
-      order,
       placeFromId,
       placeFromName,
       placeToId,
@@ -93,7 +141,6 @@ export default function EditSchedule({ selectedDate }: { selectedDate: Date }) {
       links,
       isGroupActivity,
       expense,
-      createdBy,
       updatedBy,
       paidID,
     } = planData;
@@ -102,20 +149,15 @@ export default function EditSchedule({ selectedDate }: { selectedDate: Date }) {
       return;
     }
 
-    fetch("/api/createSinglePlan", {
+    fetch("/api/updateSinglePlan", {
       method: "POST",
       body: JSON.stringify({
-        planId: planContextData.planId,
-        date: date.toISOString().split("T")[0],
-        order: order,
         placeFromId: placeFromId,
         placeFromName: placeFromName,
         placeToId: placeToId || undefined,
         placeToName: placeToName || undefined,
         note: note || undefined,
         links: links || undefined,
-        createdAt: new Date().toISOString().split("T")[0],
-        createdBy: createdBy,
         updatedAt: new Date().toISOString().split("T")[0],
         updatedBy: updatedBy,
         isGroupActivity: isGroupActivity,
@@ -128,7 +170,7 @@ export default function EditSchedule({ selectedDate }: { selectedDate: Date }) {
   return (
     <div>
       <form>
-        <h2 className={styles.popupBox_title}>Add New Schedule</h2>
+        <h2 className={styles.popupBox_title}>Edit Schedule</h2>
 
         <h3 className={styles.input_box_h3}>From</h3>
         <input
@@ -226,6 +268,7 @@ export default function EditSchedule({ selectedDate }: { selectedDate: Date }) {
                     name="personal-payment"
                     value="yes"
                     onChange={handlePersonalPaid}
+                    checked={planData.paidID === userData.userId}
                   />
                   <label className={styles.radio_label}>Yes</label>
                 </div>
@@ -236,6 +279,7 @@ export default function EditSchedule({ selectedDate }: { selectedDate: Date }) {
                     name="personal-payment"
                     value="no"
                     onChange={handlePersonalPaid}
+                    checked={planData.paidID !== userData.userId}
                   />
                   <label className={styles.radio_label}>No</label>
                 </div>

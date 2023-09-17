@@ -1,16 +1,12 @@
 export type SinglePlan = {
   singlePlanId: string;
   planId: string;
-  date: Date;
-  order: number;
   placeFromId: string;
   placeFromName: string;
   placeToId?: string;
   placeToName?: string;
   note?: string;
   links?: string;
-  createdAt: Date;
-  createdBy: string;
   updatedAt: Date;
   updatedBy: string;
   isGroupActivity: boolean;

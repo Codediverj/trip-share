@@ -15,7 +15,7 @@ function DayPlanContent({ selectedDate }: { selectedDate: Date }) {
       <h2 className="plan_date">{formattedDate}</h2>
 
       {dayPlanData.map((data) => (
-        <DayPlanContentSingle key={data.singlePlanId} data={data} />
+        <DayPlanContentSingle key={data.singlePlanId} data={data} selectedDate={selectedDate} />
       ))}
 
       <AddNewScheduleButton selectedDate={selectedDate} />

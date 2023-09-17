@@ -10,8 +10,15 @@ import AddNewPlan from "../Popup/AddNewPlan";
 import DeletePlan from "../Popup/DeletePlan";
 import { useUserDataStore } from "@/contexts/userData/userData.provider";
 import { DayPlanDataStore } from "@/contexts/dayPlanData/dayPlanData.types";
+import EditSchedule from "../Popup/EditSchedule/EditSchedule";
 
-function DayPlanContentSingle({ data }: { data: DayPlanDataStore[number] }) {
+function DayPlanContentSingle({
+  data,
+  selectedDate,
+}: {
+  data: DayPlanDataStore[number];
+  selectedDate: Date;
+}) {
   const { openPopup } = usePopupContext();
   const userData = useUserDataStore();
 
@@ -112,7 +119,7 @@ function DayPlanContentSingle({ data }: { data: DayPlanDataStore[number] }) {
       )}
 
       <div className="edit_area">
-        <button className="edit_button" onClick={() => openPopup(<AddNewPlan />)}>
+        <button className="edit_button" onClick={() => openPopup(<EditSchedule data={data} />)}>
           <Image
             src="/edit_purple.svg"
             alt="edit icon"
