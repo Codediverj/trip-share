@@ -21,8 +21,9 @@ export async function POST(request: Request) {
   } = await supabase
     .from("Single_Plan")
     .update({
-      plan_id: body.planId, // 해당 single_plan_id와 일치하는것 수정
-      date: body.date,
+      //plan_id: body.planId,
+      //single_plan_id: body.singlePlanId,
+      //date: body.date,
       order: body.order,
       place_from_id: body.placeFromId,
       place_from_name: body.placeFromName,
@@ -30,12 +31,13 @@ export async function POST(request: Request) {
       place_to_name: body.placeToName || undefined,
       note: body.note || undefined,
       links: body.links || undefined,
-      created_at: body.createdAt,
-      created_by: user.id,
+      //created_at: body.createdAt,
+      //created_by: user.id,
       updated_at: body.updatedAt,
       updated_by: user.id,
       is_group_activity: body.isGroupActivity,
     })
+    .eq("single_plan_id", body.singlePlanId)
     .select()
     .single();
   if (singlePlanUpdateError)
@@ -57,11 +59,14 @@ export async function POST(request: Request) {
     paid_user_id: body.isGroupActivity ? body.paidID : userId === body.paidID ? body.paidID : null,
   }));
 
+  await supabase.from("Single_Plan_Expense").delete().eq("single_plan_id", body.singlePlanId);
+
   const {
     data: singlePlanExpenseUpdate,
     error: singlePlanExpenseError,
     status: singlePlanExpenseStatus,
   } = await supabase.from("Single_Plan_Expense").insert(expenseList).select();
+
   if (singlePlanExpenseError)
     return NextResponse.json(singlePlanExpenseError, { status: singlePlanExpenseStatus });
 

@@ -28,11 +28,21 @@ function DayPlanContentSingle({
     if (data.isGroupActivity) {
       return data.Single_Plan_Expense.every((expense) => expense.paidUser);
     }
-
     return data.Single_Plan_Expense.filter(
       (expense) => expense.attendedUser.attendedUserId === userData.userId
     ).every((expense) => expense.paidUser);
   }, [data.isGroupActivity, data.Single_Plan_Expense, userData.userId]);
+
+  const calExpense = useMemo(() => {
+    const expenseTotal = data.Single_Plan_Expense.reduce(
+      (total: number, item: { expense: number }) => total + item.expense,
+      0
+    );
+    const calculatedExpense = data.isGroupActivity
+      ? expenseTotal.toFixed(2)
+      : (expenseTotal / data.Single_Plan_Expense.length).toFixed(2);
+    return calculatedExpense;
+  }, [data.Single_Plan_Expense]);
 
   return (
     <div className={styles.day_plan_content_single}>
@@ -67,27 +77,7 @@ function DayPlanContentSingle({
         <div className="bottom_part">
           <div className="price_part">
             <span className="each">{data.isGroupActivity ? "Group" : "For me"}</span>
-
-            {/* 로직
-            Group:Single_Plan_Expense 리스트 모두 받아와서 expense다 더한 값 
-            personal:Single_Plan_Expense 리스트 모두 받아와서 expense를 n분의 1로 나눈 값
-            Personal-Paid: paidUser.paidUserId가 userData.userId와 같으면, 
-            Personal-Unaid: paidUser.paidUserId 이 undefined면 
-            */}
-            <span className="price">
-              $
-              {data.isGroupActivity
-                ? `${data.Single_Plan_Expense.reduce(
-                    (total: number, item: { expense: number }) => total + item.expense,
-                    0
-                  ).toFixed(2)}`
-                : `${(
-                    data.Single_Plan_Expense.reduce(
-                      (total: number, item: { expense: number }) => total + item.expense,
-                      0
-                    ) / data.Single_Plan_Expense.length
-                  ).toFixed(2)}`}
-            </span>
+            <span className="price">${calExpense}</span>
           </div>
 
           <div className="join_list">
@@ -129,7 +119,7 @@ function DayPlanContentSingle({
           />
           <span>Edit</span>
         </button>
-        <button className="delete_button" onClick={() => openPopup(<DeletePlan />)}>
+        <button className="delete_button" onClick={() => openPopup(<DeletePlan data={data} />)}>
           <Image
             src="/close-red-14x14.svg"
             alt="delete icon"

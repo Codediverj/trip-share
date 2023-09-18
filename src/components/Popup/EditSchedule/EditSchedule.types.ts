@@ -10,16 +10,6 @@ export type SinglePlan = {
   updatedAt: Date;
   updatedBy: string;
   isGroupActivity: boolean;
-
   expense: number;
   paidID: string;
-
-  // Single_Plan_Expense: {
-  //   expenseId: string;
-  //   singlePlanId: string;
-  //   groupPayment: boolean;
-  //   expense: number;
-  //   attended_user_id: string; //각각의 유저 데이터
-  //   paidUserId: string; // 각각의 유저 데이터
-  // }[];
 };

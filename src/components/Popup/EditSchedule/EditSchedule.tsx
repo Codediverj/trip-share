@@ -17,7 +17,7 @@ export default function EditSchedule({ data }: { data: DayPlanDataStore[number] 
   const [isNotMoving, setIsNotMoving] = useState(data.placeToName === undefined ? true : false);
   const [isGroupPaid, setIsGroupPaid] = useState(false);
 
-  console.log(data);
+  //console.log(data);
 
   interface Expense {
     expense: number;
@@ -44,10 +44,20 @@ export default function EditSchedule({ data }: { data: DayPlanDataStore[number] 
   }
 
   function findOutPaidUser(
-    isGroupActivity: boolean,
+    isGroupPaid: boolean,
     singlePlanExpenses: Expense[],
     userId: string
   ): string {
+    const paidUserArray = makePaidUserArray(singlePlanExpenses);
+    if (isGroupPaid) {
+      return paidUserArray[0];
+    } else {
+      const matchingExpense = paidUserArray.find((paidId) => paidId === userId);
+      return matchingExpense ? matchingExpense : "";
+    }
+  }
+
+  function makePaidUserArray(singlePlanExpenses: Expense[]): string[] {
     const paidUserIds: string[] = [];
 
     singlePlanExpenses.forEach((expense) => {
@@ -56,18 +66,7 @@ export default function EditSchedule({ data }: { data: DayPlanDataStore[number] 
         paidUserIds.push(paidUserId);
       }
     });
-
-    if (isGroupActivity) {
-      if (paidUserIds.length > 0) {
-        setIsGroupPaid(true);
-        return paidUserIds[0];
-      }
-      return "";
-    } else {
-      const matchingExpense = paidUserIds.find((paidId) => paidId === userId);
-      console.log(matchingExpense);
-      return matchingExpense ? matchingExpense : "";
-    }
+    return paidUserIds;
   }
 
   const [planData, setPlanData] = useState<Omit<SinglePlan, "singlePlanId" | "planId">>({
@@ -81,8 +80,15 @@ export default function EditSchedule({ data }: { data: DayPlanDataStore[number] 
     updatedAt: new Date(),
     updatedBy: userData.userId,
     expense: calculateExpense(data.isGroupActivity, data.Single_Plan_Expense),
-    paidID: findOutPaidUser(data.isGroupActivity, data.Single_Plan_Expense, userData.userId),
+    paidID: findOutPaidUser(isGroupPaid, data.Single_Plan_Expense, userData.userId),
   });
+
+  useEffect(() => {
+    const updatedIsGroupPaid = data.isGroupActivity && planData.paidID !== "";
+    setIsGroupPaid(updatedIsGroupPaid);
+  }, [data, planData]);
+
+  console.log(planData);
 
   const handleInputChange = (event: any) => {
     const { name, value } = event.target;
@@ -129,7 +135,7 @@ export default function EditSchedule({ data }: { data: DayPlanDataStore[number] 
     }
   };
 
-  const addNewSinglePlan = (event: FormEvent) => {
+  const editSinglePlan = (event: FormEvent) => {
     event.preventDefault();
 
     const {
@@ -152,6 +158,8 @@ export default function EditSchedule({ data }: { data: DayPlanDataStore[number] 
     fetch("/api/updateSinglePlan", {
       method: "POST",
       body: JSON.stringify({
+        planId: data.planId,
+        singlePlanId: data.singlePlanId,
         placeFromId: placeFromId,
         placeFromName: placeFromName,
         placeToId: placeToId || undefined,
@@ -313,6 +321,7 @@ export default function EditSchedule({ data }: { data: DayPlanDataStore[number] 
                     className={styles.radio_input}
                     name="group-payment"
                     onChange={() => setIsGroupPaid(true)}
+                    checked={isGroupPaid}
                   />
                   <label className={styles.radio_label}>Yes</label>
                 </div>
@@ -322,6 +331,7 @@ export default function EditSchedule({ data }: { data: DayPlanDataStore[number] 
                     className={styles.radio_input}
                     name="group-payment"
                     onChange={() => setIsGroupPaid(false)}
+                    checked={!isGroupPaid}
                   />
                   <label className={styles.radio_label}>No</label>
                 </div>
@@ -336,6 +346,7 @@ export default function EditSchedule({ data }: { data: DayPlanDataStore[number] 
                           name="who-paid"
                           value={person.userId}
                           onChange={handleGroupPaid}
+                          checked={person.userId === planData.paidID}
                         />
                         <Image
                           src={person.profileImage || "/profile_default_image.svg"}
@@ -364,7 +375,7 @@ export default function EditSchedule({ data }: { data: DayPlanDataStore[number] 
         />
         <button
           className={`${styles.full_bg_button} ${styles.popup_button_text}`}
-          onClick={addNewSinglePlan}
+          onClick={editSinglePlan}
         >
           Save
         </button>
