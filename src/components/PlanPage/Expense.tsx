@@ -1,9 +1,25 @@
-import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import styles from "./Expense.module.scss";
+import {
+  createClientComponentClient,
+  createServerComponentClient,
+} from "@supabase/auth-helpers-nextjs";
+import { cookies } from "next/headers";
+import { Database } from "@/supabase.types";
+import { useEffect } from "react";
 
 function Expense() {
+  const supabase = createClientComponentClient<Database>();
+
+  useEffect(() => {
+    supabase
+      .from("Single_Plan")
+      .select("plan_id, single_plan_id, date, Single_Plan_Expense(*)")
+      .eq("plan_id", "bccb6ee7-d9c3-4204-8495-09da343ef96a")
+      .then(({ data }) => console.log(data));
+  }, []);
+
   return (
     <div className="page_container_middle page_gray_bg">
       <div className={styles.expense}>

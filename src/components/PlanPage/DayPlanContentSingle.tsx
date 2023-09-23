@@ -42,7 +42,7 @@ function DayPlanContentSingle({
       ? expenseTotal.toFixed(2)
       : (expenseTotal / data.Single_Plan_Expense.length).toFixed(2);
     return calculatedExpense;
-  }, [data.Single_Plan_Expense]);
+  }, [data.Single_Plan_Expense, data.isGroupActivity]);
 
   return (
     <div className={styles.day_plan_content_single}>

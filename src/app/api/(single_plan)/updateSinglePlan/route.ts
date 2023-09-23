@@ -61,11 +61,9 @@ export async function POST(request: Request) {
 
   await supabase.from("Single_Plan_Expense").delete().eq("single_plan_id", body.singlePlanId);
 
-  const {
-    data: singlePlanExpenseUpdate,
-    error: singlePlanExpenseError,
-    status: singlePlanExpenseStatus,
-  } = await supabase.from("Single_Plan_Expense").insert(expenseList).select();
+  const { error: singlePlanExpenseError, status: singlePlanExpenseStatus } = await supabase
+    .from("Single_Plan_Expense")
+    .insert(expenseList);
 
   if (singlePlanExpenseError)
     return NextResponse.json(singlePlanExpenseError, { status: singlePlanExpenseStatus });
