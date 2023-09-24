@@ -17,8 +17,8 @@ import { useUserDataStore } from "@/contexts/userData/userData.provider";
 
 export default function ProfileLayout({ children }: { children: React.ReactNode }) {
   const { isPopupOpen, popupContent, openPopup, closePopup } = usePopupContext();
-  const userData = useUserDataStore(); //server
-  const [userDataState, setUserDataState] = useState(userData); //client
+  const userData = useUserDataStore();
+  const [userDataState, setUserDataState] = useState(userData);
   const supabase = createClientComponentClient();
 
   useEffect(() => {
