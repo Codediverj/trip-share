@@ -15,6 +15,7 @@ import EditPlan from "@/components/Popup/EditPlan";
 import { useUserDataStore } from "@/contexts/userData/userData.provider";
 import { usePlanDataStore } from "@/contexts/planData/planData.provider";
 import { DayPlanDataProvider } from "@/contexts/dayPlanData/dayPlanData.provider";
+import { ExpenseDataProvider } from "@/contexts/expenseData/expenseData.provider";
 
 //components
 import DayPlan from "@/components/PlanPage/DayPlan";
@@ -109,7 +110,11 @@ export default function PlanPage({
               <DayPlan totaldays={totalDays} />
             </DayPlanDataProvider>
           )}
-          {activeTab === 1 && <Expense />}
+          {activeTab === 1 && (
+            <ExpenseDataProvider planId={planId}>
+              <Expense />
+            </ExpenseDataProvider>
+          )}
           {activeTab === 2 && <Moment />}
         </div>
       </div>
