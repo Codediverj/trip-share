@@ -16,8 +16,27 @@ export default function EditSchedule({ data }: { data: DayPlanDataStore[number] 
   const planContextData = usePlanDataStore();
   const [isNotMoving, setIsNotMoving] = useState(data.placeToName === undefined ? true : false);
   const [isGroupPaid, setIsGroupPaid] = useState(false);
+  const [planData, setPlanData] = useState<Omit<SinglePlan, "singlePlanId" | "planId">>({
+    placeFromId: data.placeFromId,
+    placeFromName: data.placeFromName,
+    placeToId: data.placeToId,
+    placeToName: data.placeToName,
+    note: data.note,
+    links: data.links,
+    isGroupActivity: data.isGroupActivity,
+    updatedAt: new Date(),
+    updatedBy: userData.userId,
+    expense: calculateExpense(data.isGroupActivity, data.Single_Plan_Expense),
+    paidID: findOutPaidUser(isGroupPaid, data.Single_Plan_Expense, userData.userId),
+  });
 
-  //console.log(data);
+  useEffect(() => {
+    const updatedIsGroupPaid = data.isGroupActivity && planData.paidID !== "";
+    setIsGroupPaid(updatedIsGroupPaid);
+  }, [data, planData]);
+
+  console.log(planData);
+  console.log(data);
 
   interface Expense {
     expense: number;
@@ -68,27 +87,6 @@ export default function EditSchedule({ data }: { data: DayPlanDataStore[number] 
     });
     return paidUserIds;
   }
-
-  const [planData, setPlanData] = useState<Omit<SinglePlan, "singlePlanId" | "planId">>({
-    placeFromId: data.placeFromId,
-    placeFromName: data.placeFromName,
-    placeToId: data.placeToId,
-    placeToName: data.placeToName,
-    note: data.note,
-    links: data.links,
-    isGroupActivity: data.isGroupActivity,
-    updatedAt: new Date(),
-    updatedBy: userData.userId,
-    expense: calculateExpense(data.isGroupActivity, data.Single_Plan_Expense),
-    paidID: findOutPaidUser(isGroupPaid, data.Single_Plan_Expense, userData.userId),
-  });
-
-  useEffect(() => {
-    const updatedIsGroupPaid = data.isGroupActivity && planData.paidID !== "";
-    setIsGroupPaid(updatedIsGroupPaid);
-  }, [data, planData]);
-
-  console.log(planData);
 
   const handleInputChange = (event: any) => {
     const { name, value } = event.target;

@@ -79,11 +79,13 @@
         .expense_price {
           display: flex;
           align-items: center;
+          background: #fff;
           .number {
             font-family: var(--poppins);
             font-size: 12px;
             font-weight: 500;
             color: #6276cc;
+            padding: 10px 0;
           }
           .detail {
             margin-left: 8px;
