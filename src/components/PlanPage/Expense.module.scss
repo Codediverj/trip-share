@@ -6,6 +6,7 @@
       border-radius: 10px;
       background: #fff;
       padding: 20px;
+
       .total_expense_head {
         display: flex;
         justify-content: space-between;
@@ -33,11 +34,23 @@
         font-size: 16px;
         font-weight: 700;
         margin-bottom: 4px;
+        color: #867bd5;
+        .owe_span1,
+        .owe_span2 {
+          padding: 0 5px;
+          color: black;
+        }
+        .me {
+          color: #6276cc;
+        }
       }
       .owe_expense_con {
         border-radius: 10px;
         background: #fff;
         padding: 20px;
+        &.purple {
+          background-color: #e9e7f3;
+        }
         .send_money {
           text-align: center;
           p {
@@ -47,7 +60,7 @@
             margin-bottom: 14px;
           }
           button {
-            background: #6276cc;
+            background: #867bd5;
             color: #fff;
             padding: 10px 32px;
             border-radius: 5px;
@@ -79,7 +92,7 @@
         .expense_price {
           display: flex;
           align-items: center;
-          background: #fff;
+          background: none;
           .number {
             font-family: var(--poppins);
             font-size: 12px;
