@@ -36,6 +36,17 @@ function BalenceOweTo() {
     return filteredExpenses.map((data) => <ExpenseItem key={data.singlePlanId} data={data} />);
   }
 
+  const changeGroupToPersonal = (selectedJoinUser: string) => {
+    fetch("/api/expense", {
+      method: "POST",
+      body: JSON.stringify({
+        singlePlanId: "??",
+        planId: planContextData.planId,
+        expense: 0,
+      }),
+    });
+  };
+
   return (
     <>
       {/* 1. 타인이 Paid */}
@@ -57,7 +68,7 @@ function BalenceOweTo() {
                 <ul className="expense_list">{expenseList}</ul>
                 <div className="send_money">
                   <p>Did you repay the money owed to {joinUser.nickname} ?</p>
-                  <button>Yes, I did</button>
+                  <button onClick={() => changeGroupToPersonal(joinUser.userId)}>Yes, I did</button>
                 </div>
               </div>
             </div>

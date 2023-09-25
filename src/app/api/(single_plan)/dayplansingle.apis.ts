@@ -52,18 +52,3 @@ export const getSinglePlanForDate = async (
     })),
   }));
 };
-
-// Single_Plan_Expense: {
-//   expenseId: number;
-//   expense: number;
-//   attendedUser?: {
-//     attendedUserId: string;
-//     attendedUserNickname: string;
-//     attendedUserImage: string;
-//   }[];
-//   paidUser?: {
-//     paidUserId: string;
-//     paidUserrNickname: string;
-//     paidUserUserImage: string;
-//   }[];
-// }[];
