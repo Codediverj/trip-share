@@ -23,7 +23,7 @@ export async function POST(request: Request) {
   const joined = joinUsers.map((user) => user.user_id);
 
   const expenseList = joined.map((userId) => ({
-    single_plan_id: body.single_plan_id,
+    single_plan_id: body.singlePlanId,
     expense: body.isGroupActivity ? body.expense / joined.length : body.expense,
     attended_user_id: userId,
     paid_user_id: body.isGroupActivity ? body.paidID : userId === body.paidID ? body.paidID : null,

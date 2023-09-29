@@ -48,6 +48,7 @@ export const getExpenseData = async (
             paidUserUserImage: expense.paid.profile_image || undefined,
           }
         : undefined,
+      isPaidBack: expense.is_paid_back,
     })),
   }));
 };

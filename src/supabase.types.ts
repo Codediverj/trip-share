@@ -142,6 +142,7 @@ export interface Database {
           attended_user_id: string
           expense: number
           expense_id: number
+          is_paid_back: boolean
           paid_user_id: string | null
           single_plan_id: string
         }
@@ -149,6 +150,7 @@ export interface Database {
           attended_user_id: string
           expense: number
           expense_id?: number
+          is_paid_back?: boolean
           paid_user_id?: string | null
           single_plan_id: string
         }
@@ -156,6 +158,7 @@ export interface Database {
           attended_user_id?: string
           expense?: number
           expense_id?: number
+          is_paid_back?: boolean
           paid_user_id?: string | null
           single_plan_id?: string
         }

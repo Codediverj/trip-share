@@ -22,13 +22,15 @@ function BalenceOweTo() {
         if (owe === 1) {
           return (
             expenseItem.paidUser?.paidUserId === selectedJoinUser &&
-            expenseItem.attendedUser.attendedUserId === userData.userId
+            expenseItem.attendedUser.attendedUserId === userData.userId &&
+            !expenseItem.isPaidBack
           );
         }
         if (owe === 2) {
           return (
             expenseItem.paidUser?.paidUserId === userData.userId &&
-            expenseItem.attendedUser.attendedUserId === selectedJoinUser
+            expenseItem.attendedUser.attendedUserId === selectedJoinUser &&
+            !expenseItem.isPaidBack
           );
         }
       });

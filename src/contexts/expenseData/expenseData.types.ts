@@ -28,6 +28,7 @@ export type ExpenseDataStore = {
       paidUserrNickname?: string;
       paidUserUserImage?: string;
     };
+    isPaidBack: boolean;
   }[];
 }[];
 
