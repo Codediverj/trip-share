@@ -31,12 +31,11 @@ export default function EditSchedule({ data }: { data: DayPlanDataStore[number] 
   });
 
   useEffect(() => {
-    const updatedIsGroupPaid = data.isGroupActivity && planData.paidID !== "";
+    const updatedIsGroupPaid = data.isGroupActivity && planData.paidID !== null;
     setIsGroupPaid(updatedIsGroupPaid);
   }, [data, planData]);
 
   console.log(planData);
-  console.log(data);
 
   interface Expense {
     expense: number;
@@ -69,6 +68,7 @@ export default function EditSchedule({ data }: { data: DayPlanDataStore[number] 
   ): string {
     const paidUserArray = makePaidUserArray(singlePlanExpenses);
     if (isGroupPaid) {
+      console.log(paidUserArray[0]);
       return paidUserArray[0];
     } else {
       const matchingExpense = paidUserArray.find((paidId) => paidId === userId);
