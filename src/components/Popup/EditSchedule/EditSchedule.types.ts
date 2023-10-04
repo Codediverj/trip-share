@@ -13,3 +13,18 @@ export type SinglePlan = {
   expense: number;
   paidID: string;
 };
+
+export type Expense = {
+  expense: number;
+  expenseId: number;
+  attendedUser: {
+    attendedUserId: string;
+    attendedUserNickname?: string;
+    attendedUserImage?: string;
+  };
+  paidUser?: {
+    paidUserId: string;
+    paidUserrNickname?: string;
+    paidUserUserImage?: string;
+  };
+};

@@ -1,19 +1,20 @@
 "use client";
 import React, { useState, FormEvent, useEffect } from "react";
 import styles from "../Popup.module.scss";
-import Image from "next/image";
 
 // Popup useContext
 import { usePopupContext } from "../../../contexts/popup/PopupContext";
 import { useUserDataStore } from "@/contexts/userData/userData.provider";
-import { usePlanDataStore } from "@/contexts/planData/planData.provider";
 import { DayPlanDataStore } from "@/contexts/dayPlanData/dayPlanData.types";
 import { SinglePlan } from "./EditSchedule.types";
+import PersonalExpense from "./PersonalExpense";
+import GroupExpense from "./GroupExpense";
+import { findOutPaidUser } from "@/utils/findoutPaidUser.utils";
+import { calculateExpense } from "@/utils/calculateExpense.utils";
 
 export default function EditSchedule({ data }: { data: DayPlanDataStore[number] }) {
   const { closePopup } = usePopupContext();
   const userData = useUserDataStore();
-  const planContextData = usePlanDataStore();
   const [isNotMoving, setIsNotMoving] = useState(data.placeToName === undefined ? true : false);
   const [isGroupPaid, setIsGroupPaid] = useState(false);
   const [planData, setPlanData] = useState<Omit<SinglePlan, "singlePlanId" | "planId">>({
@@ -36,57 +37,6 @@ export default function EditSchedule({ data }: { data: DayPlanDataStore[number] 
   }, [data, planData]);
 
   console.log(planData);
-
-  interface Expense {
-    expense: number;
-    expenseId: number;
-    attendedUser: {
-      attendedUserId: string;
-      attendedUserNickname?: string;
-      attendedUserImage?: string;
-    };
-    paidUser?: {
-      paidUserId: string;
-      paidUserrNickname?: string;
-      paidUserUserImage?: string;
-    };
-  }
-
-  function calculateExpense(isGroupActivity: boolean, expenses: { expense: number }[]) {
-    if (isGroupActivity) {
-      return expenses.reduce((total, expenseItem) => total + expenseItem.expense, 0);
-    } else {
-      const totalExpense = expenses.reduce((total, expenseItem) => total + expenseItem.expense, 0);
-      return expenses.length > 0 ? totalExpense / expenses.length : 0;
-    }
-  }
-
-  function findOutPaidUser(
-    isGroupPaid: boolean,
-    singlePlanExpenses: Expense[],
-    userId: string
-  ): string {
-    const paidUserArray = makePaidUserArray(singlePlanExpenses);
-    if (isGroupPaid) {
-      console.log(paidUserArray[0]);
-      return paidUserArray[0];
-    } else {
-      const matchingExpense = paidUserArray.find((paidId) => paidId === userId);
-      return matchingExpense ? matchingExpense : "";
-    }
-  }
-
-  function makePaidUserArray(singlePlanExpenses: Expense[]): string[] {
-    const paidUserIds: string[] = [];
-
-    singlePlanExpenses.forEach((expense) => {
-      const paidUserId = expense.paidUser?.paidUserId;
-      if (paidUserId) {
-        paidUserIds.push(paidUserId);
-      }
-    });
-    return paidUserIds;
-  }
 
   const handleInputChange = (event: any) => {
     const { name, value } = event.target;
@@ -113,24 +63,6 @@ export default function EditSchedule({ data }: { data: DayPlanDataStore[number] 
       isGroupActivity: value === "group",
       expense: 0,
     }));
-  };
-  const handlePersonalPaid = (event: any) => {
-    const { value } = event.target;
-    const paidID = value === "yes" ? userData.userId : "";
-    setPlanData((prevData) => ({
-      ...prevData,
-      paidID: paidID,
-    }));
-  };
-
-  const handleGroupPaid = (event: any) => {
-    const { value } = event.target;
-    if (isGroupPaid) {
-      setPlanData((prevData) => ({
-        ...prevData,
-        paidID: value,
-      }));
-    }
   };
 
   const editSinglePlan = (event: FormEvent) => {
@@ -250,116 +182,17 @@ export default function EditSchedule({ data }: { data: DayPlanDataStore[number] 
 
         {/* Personal Pyment */}
         {!planData.isGroupActivity && (
-          <div className={styles.personal_payment}>
-            <div className={styles.personal_total_expense}>
-              <span>$</span>
-              <input
-                className={styles.personal_total_expense_input}
-                type="text"
-                placeholder="0"
-                name="expense"
-                value={planData.expense}
-                onClick={(event) => event.currentTarget.select()}
-                onChange={handleInputChange}
-              />
-              <span>Per Person</span>
-            </div>
-            {planData.expense > 0 && (
-              <>
-                <h3 className={styles.input_box_h3}>Have you already made the payment?</h3>
-                <div className={styles.radio_container}>
-                  <input
-                    type="radio"
-                    className={styles.radio_input}
-                    name="personal-payment"
-                    value="yes"
-                    onChange={handlePersonalPaid}
-                    checked={planData.paidID === userData.userId}
-                  />
-                  <label className={styles.radio_label}>Yes</label>
-                </div>
-                <div className={styles.radio_container}>
-                  <input
-                    type="radio"
-                    className={styles.radio_input}
-                    name="personal-payment"
-                    value="no"
-                    onChange={handlePersonalPaid}
-                    checked={planData.paidID !== userData.userId}
-                  />
-                  <label className={styles.radio_label}>No</label>
-                </div>
-              </>
-            )}
-          </div>
+          <PersonalExpense planData={planData} setPlanData={setPlanData} />
         )}
 
         {/* Group Payment */}
         {planData.isGroupActivity && (
-          <div className={styles.group_payment}>
-            <div className={styles.group_total_expense}>
-              <span>$</span>
-              <input
-                className={styles.group_total_expense_input}
-                type="text"
-                placeholder="0"
-                name="expense"
-                value={planData.expense}
-                onClick={(event) => event.currentTarget.select()}
-                onChange={handleInputChange}
-              />
-              <span>total</span>
-            </div>
-            {planData.expense > 0 && (
-              <>
-                <h3 className={styles.input_box_h3}>Has anyone already made the payment?</h3>
-                <div className={styles.radio_container}>
-                  <input
-                    type="radio"
-                    className={styles.radio_input}
-                    name="group-payment"
-                    onChange={() => setIsGroupPaid(true)}
-                    checked={isGroupPaid}
-                  />
-                  <label className={styles.radio_label}>Yes</label>
-                </div>
-                <div className={styles.radio_container}>
-                  <input
-                    type="radio"
-                    className={styles.radio_input}
-                    name="group-payment"
-                    onChange={() => setIsGroupPaid(false)}
-                    checked={!isGroupPaid}
-                  />
-                  <label className={styles.radio_label}>No</label>
-                </div>
-                {isGroupPaid && (
-                  <>
-                    <h3 className={styles.input_box_h3}>Who paid for it on behalf of everyone?</h3>
-                    {planContextData.peopleJoin.map((person, index) => (
-                      <div key={index} className={styles.radio_container_bg}>
-                        <input
-                          type="radio"
-                          className={styles.radio_input}
-                          name="who-paid"
-                          value={person.userId}
-                          onChange={handleGroupPaid}
-                          checked={person.userId === planData.paidID}
-                        />
-                        <Image
-                          src={person.profileImage || "/profile_default_image.svg"}
-                          alt="profile image"
-                          width="20"
-                          height="20"
-                        />
-                        <label className={styles.radio_label}>{person.nickname}</label>
-                      </div>
-                    ))}
-                  </>
-                )}
-              </>
-            )}
-          </div>
+          <GroupExpense
+            planData={planData}
+            setPlanData={setPlanData}
+            isGroupPaid={isGroupPaid}
+            setIsGroupPaid={setIsGroupPaid}
+          />
         )}
 
         <h3 className={styles.input_box_h3}>Links</h3>
