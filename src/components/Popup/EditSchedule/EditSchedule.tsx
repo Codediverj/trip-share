@@ -16,8 +16,19 @@ export default function EditSchedule({ data }: { data: DayPlanDataStore[number] 
   const { closePopup } = usePopupContext();
   const userData = useUserDataStore();
   const [isNotMoving, setIsNotMoving] = useState(data.placeToName === undefined ? true : false);
-  const [isGroupPaid, setIsGroupPaid] = useState(false);
-  const [planData, setPlanData] = useState<Omit<SinglePlan, "singlePlanId" | "planId">>({
+  //const [isGroupPaid, setIsGroupPaid] = useState(false);
+
+  const [isGroupPaid, setIsGroupPaid] = useState(() => {
+    const initialValue = findOutPaidUser(
+      data.isGroupActivity,
+      data.Single_Plan_Expense,
+      userData.userId
+    );
+    return initialValue === "" ? false : true;
+  });
+
+  console.log(isGroupPaid);
+  const [planData, setPlanData] = useState<Omit<SinglePlan, "singlePlanId" | "planId">>(() => ({
     placeFromId: data.placeFromId,
     placeFromName: data.placeFromName,
     placeToId: data.placeToId,
@@ -28,13 +39,8 @@ export default function EditSchedule({ data }: { data: DayPlanDataStore[number] 
     updatedAt: new Date(),
     updatedBy: userData.userId,
     expense: calculateExpense(data.isGroupActivity, data.Single_Plan_Expense),
-    paidID: findOutPaidUser(isGroupPaid, data.Single_Plan_Expense, userData.userId),
-  });
-
-  useEffect(() => {
-    const updatedIsGroupPaid = data.isGroupActivity && planData.paidID !== null;
-    setIsGroupPaid(updatedIsGroupPaid);
-  }, [data, planData]);
+    paidID: findOutPaidUser(data.isGroupActivity, data.Single_Plan_Expense, userData.userId),
+  }));
 
   console.log(planData);
 

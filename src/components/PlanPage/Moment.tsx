@@ -16,14 +16,6 @@ function Moment() {
             Lorem Ipsum is simply dummy text of the printing and typesetting.
           </p>
         </div>
-        <div className="moment_item">
-          <div className="box_image"></div>
-          <h5 className="box_title">This is title</h5>
-          <p className="box_date">Aug 18</p>
-          <p className="box_content">
-            Lorem Ipsum is simply dummy text of the printing and typesetting.
-          </p>
-        </div>
       </div>
     </div>
   );

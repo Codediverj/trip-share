@@ -7,7 +7,7 @@ export const findOutPaidUser = (
 ): string => {
   const paidUserArray = makePaidUserArray(singlePlanExpenses);
   if (isGroupPaid) {
-    console.log(paidUserArray[0]);
+    console.log(isGroupPaid, singlePlanExpenses, userId, paidUserArray[0]);
     return paidUserArray[0];
   } else {
     const matchingExpense = paidUserArray.find((paidId) => paidId === userId);
