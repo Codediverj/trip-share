@@ -1,13 +1,12 @@
 import { Expense } from "@/components/Popup/EditSchedule/EditSchedule.types";
 
 export const findOutPaidUser = (
-  isGroupPaid: boolean,
+  isGroupActivity: boolean,
   singlePlanExpenses: Expense[],
   userId: string
 ): string => {
   const paidUserArray = makePaidUserArray(singlePlanExpenses);
-  if (isGroupPaid) {
-    console.log(isGroupPaid, singlePlanExpenses, userId, paidUserArray[0]);
+  if (isGroupActivity) {
     return paidUserArray[0];
   } else {
     const matchingExpense = paidUserArray.find((paidId) => paidId === userId);

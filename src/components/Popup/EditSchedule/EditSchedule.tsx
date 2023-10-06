@@ -27,7 +27,6 @@ export default function EditSchedule({ data }: { data: DayPlanDataStore[number] 
     return initialValue === "" ? false : true;
   });
 
-  console.log(isGroupPaid);
   const [planData, setPlanData] = useState<Omit<SinglePlan, "singlePlanId" | "planId">>(() => ({
     placeFromId: data.placeFromId,
     placeFromName: data.placeFromName,
@@ -41,8 +40,6 @@ export default function EditSchedule({ data }: { data: DayPlanDataStore[number] 
     expense: calculateExpense(data.isGroupActivity, data.Single_Plan_Expense),
     paidID: findOutPaidUser(data.isGroupActivity, data.Single_Plan_Expense, userData.userId),
   }));
-
-  console.log(planData);
 
   const handleInputChange = (event: any) => {
     const { name, value } = event.target;
