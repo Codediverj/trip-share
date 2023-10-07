@@ -11,11 +11,11 @@ import { usePopupContext } from "../../../../contexts/popup/PopupContext";
 import EditFriendsList from "../../../../components/Popup/EditFriendsList";
 import EditPlan from "@/components/Popup/EditPlan";
 
-//UserData(Context)
-import { useUserDataStore } from "@/contexts/userData/userData.provider";
+//Context
 import { usePlanDataStore } from "@/contexts/planData/planData.provider";
 import { DayPlanDataProvider } from "@/contexts/dayPlanData/dayPlanData.provider";
 import { ExpenseDataProvider } from "@/contexts/expenseData/expenseData.provider";
+import { MomentDataProvider } from "@/contexts/momentData/momentData.provider";
 
 //components
 import DayPlan from "@/components/PlanPage/DayPlan";
@@ -115,7 +115,11 @@ export default function PlanPage({
               <Expense />
             </ExpenseDataProvider>
           )}
-          {activeTab === 2 && <Moment />}
+          {activeTab === 2 && (
+            <MomentDataProvider planId={planId}>
+              <Moment />
+            </MomentDataProvider>
+          )}
         </div>
       </div>
       {isPopupOpen && <Popup onClose={closePopup}>{popupContent}</Popup>}
