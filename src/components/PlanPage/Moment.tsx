@@ -36,8 +36,20 @@ function Moment() {
               </div>
             )}
             <div className="moment_text_box">
-              <h5 className="box_title">{data.title}</h5>
-              <p className="box_date">{data.momentDate.toDateString()}</p>
+              <div className="writer_area">
+                <div className="profile_circle">
+                  {data.writer.writerImage && (
+                    <Image src={data.writer.writerImage} alt="image" width="30" height="30" />
+                  )}
+                </div>
+                <h4 className="writer_name">{data.writer.writerNickName || "anonymous"}</h4>
+              </div>
+
+              <div className="info_area">
+                <h5 className="box_title">{data.title}</h5>
+                <p className="box_date">{data.momentDate.toDateString()}</p>
+              </div>
+
               <p className="box_content">{data.memo}</p>
             </div>
             {data.writer.writerUserId === userData.userId && <MoreButton />}
