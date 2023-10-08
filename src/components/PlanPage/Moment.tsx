@@ -15,7 +15,6 @@ function Moment() {
   const { openPopup } = usePopupContext();
   const momentData = useMomentDataStore();
   const userData = useUserDataStore();
-  console.log(momentData);
 
   return (
     <div className="page_container_middle page_gray_bg">
@@ -52,7 +51,7 @@ function Moment() {
 
               <p className="box_content">{data.memo}</p>
             </div>
-            {data.writer.writerUserId === userData.userId && <MoreButton />}
+            {data.writer.writerUserId === userData.userId && <MoreButton data={data} />}
           </div>
         ))}
 

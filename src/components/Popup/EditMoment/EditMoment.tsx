@@ -1,38 +1,39 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import styles from "../Popup.module.scss";
 
 // Popup useContext
-import { usePopupContext } from "../../../contexts/popup/PopupContext";
-import { useUserDataStore } from "@/contexts/userData/userData.provider";
+import { usePopupContext } from "@/contexts/popup/PopupContext";
 import { Moment } from "@/app/api/moment/moment.types";
+import { MomentDataType } from "@/components/PlanPage/singleMoment.types";
 
-export default function EditMoment() {
+export default function EditMoment({ data }: { data: MomentDataType }) {
   const { closePopup } = usePopupContext();
-  const userData = useUserDataStore(); //user context data
-  const [planData, setPlanData] = useState<Omit<Moment, "planId">>({
-    title: "",
-    momentDate: new Date(),
-    momentImage: "",
-    memo: "",
+  const [momentData, setMomentData] = useState<Omit<Moment, "planId">>({
+    id: data.id,
+    title: data.title,
+    momentDate: data.momentDate,
+    momentImage: data.momentImage,
+    memo: data.memo,
   });
 
   const handleInputChange = (event: any) => {
     const { name, value } = event.target;
-    setPlanData((prevPlanData) => ({
-      ...prevPlanData,
-      [name]: name === "startDate" || name === "endDate" ? new Date(value) : value,
+    setMomentData((prevMomentData) => ({
+      ...prevMomentData,
+      [name]: name === "momentDate" ? new Date(value) : value,
     }));
   };
 
-  const addNewPlan = () => {
-    const { title, momentDate, momentImage, memo } = planData;
-    if (!planData) {
+  const editMoment = () => {
+    const { id, title, momentDate, momentImage, memo } = momentData;
+    if (!momentData) {
       return;
     }
-    fetch("/api/plan", {
+    fetch("/api/updateMoment", {
       method: "POST",
       body: JSON.stringify({
+        id: id,
         title: title,
         momentDate: momentDate.toISOString().split("T")[0],
         momentImage: momentImage,
@@ -51,7 +52,7 @@ export default function EditMoment() {
         type="text"
         placeholder="Moment Title"
         name="title"
-        value={planData.title}
+        value={momentData.title}
         onChange={handleInputChange}
       />
 
@@ -62,7 +63,7 @@ export default function EditMoment() {
           type="date"
           placeholder="Select Date"
           name="momentDate"
-          value={planData.momentDate.toISOString().split("T")[0]}
+          value={momentData.momentDate.toISOString().split("T")[0]}
           onChange={handleInputChange}
         />
       </div>
@@ -73,8 +74,8 @@ export default function EditMoment() {
           className={styles.input_box}
           type="text"
           placeholder="Moment Image"
-          name="backgroundImage"
-          value={planData.momentImage}
+          name="momentImage"
+          value={momentData.momentImage}
           onChange={handleInputChange}
         />
         <button>Find Image</button>
@@ -86,13 +87,13 @@ export default function EditMoment() {
         placeholder="Type your moment..."
         name="memo"
         onChange={handleInputChange}
-        value={planData.memo}
+        value={momentData.memo}
         rows={5}
       />
 
       <button
         className={`${styles.full_bg_button} ${styles.popup_button_text}`}
-        onClick={addNewPlan}
+        onClick={editMoment}
       >
         Save
       </button>
