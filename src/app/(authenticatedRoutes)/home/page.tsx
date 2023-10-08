@@ -40,9 +40,9 @@ export default function HomePage() {
     }
   }, [supabase, userData.userId]);
 
-  const currentDate = new Date();
-  const pastPlans = planAllList.filter((plan) => new Date(plan.endDate) < currentDate);
-  const futurePlans = planAllList.filter((plan) => new Date(plan.endDate) >= currentDate);
+  const today = new Date();
+  const pastPlans = planAllList.filter((plan) => new Date(plan.endDate) < today);
+  const futurePlans = planAllList.filter((plan) => new Date(plan.endDate) >= today);
 
   return (
     <>
@@ -63,7 +63,7 @@ export default function HomePage() {
           </div>
         </div>
         <div className={styles.completed}>
-          <h3 className={styles.dashboard_title}>Completed</h3>
+          <h3 className={styles.dashboard_title}>travelled</h3>
           <SwiperComp pastPlans={pastPlans} />
           <div className={styles.completed_swipe}>
             <div className={styles.completed_swipe_item}></div>

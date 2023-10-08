@@ -9,18 +9,23 @@ import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 //supabase
 import { useUserDataStore } from "@/contexts/userData/userData.provider";
 import { listPlan } from "@/app/api/plan/plan.apis";
+import { Plan } from "@/app/api/plan/plan.types";
 
 function HomeHeader() {
   const supabase = createClientComponentClient();
   const userData = useUserDataStore();
-  const [planAllListNum, setPlanAllListNum] = useState(0);
+  const [planAllList, setPlanAllList] = useState<Plan[]>([]);
   useEffect(() => {
     if (userData.userId) {
       listPlan(supabase, userData.userId)
-        .then((data) => setPlanAllListNum(data.length))
+        .then((data) => setPlanAllList(data))
         .catch((error) => console.error(error));
     }
   }, [supabase, userData.userId]);
+
+  const today = new Date();
+  const pastPlans = planAllList.filter((plan) => new Date(plan.endDate) < today);
+  const futurePlans = planAllList.filter((plan) => new Date(plan.endDate) >= today);
 
   return (
     <header>
@@ -28,16 +33,16 @@ function HomeHeader() {
       <div className={styles.info_box}>
         <div>
           <div>
-            <strong>0</strong>
-            <span>Country</span>
+            <strong>{futurePlans.length}</strong>
+            <span>Planning</span>
           </div>
           <div>
-            <strong>0</strong>
-            <span>Cities</span>
+            <strong>{pastPlans.length}</strong>
+            <span>travelled</span>
           </div>
           <div>
-            <strong>{planAllListNum}</strong>
-            <span>Plan</span>
+            <strong>{planAllList.length}</strong>
+            <span>Total</span>
           </div>
         </div>
       </div>
