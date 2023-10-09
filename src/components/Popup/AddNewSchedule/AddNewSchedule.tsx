@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, FormEvent, useEffect } from "react";
+import React, { useState, FormEvent } from "react";
 import styles from "../Popup.module.scss";
 import Image from "next/image";
 
@@ -9,7 +9,13 @@ import { useUserDataStore } from "@/contexts/userData/userData.provider";
 import { usePlanDataStore } from "@/contexts/planData/planData.provider";
 import { SinglePlan } from "./AddNewSchedule.types";
 
-export default function AddNewSchedule({ selectedDate }: { selectedDate: Date }) {
+export default function AddNewSchedule({
+  selectedDate,
+  nextOrder,
+}: {
+  selectedDate: Date;
+  nextOrder: number;
+}) {
   const { closePopup } = usePopupContext();
   const userData = useUserDataStore();
   const planContextData = usePlanDataStore();
@@ -18,7 +24,7 @@ export default function AddNewSchedule({ selectedDate }: { selectedDate: Date })
 
   const [planData, setPlanData] = useState<Omit<SinglePlan, "singlePlanId" | "planId">>({
     date: selectedDate,
-    order: 0,
+    order: nextOrder,
     placeFromId: "",
     placeFromName: "",
     placeToId: "",

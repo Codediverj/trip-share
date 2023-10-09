@@ -1,7 +1,5 @@
 "use client";
-import React, { useContext, useState, useEffect } from "react";
 import styles from "./DayPlan.module.scss";
-
 import DayPlanContentSingle from "./DayPlanContentSingle";
 import AddNewScheduleButton from "../AddNewScheduleButton";
 import { useDayPlanDataStore } from "@/contexts/dayPlanData/dayPlanData.provider";
@@ -9,6 +7,11 @@ import { useDayPlanDataStore } from "@/contexts/dayPlanData/dayPlanData.provider
 function DayPlanContent({ selectedDate }: { selectedDate: Date }) {
   const dayPlanData = useDayPlanDataStore();
   const formattedDate = selectedDate.toDateString();
+
+  const maxOrder = dayPlanData.reduce((max, data) => {
+    return data.order > max ? data.order : max;
+  }, -1);
+  const nextOrder = maxOrder + 1;
 
   return (
     <div className={styles.day_plan_content}>
@@ -18,7 +21,7 @@ function DayPlanContent({ selectedDate }: { selectedDate: Date }) {
         <DayPlanContentSingle key={data.singlePlanId} data={data} selectedDate={selectedDate} />
       ))}
 
-      <AddNewScheduleButton selectedDate={selectedDate} />
+      <AddNewScheduleButton selectedDate={selectedDate} nextOrder={nextOrder} />
     </div>
   );
 }
