@@ -3,18 +3,20 @@ export const formatDateStartEnd = (startDate: Date, endDate: Date) => {
   const endYear = endDate.getFullYear();
 
   const startStr = startDate.toLocaleDateString(undefined, {
-    //weekday: "short",
     month: "short",
     day: "numeric",
   });
   const endStr = endDate.toLocaleDateString(undefined, {
-    //weekday: "short",
     month: "short",
     day: "numeric",
   });
 
   if (startYear === endYear) {
-    return `${startStr} ~ ${endStr}, ${endYear}`;
+    if (startDate.getMonth() === endDate.getMonth() && startDate.getDate() === endDate.getDate()) {
+      return `${endStr}, ${endYear}`;
+    } else {
+      return `${startStr} ~ ${endStr}, ${endYear}`;
+    }
   } else {
     return `${startStr}, ${startYear} ~ ${endStr}, ${endYear}`;
   }
