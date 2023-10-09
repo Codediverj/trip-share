@@ -3,11 +3,13 @@
   padding-left: 24px;
 }
 .completed_swipe_item {
+  width: 200px !important;
+  height: auto !important;
   img {
     width: 100%;
-    height: auto;
-    min-height: 135px;
+    height: 160px;
     border-radius: 10px;
+    object-fit: cover;
   }
   h5 {
     font-family: var(--poppins);
@@ -15,10 +17,12 @@
     font-weight: 700;
     line-height: 20px;
     margin: 4px 0 2px 0;
+    color: #000;
   }
   p {
     font-family: var(--poppins);
     font-size: 12px;
     font-weight: 500;
+    color: #000;
   }
 }

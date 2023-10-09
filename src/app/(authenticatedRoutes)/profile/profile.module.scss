@@ -4,22 +4,24 @@
   justify-content: space-between;
   align-items: flex-end;
   height: 100%;
-}
-.profle_name {
-  font-family: var(--poppins);
-  font-weight: 700;
-  font-size: 24px;
-  img {
-    margin-left: 6px;
-    cursor: pointer;
+  .profle_left {
+    .profle_name {
+      font-family: var(--poppins);
+      font-weight: 700;
+      font-size: 24px;
+      img {
+        margin-left: 6px;
+        cursor: pointer;
+      }
+    }
+    .profle_email {
+      font-family: var(--poppins);
+      font-weight: 500;
+      font-size: 12px;
+    }
   }
 }
-.profle_email {
-  font-family: var(--poppins);
-  font-weight: 500;
-  font-size: 12px;
-  margin-bottom: 20px;
-}
+
 .profle_image {
   position: relative;
   width: 80px;
@@ -58,7 +60,7 @@
     width: 200px;
     height: 200px;
     border: 1px solid black;
-    margin: 64px auto 24px auto;
+    margin: 40px auto 24px auto;
   }
   h4 {
     font-family: var(--inter);

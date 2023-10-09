@@ -19,7 +19,7 @@ interface SwiperCompProps {
 
 export default function SwiperComp({ pastPlans }: SwiperCompProps) {
   return (
-    <Swiper className={styles.completed_swipe} spaceBetween={20} slidesPerView={3.5}>
+    <Swiper className={styles.completed_swipe} spaceBetween={20} slidesPerView={"auto"}>
       {pastPlans.map((plan) => (
         <SwiperSlide className={styles.completed_swipe_item} key={plan.planId}>
           <Link href={`/plan/${plan.planId}`}>

@@ -48,7 +48,7 @@ function HomeHeader() {
       </div>
       <div className={styles.profile_button}>
         <Link href={`/profile`}>
-          <Image src={userData.profileImage} alt="plus icon" width="50" height="50" />
+          <Image src={userData.profileImage} alt="plus icon" width="40" height="40" />
         </Link>
       </div>
     </header>
