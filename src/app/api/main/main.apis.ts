@@ -1,5 +1,6 @@
 import { SupabaseClient } from "@supabase/supabase-js";
 import { Database } from "@/supabase.types";
+import { planFriends } from "./planFriends.types";
 
 export const getMyPlanIds = async (supabase: SupabaseClient<Database>, userId: string) => {
   const { data, error } = await supabase
@@ -19,7 +20,7 @@ export const getOtherUserIds = async (
   supabase: SupabaseClient<Database>,
   planIds: string[],
   userId: string
-) => {
+): Promise<planFriends> => {
   const { data, error } = await supabase
     .from("People_Join")
     .select("user_id, User(*)")

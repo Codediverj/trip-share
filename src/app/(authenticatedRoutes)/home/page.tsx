@@ -46,7 +46,6 @@ export default function HomePage() {
   const sortedPastPlans = [...pastPlans].sort((a: Plan, b: Plan) => {
     return b.endDate.getTime() - a.endDate.getTime();
   });
-  console.log(sortedPastPlans);
 
   return (
     <>
@@ -74,7 +73,7 @@ export default function HomePage() {
           </div>
         </div>
         <div className="container">
-          <PlanWithList randomImage={defaultPlanImage} />
+          <PlanWithList />
         </div>
       </main>
       {isPopupOpen && <Popup onClose={closePopup}>{popupContent}</Popup>}
