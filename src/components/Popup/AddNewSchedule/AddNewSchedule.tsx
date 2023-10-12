@@ -9,6 +9,13 @@ import { useUserDataStore } from "@/contexts/userData/userData.provider";
 import { usePlanDataStore } from "@/contexts/planData/planData.provider";
 import { SinglePlan } from "./AddNewSchedule.types";
 
+//input components
+import DefaultText from "@/components/Form/DefaultText";
+import LongTextBox from "@/components/Form/LongTextBox";
+import RadioInput from "@/components/Form/RadioInput";
+import DefaultTextExpense from "@/components/Form/DefaultTextExpense";
+import CheckBox from "@/components/Form/CheckBox";
+
 export default function AddNewSchedule({
   selectedDate,
   nextOrder,
@@ -137,44 +144,32 @@ export default function AddNewSchedule({
         <h2 className={styles.popupBox_title}>Add New Schedule</h2>
 
         <h3 className={styles.input_box_h3}>From</h3>
-        <input
-          className={styles.input_box}
-          type="text"
-          placeholder="Location"
+        <DefaultText
           name="placeFromName"
           value={planData.placeFromName}
           onChange={handleInputChange}
+          placeholder={"Location"}
         />
 
         <div className={`${styles.input_checkbox_wrap} ${isNotMoving ? styles.disabled : ""}`}>
           <h3 className={styles.input_box_h3}>To</h3>
-          <label className={`${styles.input_disable_checkbox} ${styles.checkbox_label}`}>
-            <input
-              type="checkbox"
-              checked={isNotMoving}
-              onChange={handleCheckboxChange}
-              className={styles.checkbox_input}
-            />
-            I am not moving
-            <span
-              className={`${styles.custom_checkbox} ${isNotMoving ? styles.clicked : ""}`}
-            ></span>
-          </label>
-
-          <input
-            className={styles.input_box}
-            type="text"
-            placeholder="Location"
+          <CheckBox
+            checked={isNotMoving}
+            onChange={handleCheckboxChange}
+            text="I am not moving"
+            isNotMoving={isNotMoving}
+          />
+          <DefaultText
             name="placeToName"
-            onChange={handleInputChange}
             value={planData.placeToName}
+            onChange={handleInputChange}
+            placeholder={"Location"}
             disabled={isNotMoving}
           />
         </div>
 
         <h3 className={styles.input_box_h3}>What are you going to do here?</h3>
-        <textarea
-          className={styles.input_box}
+        <LongTextBox
           placeholder="Type your Plan"
           name="note"
           onChange={handleInputChange}
@@ -183,68 +178,48 @@ export default function AddNewSchedule({
         />
 
         <h3 className={styles.input_box_h3}>Group Expense</h3>
-        <div className={styles.radio_container}>
-          <input
-            type="radio"
-            className={styles.radio_input}
-            name="paymentType"
-            value="personal"
-            checked={!planData.isGroupActivity}
-            onChange={handleRadioChange}
-          />
-          <label className={styles.radio_label}>Personal Payment</label>
-        </div>
-        <div className={styles.radio_container}>
-          <input
-            type="radio"
-            className={styles.radio_input}
-            name="paymentType"
-            value="group"
-            checked={planData.isGroupActivity}
-            onChange={handleRadioChange}
-          />
-          <label className={styles.radio_label}>Group Payment</label>
-        </div>
+        <RadioInput
+          name="paymentType"
+          value="personal"
+          checked={!planData.isGroupActivity}
+          onChange={handleRadioChange}
+          labelText="Personal Payment"
+        />
+        <RadioInput
+          name="paymentType"
+          value="group"
+          checked={planData.isGroupActivity}
+          onChange={handleRadioChange}
+          labelText="Group Payment"
+        />
 
         {/* Personal Pyment */}
         {!planData.isGroupActivity && (
           <div className={styles.personal_payment}>
-            <div className={styles.personal_total_expense}>
-              <span>$</span>
-              <input
-                className={styles.personal_total_expense_input}
-                type="text"
-                placeholder="0"
-                name="expense"
-                value={planData.expense}
-                onClick={(event) => event.currentTarget.select()}
-                onChange={handleInputChange}
-              />
-              <span>Per Person</span>
-            </div>
+            <DefaultTextExpense
+              placeholder="0"
+              name="expense"
+              value={planData.expense}
+              onClick={(event) => event.currentTarget.select()}
+              onChange={handleInputChange}
+              nextText={"per person"}
+              isGroupActivity={planData.isGroupActivity}
+            />
             {planData.expense > 0 && (
               <>
                 <h3 className={styles.input_box_h3}>Have you already made the payment?</h3>
-                <div className={styles.radio_container}>
-                  <input
-                    type="radio"
-                    className={styles.radio_input}
-                    name="personal-payment"
-                    value="yes"
-                    onChange={handlePersonalPaid}
-                  />
-                  <label className={styles.radio_label}>Yes</label>
-                </div>
-                <div className={styles.radio_container}>
-                  <input
-                    type="radio"
-                    className={styles.radio_input}
-                    name="personal-payment"
-                    value="no"
-                    onChange={handlePersonalPaid}
-                  />
-                  <label className={styles.radio_label}>No</label>
-                </div>
+                <RadioInput
+                  name="personal-payment"
+                  value="yes"
+                  onChange={handlePersonalPaid}
+                  labelText="Yes"
+                />
+                <RadioInput
+                  name="personal-payment"
+                  value="no"
+                  onChange={handlePersonalPaid}
+                  labelText="No"
+                />
               </>
             )}
           </div>
@@ -253,60 +228,42 @@ export default function AddNewSchedule({
         {/* Group Payment */}
         {planData.isGroupActivity && (
           <div className={styles.group_payment}>
-            <div className={styles.group_total_expense}>
-              <span>$</span>
-              <input
-                className={styles.group_total_expense_input}
-                type="text"
-                placeholder="0"
-                name="expense"
-                value={planData.expense}
-                onClick={(event) => event.currentTarget.select()}
-                onChange={handleInputChange}
-              />
-              <span>total</span>
-            </div>
+            <DefaultTextExpense
+              placeholder="0"
+              name="expense"
+              value={planData.expense}
+              onClick={(event) => event.currentTarget.select()}
+              onChange={handleInputChange}
+              nextText={"total"}
+              isGroupActivity={planData.isGroupActivity}
+            />
+
             {planData.expense > 0 && (
               <>
                 <h3 className={styles.input_box_h3}>Has anyone already made the payment?</h3>
-                <div className={styles.radio_container}>
-                  <input
-                    type="radio"
-                    className={styles.radio_input}
-                    name="group-payment"
-                    onChange={() => setIsGroupPaid(true)}
-                  />
-                  <label className={styles.radio_label}>Yes</label>
-                </div>
-                <div className={styles.radio_container}>
-                  <input
-                    type="radio"
-                    className={styles.radio_input}
-                    name="group-payment"
-                    onChange={() => setIsGroupPaid(false)}
-                  />
-                  <label className={styles.radio_label}>No</label>
-                </div>
+                <RadioInput
+                  name="group-payment"
+                  onChange={() => setIsGroupPaid(true)}
+                  labelText="Yes"
+                />
+                <RadioInput
+                  name="group-payment"
+                  onChange={() => setIsGroupPaid(false)}
+                  labelText="No"
+                />
                 {isGroupPaid && (
                   <>
                     <h3 className={styles.input_box_h3}>Who paid for it on behalf of everyone?</h3>
                     {planContextData.peopleJoin.map((person, index) => (
-                      <div key={index} className={styles.radio_container_bg}>
-                        <input
-                          type="radio"
-                          className={styles.radio_input}
-                          name="who-paid"
-                          value={person.userId}
-                          onChange={handleGroupPaid}
-                        />
-                        <Image
-                          src={person.profileImage || "/profile_default_image.svg"}
-                          alt="profile image"
-                          width="20"
-                          height="20"
-                        />
-                        <label className={styles.radio_label}>{person.nickname}</label>
-                      </div>
+                      <RadioInput
+                        key={index}
+                        name="who-paid"
+                        value={person.userId}
+                        onChange={handleGroupPaid}
+                        withImage={true}
+                        imageSrc={person.profileImage}
+                        labelText={person.nickname}
+                      />
                     ))}
                   </>
                 )}
@@ -316,14 +273,13 @@ export default function AddNewSchedule({
         )}
 
         <h3 className={styles.input_box_h3}>Links</h3>
-        <input
-          className={styles.input_box}
-          type="text"
-          placeholder="URL"
+        <DefaultText
           name="links"
           value={planData.links}
           onChange={handleInputChange}
+          placeholder={"URL"}
         />
+
         <button
           className={`${styles.full_bg_button} ${styles.popup_button_text}`}
           onClick={addNewSinglePlan}

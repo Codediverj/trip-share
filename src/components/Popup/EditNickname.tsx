@@ -1,6 +1,7 @@
 import { useState } from "react";
 import styles from "./Popup.module.scss";
 import Image from "next/image";
+import DefaultText from "../Form/DefaultText";
 
 interface EditNicknameProps {
   nickname?: string;
@@ -21,12 +22,11 @@ export default function EditNickname({ nickname, onSave }: EditNicknameProps) {
   return (
     <div>
       <h2 className={styles.popupBox_title}>Edit Nickname</h2>
-      <input
-        className={styles.input_box}
-        type="text"
-        placeholder="Nickname"
+      <DefaultText
+        name="Nickname"
         value={inputValue}
         onChange={handleInputChange}
+        placeholder={"Nickname"}
       />
 
       <button

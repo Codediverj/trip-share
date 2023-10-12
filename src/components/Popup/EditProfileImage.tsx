@@ -1,6 +1,7 @@
 import { useState } from "react";
 import styles from "./Popup.module.scss";
 import Image from "next/image";
+import ImageSelectInput from "../Form/ImageSelectInput";
 
 interface EditProfileImageProps {
   profileImage?: string;
@@ -21,20 +22,11 @@ export default function EditProfileImage({ profileImage, onSave }: EditProfileIm
   return (
     <div>
       <h2 className={styles.popupBox_title}>Edit Profile Image</h2>
-      <div className={styles.find_input_box}>
-        <input
-          className={styles.input_box}
-          type="input"
-          placeholder="Profile Image"
-          value={inputValue}
-          onChange={handleInputChange}
-        />
-        <button>Find Image</button>
-        <div className={styles.found_image}>
-          {profileImage && (
-            <Image src={`${profileImage}`} alt="profile image" width="136" height="136" />
-          )}
-        </div>
+      <ImageSelectInput name={"profileImage"} value={inputValue} onChange={handleInputChange} />
+      <div className={styles.edit_profile_view_image}>
+        {profileImage && (
+          <Image src={`${profileImage}`} alt="profile image" width="136" height="136" />
+        )}
       </div>
 
       <button

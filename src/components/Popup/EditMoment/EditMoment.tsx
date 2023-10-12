@@ -7,6 +7,12 @@ import { usePopupContext } from "@/contexts/popup/PopupContext";
 import { Moment } from "@/app/api/moment/moment.types";
 import { MomentDataType } from "@/components/PlanPage/singleMoment.types";
 
+//input components
+import DefaultText from "@/components/Form/DefaultText";
+import DateInput from "@/components/Form/DateInput";
+import ImageSelectInput from "@/components/Form/ImageSelectInput";
+import LongTextBox from "@/components/Form/LongTextBox";
+
 export default function EditMoment({ data }: { data: MomentDataType }) {
   const { closePopup } = usePopupContext();
   const [momentData, setMomentData] = useState<Omit<Moment, "planId">>({
@@ -47,43 +53,29 @@ export default function EditMoment({ data }: { data: MomentDataType }) {
       <h2 className={styles.popupBox_title}>Edit Moment</h2>
 
       <h3 className={styles.input_box_h3}>Title</h3>
-      <input
-        className={styles.input_box}
-        type="text"
-        placeholder="Moment Title"
+      <DefaultText
         name="title"
         value={momentData.title}
         onChange={handleInputChange}
+        placeholder={"Moment Title"}
       />
 
       <h3 className={styles.input_box_h3}>Date</h3>
-      <div className={styles.find_input_box_date}>
-        <input
-          className={styles.input_box}
-          type="date"
-          placeholder="Select Date"
-          name="momentDate"
-          value={momentData.momentDate.toISOString().split("T")[0]}
-          onChange={handleInputChange}
-        />
-      </div>
+      <DateInput
+        name="momentDate"
+        value={momentData.momentDate.toISOString().split("T")[0]}
+        onChange={handleInputChange}
+      />
 
       <h3 className={styles.input_box_h3}>Image</h3>
-      <div className={styles.find_input_box}>
-        <input
-          className={styles.input_box}
-          type="text"
-          placeholder="Moment Image"
-          name="momentImage"
-          value={momentData.momentImage}
-          onChange={handleInputChange}
-        />
-        <button>Find Image</button>
-      </div>
+      <ImageSelectInput
+        name={"momentImage"}
+        value={momentData.momentImage}
+        onChange={handleInputChange}
+      />
 
       <h3 className={styles.input_box_h3}>Memo</h3>
-      <textarea
-        className={styles.input_box}
+      <LongTextBox
         placeholder="Type your moment..."
         name="memo"
         onChange={handleInputChange}

@@ -1,21 +1,18 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import styles from "./Popup.module.scss";
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
-
-//UserData(Context)
-//import { useUserDataStore } from "@/contexts/userData/userData.provider";
 
 // Popup useContext
 import { usePopupContext } from "../../contexts/popup/PopupContext";
 import { Plan } from "@/app/api/plan/plan.types";
-import { getPlan } from "@/app/api/plan/plan.apis";
-import { useUserDataStore } from "@/contexts/userData/userData.provider";
+
+//input component
+import DefaultText from "../Form/DefaultText";
+import DateInput from "../Form/DateInput";
+import ImageSelectInput from "../Form/ImageSelectInput";
 
 export default function AddNewPlan() {
   const { closePopup } = usePopupContext();
-  const supabase = createClientComponentClient();
-  const userData = useUserDataStore(); //user context data
   const [planData, setPlanData] = useState<Omit<Plan, "planId">>({
     title: "",
     startDate: new Date(),
@@ -23,7 +20,7 @@ export default function AddNewPlan() {
     backgroundImage:
       "https://images.unsplash.com/photo-1543158266-0066955047b1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
     currency: "",
-  }); //client
+  });
 
   const handleInputChange = (event: any) => {
     const { name, value } = event.target;
@@ -57,60 +54,40 @@ export default function AddNewPlan() {
       <h2 className={styles.popupBox_title}>Add New Plan</h2>
 
       <h3 className={styles.input_box_h3}>Title</h3>
-      <input
-        className={styles.input_box}
-        type="text"
-        placeholder="Plan Title"
+      <DefaultText
         name="title"
         value={planData.title}
         onChange={handleInputChange}
+        placeholder={"Plan Title"}
       />
 
       <h3 className={styles.input_box_h3}>From</h3>
-      <div className={styles.find_input_box_date}>
-        <input
-          className={styles.input_box}
-          type="date"
-          placeholder="Select Date"
-          name="startDate"
-          value={planData.startDate.toISOString().split("T")[0]}
-          onChange={handleInputChange}
-        />
-      </div>
+      <DateInput
+        name="startDate"
+        value={planData.startDate.toISOString().split("T")[0]}
+        onChange={handleInputChange}
+      />
 
       <h3 className={styles.input_box_h3}>To</h3>
-      <div className={styles.find_input_box_date}>
-        <input
-          className={styles.input_box}
-          type="date"
-          placeholder="Select Date"
-          name="endDate"
-          value={planData.endDate.toISOString().split("T")[0]}
-          onChange={handleInputChange}
-        />
-      </div>
+      <DateInput
+        name="endDate"
+        value={planData.endDate.toISOString().split("T")[0]}
+        onChange={handleInputChange}
+      />
 
       <h3 className={styles.input_box_h3}>Background Image</h3>
-      <div className={styles.find_input_box}>
-        <input
-          className={styles.input_box}
-          type="text"
-          placeholder="Profile Image"
-          name="backgroundImage"
-          value={planData.backgroundImage}
-          onChange={handleInputChange}
-        />
-        <button>Find Image</button>
-      </div>
+      <ImageSelectInput
+        name={"backgroundImage"}
+        value={planData.backgroundImage}
+        onChange={handleInputChange}
+      />
 
       <h3 className={styles.input_box_h3}>Default Currency for this trip</h3>
-      <input
-        className={styles.input_box}
-        type="text"
-        placeholder="$ / ￥ / ₩ / €"
+      <DefaultText
         name="currency"
         value={planData.currency}
         onChange={handleInputChange}
+        placeholder={"$ / ￥ / ₩ / €"}
       />
 
       <button

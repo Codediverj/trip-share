@@ -6,6 +6,8 @@ import Image from "next/image";
 // Popup useContext
 import { usePlanDataStore } from "@/contexts/planData/planData.provider";
 import { SinglePlan } from "./EditSchedule.types";
+import RadioInput from "@/components/Form/RadioInput";
+import DefaultTextExpense from "@/components/Form/DefaultTextExpense";
 
 interface PersonalExpenseProps {
   planData: Omit<SinglePlan, "singlePlanId" | "planId">;
@@ -41,63 +43,46 @@ export default function GroupExpense({
 
   return (
     <div className={styles.group_payment}>
-      <div className={styles.group_total_expense}>
-        <span>$</span>
-        <input
-          className={styles.group_total_expense_input}
-          type="text"
-          placeholder="0"
-          name="expense"
-          value={planData.expense}
-          onClick={(event) => event.currentTarget.select()}
-          onChange={handleInputChange}
-        />
-        <span>total</span>
-      </div>
+      <DefaultTextExpense
+        placeholder="0"
+        name="expense"
+        value={planData.expense}
+        onClick={(event) => event.currentTarget.select()}
+        onChange={handleInputChange}
+        nextText={"total"}
+        isGroupActivity={planData.isGroupActivity}
+      />
+
       {planData.expense > 0 && (
         <>
           <h3 className={styles.input_box_h3}>Has anyone already made the payment?</h3>
-          <div className={styles.radio_container}>
-            <input
-              type="radio"
-              className={styles.radio_input}
-              name="group-payment"
-              onChange={() => setIsGroupPaid(true)}
-              checked={isGroupPaid}
-            />
-            <label className={styles.radio_label}>Yes</label>
-          </div>
-          <div className={styles.radio_container}>
-            <input
-              type="radio"
-              className={styles.radio_input}
-              name="group-payment"
-              onChange={() => setIsGroupPaid(false)}
-              checked={!isGroupPaid}
-            />
-            <label className={styles.radio_label}>No</label>
-          </div>
+          <RadioInput
+            name="group-payment"
+            onChange={() => setIsGroupPaid(true)}
+            labelText="Yes"
+            checked={isGroupPaid}
+          />
+          <RadioInput
+            name="group-payment"
+            onChange={() => setIsGroupPaid(false)}
+            labelText="No"
+            checked={!isGroupPaid}
+          />
+
           {isGroupPaid && (
             <>
               <h3 className={styles.input_box_h3}>Who paid for it on behalf of everyone?</h3>
               {planContextData.peopleJoin.map((person, index) => (
-                <div key={index} className={styles.radio_container_bg}>
-                  <input
-                    type="radio"
-                    className={styles.radio_input}
-                    name="who-paid"
-                    value={person.userId}
-                    onChange={handleGroupPaid}
-                    checked={person.userId === planData.paidID}
-                  />
-                  <Image
-                    src={person.profileImage || "/profile_default_image.svg"}
-                    alt="profile image"
-                    width="20"
-                    height="20"
-                  />
-                  <label className={styles.radio_label}>{person.nickname}</label>
-                </div>
+                <RadioInput
+                  key={index}
+                  name="who-paid"
+                  value={person.userId}
+                  onChange={handleGroupPaid}
+                  checked={person.userId === planData.paidID}
+                  withImage={true}
+                  imageSrc={person.profileImage}
+                  labelText={person.nickname}
+                />
               ))}
             </>
           )}

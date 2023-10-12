@@ -55,7 +55,7 @@
   }
 }
 
-/*Input box styling*/
+/*Input box Title*/
 .input_box_h3 {
   font-family: var(--poppins);
   font-weight: 700;
@@ -63,56 +63,16 @@
   margin: 24px 0 8px 0;
 }
 
-.find_input_box_date {
-  position: relative;
+.edit_profile_view_image {
+  display: block;
+  width: 100%;
   text-align: center;
-  .input_box {
-    padding: 10px 14px;
-  }
-}
-
-.find_input_box {
-  position: relative;
-  text-align: center;
-  .input_box {
-    padding: 10px 116px 10px 14px;
-  }
-  button {
-    position: absolute;
-    top: 0;
-    right: 0;
-    font-family: var(--poppins);
-    font-weight: 500;
-    font-size: 14px;
-    color: #fff;
-    background: #6276cc;
-    border: 0 none;
-    height: 42px;
-    padding: 0 12px;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  .found_image {
-    display: inline-block;
+  margin-top: 24px;
+  img {
     width: 136px;
     height: 136px;
     border-radius: 50%;
-    margin-top: 24px;
   }
-}
-
-.input_box {
-  border: 1px solid #6276cc;
-  padding: 10px 14px;
-  border-radius: 5px;
-  font-family: var(--poppins);
-  font-weight: 500;
-  font-size: 14px;
-  color: #2e313c;
-  width: 100%;
-}
-.input_box::placeholder {
-  color: #c1c7d7;
 }
 
 /*line button*/
@@ -147,83 +107,6 @@
   cursor: pointer;
   padding: 10px 0;
   border-radius: 5px;
-}
-
-/*Radio */
-.radio_container {
-  display: flex;
-  align-items: center;
-  margin-bottom: 10px;
-}
-.radio_container_bg {
-  display: flex;
-  align-items: center;
-  margin-bottom: 6px;
-  background-color: #e9e7f3;
-  padding: 8px 10px;
-  border-radius: 12px;
-}
-.radio_label {
-  margin-left: 6px;
-  font-family: var(--poppins);
-  font-weight: 500;
-  font-size: 12px;
-  color: #2e313c;
-}
-.radio_input {
-  width: 20px;
-  height: 20px;
-  margin: 0;
-  cursor: pointer;
-  color: #6276cc;
-
-  &:checked {
-    border-color: #007bff; /* Change the border color for checked radio */
-    background-color: #007bff; /* Change the background color for checked radio */
-  }
-}
-
-/*check mark custom style*/
-.checkbox_label {
-  display: inline-block;
-  position: relative;
-  padding-left: 28px;
-  line-height: 20px;
-  cursor: pointer;
-
-  .checkbox_input {
-    display: none;
-  }
-
-  .custom_checkbox {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 20px;
-    height: 20px;
-    background-color: #ffffff;
-    border: 1px solid #6276cc;
-    border-radius: 4px;
-
-    &:before {
-      content: "";
-      position: absolute;
-      display: none;
-    }
-
-    &.clicked {
-      background-color: #6276cc;
-      &:before {
-        display: block;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        content: "\2713";
-        font-size: 14px;
-        color: #fff;
-      }
-    }
-  }
 }
 
 /*Edit Traveler List*/
@@ -272,7 +155,6 @@
   padding: 20px;
   font-family: var(--poppins);
   font-weight: 500;
-
   font-size: 12px;
   text-align: center;
   span {
@@ -294,24 +176,7 @@
     margin-top: 10px;
   }
 }
-.input_box_code {
-  border: 1px solid #6276cc;
-  padding: 10px 14px;
-  border-radius: 5px;
-  font-family: var(--poppins);
-  font-weight: 500;
-  font-size: 14px;
-  color: #2e313c;
-  width: 100%;
-  margin-top: 22px;
-}
-.input_box_code::placeholder {
-  color: #c1c7d7;
-  text-align: center;
-  font-size: 20px;
-  font-weight: 700;
-  color: #eceef5;
-}
+
 .camera_icon {
   margin-right: 4px;
 }
@@ -319,71 +184,10 @@
 /*Add new Schedule : Single Plan*/
 .input_checkbox_wrap {
   position: relative;
-
-  .input_disable_checkbox {
-    position: absolute;
-    top: 0;
-    right: 0;
-    font-family: var(--poppins);
-    font-weight: 500;
-    font-size: 12px;
-  }
-
   &.disabled {
     .input_box_h3,
     .input_box {
       opacity: 0.5;
-    }
-  }
-}
-.personal_payment {
-  .personal_total_expense {
-    width: 100%;
-    height: 60px;
-    border-radius: 5px;
-    background: #e9e7f3;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    padding: 0 14px;
-    font-family: var(--poppins);
-    font-weight: 500;
-    font-size: 14px;
-    .personal_total_expense_input {
-      height: 40px;
-      border-radius: 5px;
-      border: 1px solid #9aa1b8;
-      margin: 10px 14px;
-      padding-left: 12px;
-      font-family: var(--poppins);
-      font-weight: 500;
-      font-size: 14px;
-    }
-  }
-}
-
-.group_payment {
-  .group_total_expense {
-    width: 100%;
-    height: 60px;
-    border-radius: 5px;
-    background: #e9e7f3;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    padding: 0 14px;
-    font-family: var(--poppins);
-    font-weight: 500;
-    font-size: 14px;
-    .group_total_expense_input {
-      height: 40px;
-      border-radius: 5px;
-      border: 1px solid #9aa1b8;
-      margin: 10px 14px;
-      padding-left: 12px;
-      font-family: var(--poppins);
-      font-weight: 500;
-      font-size: 14px;
     }
   }
 }

@@ -11,6 +11,10 @@ import PersonalExpense from "./PersonalExpense";
 import GroupExpense from "./GroupExpense";
 import { findOutPaidUser } from "@/utils/findoutPaidUser.utils";
 import { calculateExpense } from "@/utils/calculateExpense.utils";
+import LongTextBox from "@/components/Form/LongTextBox";
+import DefaultText from "@/components/Form/DefaultText";
+import RadioInput from "@/components/Form/RadioInput";
+import CheckBox from "@/components/Form/CheckBox";
 
 export default function EditSchedule({ data }: { data: DayPlanDataStore[number] }) {
   const { closePopup } = usePopupContext();
@@ -114,44 +118,32 @@ export default function EditSchedule({ data }: { data: DayPlanDataStore[number] 
         <h2 className={styles.popupBox_title}>Edit Schedule</h2>
 
         <h3 className={styles.input_box_h3}>From</h3>
-        <input
-          className={styles.input_box}
-          type="text"
-          placeholder="Location"
+        <DefaultText
           name="placeFromName"
           value={planData.placeFromName}
           onChange={handleInputChange}
+          placeholder={"Location"}
         />
 
         <div className={`${styles.input_checkbox_wrap} ${isNotMoving ? styles.disabled : ""}`}>
           <h3 className={styles.input_box_h3}>To</h3>
-          <label className={`${styles.input_disable_checkbox} ${styles.checkbox_label}`}>
-            <input
-              type="checkbox"
-              checked={isNotMoving}
-              onChange={handleCheckboxChange}
-              className={styles.checkbox_input}
-            />
-            I am not moving
-            <span
-              className={`${styles.custom_checkbox} ${isNotMoving ? styles.clicked : ""}`}
-            ></span>
-          </label>
-
-          <input
-            className={styles.input_box}
-            type="text"
-            placeholder="Location"
+          <CheckBox
+            checked={isNotMoving}
+            onChange={handleCheckboxChange}
+            text="I am not moving"
+            isNotMoving={isNotMoving}
+          />
+          <DefaultText
             name="placeToName"
-            onChange={handleInputChange}
             value={planData.placeToName}
+            onChange={handleInputChange}
+            placeholder={"Location"}
             disabled={isNotMoving}
           />
         </div>
 
         <h3 className={styles.input_box_h3}>What are you going to do here?</h3>
-        <textarea
-          className={styles.input_box}
+        <LongTextBox
           placeholder="Type your Plan"
           name="note"
           onChange={handleInputChange}
@@ -160,28 +152,20 @@ export default function EditSchedule({ data }: { data: DayPlanDataStore[number] 
         />
 
         <h3 className={styles.input_box_h3}>Group Expense</h3>
-        <div className={styles.radio_container}>
-          <input
-            type="radio"
-            className={styles.radio_input}
-            name="paymentType"
-            value="personal"
-            checked={!planData.isGroupActivity}
-            onChange={handleRadioChange}
-          />
-          <label className={styles.radio_label}>Personal Payment</label>
-        </div>
-        <div className={styles.radio_container}>
-          <input
-            type="radio"
-            className={styles.radio_input}
-            name="paymentType"
-            value="group"
-            checked={planData.isGroupActivity}
-            onChange={handleRadioChange}
-          />
-          <label className={styles.radio_label}>Group Payment</label>
-        </div>
+        <RadioInput
+          name="paymentType"
+          value="personal"
+          checked={!planData.isGroupActivity}
+          onChange={handleRadioChange}
+          labelText="Personal Payment"
+        />
+        <RadioInput
+          name="paymentType"
+          value="group"
+          checked={planData.isGroupActivity}
+          onChange={handleRadioChange}
+          labelText="Group Payment"
+        />
 
         {/* Personal Pyment */}
         {!planData.isGroupActivity && (
@@ -199,14 +183,13 @@ export default function EditSchedule({ data }: { data: DayPlanDataStore[number] 
         )}
 
         <h3 className={styles.input_box_h3}>Links</h3>
-        <input
-          className={styles.input_box}
-          type="text"
-          placeholder="URL"
+        <DefaultText
           name="links"
           value={planData.links}
           onChange={handleInputChange}
+          placeholder={"URL"}
         />
+
         <button
           className={`${styles.full_bg_button} ${styles.popup_button_text}`}
           onClick={editSinglePlan}

@@ -10,6 +10,7 @@ import { FriendsList } from "@/app/api/plan/FriendsList.types";
 import { useUserDataStore } from "@/contexts/userData/userData.provider";
 import { usePopupContext } from "../../contexts/popup/PopupContext";
 import { usePlanDataStore } from "@/contexts/planData/planData.provider";
+import DefaultText from "../Form/DefaultText";
 
 export default function EditFriendsList({ planId }: { planId: string }) {
   const router = useRouter();
@@ -117,13 +118,14 @@ export default function EditFriendsList({ planId }: { planId: string }) {
       <div className={styles.add_traveler}>
         <span>To add someone to your friend list,</span>
         <span>enter their Traveler Code.</span>
-        <input
-          className={styles.input_box_code}
-          type="text"
-          placeholder="0000"
+        <DefaultText
+          name="TravelerCode"
           value={newTravelerCode}
           onChange={handleTravelerCodeChange}
+          placeholder={"0000"}
+          codeInput={true}
         />
+
         <span className="notice_message">{noticeMessage}</span>
         <button className={styles.add_traveler_button} onClick={addTraveler}>
           Add Traveler
