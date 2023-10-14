@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, FormEvent, useEffect } from "react";
+import React, { useState, FormEvent, useRef, useEffect } from "react";
 import styles from "../Popup.module.scss";
 
 // Popup useContext
@@ -135,7 +135,7 @@ export default function EditSchedule({ data }: { data: DayPlanDataStore[number] 
           />
           <DefaultText
             name="placeToName"
-            value={planData.placeToName}
+            value={planData.placeToName || ""}
             onChange={handleInputChange}
             placeholder={"Location"}
             disabled={isNotMoving}
@@ -185,7 +185,7 @@ export default function EditSchedule({ data }: { data: DayPlanDataStore[number] 
         <h3 className={styles.input_box_h3}>Links</h3>
         <DefaultText
           name="links"
-          value={planData.links}
+          value={planData.links || ""}
           onChange={handleInputChange}
           placeholder={"URL"}
         />

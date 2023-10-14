@@ -4,7 +4,7 @@ import styles from "./Form.module.scss";
 
 interface DefaultTextProps {
   name: string;
-  value?: string;
+  value: string;
   placeholder?: string;
   codeInput?: boolean;
   disabled?: boolean;

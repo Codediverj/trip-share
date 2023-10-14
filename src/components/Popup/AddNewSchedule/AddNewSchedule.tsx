@@ -161,7 +161,7 @@ export default function AddNewSchedule({
           />
           <DefaultText
             name="placeToName"
-            value={planData.placeToName}
+            value={planData.placeToName || ""}
             onChange={handleInputChange}
             placeholder={"Location"}
             disabled={isNotMoving}
@@ -275,7 +275,7 @@ export default function AddNewSchedule({
         <h3 className={styles.input_box_h3}>Links</h3>
         <DefaultText
           name="links"
-          value={planData.links}
+          value={planData.links || ""}
           onChange={handleInputChange}
           placeholder={"URL"}
         />

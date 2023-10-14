@@ -2,7 +2,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import styles from "../plan.module.scss";
-import { useState } from "react";
+import { ReactNode, useState } from "react";
 import { profileMockData } from "../data"; //temp data
 
 // Popup
@@ -31,7 +31,7 @@ export default function PlanPage({
   children,
   params,
 }: {
-  children: React.ReactNode;
+  children: ReactNode;
   params: { id: string };
 }) {
   const [activeTab, setActiveTab] = useState(0);
