@@ -54,9 +54,10 @@
   background: #fff;
   border-radius: 10px;
   position: relative;
+  margin-bottom: 10px;
   :global {
     .top_part {
-      padding: 14px 20px 10px 44px;
+      padding: 20px 20px 10px 44px;
 
       .number {
         width: 26px;
@@ -87,20 +88,21 @@
         }
       }
       .middle_block {
-        display: flex;
         margin-top: 10px;
-        align-items: center;
         .plan_content {
+          width: 100%;
           font-family: var(--poppins);
           font-size: 12px;
           font-weight: 400;
-          padding-right: 6px;
         }
         .link_button {
-          background: #6276cc;
-          color: #fff;
+          display: block;
+          text-align: center;
+          margin-top: 12px;
+          border: 1px solid #6276cc;
+          padding: 6px 50px;
+          color: #6276cc;
           border-radius: 5px;
-          padding: 9px 12px;
           font-family: var(--poppins);
           font-size: 12px;
           font-weight: 500;
@@ -173,31 +175,44 @@
         }
       }
     }
-    .edit_area {
-      display: flex;
-      margin-bottom: 10px;
-      button {
-        width: 50%;
-        height: 30px;
-        font-family: var(--poppins);
-        font-size: 12px;
-        font-weight: 400;
-        line-height: 30px;
+    .more_button_wrap {
+      .more_button {
         display: flex;
-        justify-content: center;
         align-items: center;
+        padding: 3px 7px;
+        border: 1px solid #e9e7f3;
+        background: #fff;
         border-radius: 5px;
+        position: absolute;
+        top: 14px;
+        right: 20px;
       }
-      .edit_button {
-        background: #e9e7f3;
-        color: #867bd5;
-      }
-      .delete_button {
-        background: #faeaea;
-        color: #c80000;
-      }
-      span {
-        padding-left: 6px;
+      .edit_area {
+        display: flex;
+        margin-bottom: 10px;
+        button {
+          width: 50%;
+          height: 30px;
+          font-family: var(--poppins);
+          font-size: 12px;
+          font-weight: 400;
+          line-height: 30px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          border-radius: 5px;
+        }
+        .edit_button {
+          background: #e9e7f3;
+          color: #867bd5;
+        }
+        .delete_button {
+          background: #faeaea;
+          color: #c80000;
+        }
+        span {
+          padding-left: 6px;
+        }
       }
     }
   }

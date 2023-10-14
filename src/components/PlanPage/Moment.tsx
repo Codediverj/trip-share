@@ -7,9 +7,9 @@ import AddNewMomentButton from "../AddNewMomentButton";
 // Popup
 import { usePopupContext } from "@/contexts/popup/PopupContext";
 import AddNewMoment from "../Popup/AddNewMoment/AddNewMoment";
-import MoreButton from "./MoreButton";
 import { useMomentDataStore } from "@/contexts/momentData/momentData.provider";
 import { useUserDataStore } from "@/contexts/userData/userData.provider";
+import MoreButtonMoment from "./MoreButtonMoment";
 
 function Moment() {
   const { openPopup } = usePopupContext();
@@ -51,7 +51,7 @@ function Moment() {
 
               <p className="box_content">{data.memo}</p>
             </div>
-            {data.writer.writerUserId === userData.userId && <MoreButton data={data} />}
+            {data.writer.writerUserId === userData.userId && <MoreButtonMoment data={data} />}
           </div>
         ))}
 

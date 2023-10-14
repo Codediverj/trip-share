@@ -1,16 +1,13 @@
 "use client";
-import React, { useMemo, useState } from "react";
+import React, { useMemo } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import styles from "./DayPlan.module.scss";
 
-// Popup useContext
-import { usePopupContext } from "../../contexts/popup/PopupContext";
-import AddNewPlan from "../Popup/AddNewPlan";
-import DeletePlan from "../Popup/DeletePlan";
+//useContext
 import { useUserDataStore } from "@/contexts/userData/userData.provider";
 import { DayPlanDataStore } from "@/contexts/dayPlanData/dayPlanData.types";
-import EditSchedule from "../Popup/EditSchedule/EditSchedule";
+import MoreButtonDayPlan from "./MoreButtonDayPlan";
 
 function DayPlanContentSingle({
   data,
@@ -19,10 +16,7 @@ function DayPlanContentSingle({
   data: DayPlanDataStore[number];
   selectedDate: Date;
 }) {
-  const { openPopup } = usePopupContext();
   const userData = useUserDataStore();
-
-  //console.log(data);
 
   const isPaid = useMemo(() => {
     if (data.isGroupActivity) {
@@ -68,7 +62,7 @@ function DayPlanContentSingle({
           <p className="plan_content">{data.note}</p>
           {data.links && (
             <Link href={data.links} className="link_button" target="_blank">
-              Link
+              External Link
             </Link>
           )}
         </div>
@@ -101,35 +95,14 @@ function DayPlanContentSingle({
                   height="14"
                   className="unpaid_icon"
                 />
-                <span>Unpaid</span>
+                <span>Not Paid yet</span>
               </div>
             )}
           </div>
         </div>
       )}
 
-      <div className="edit_area">
-        <button className="edit_button" onClick={() => openPopup(<EditSchedule data={data} />)}>
-          <Image
-            src="/edit_purple.svg"
-            alt="edit icon"
-            width="12"
-            height="12"
-            className="edit_icon"
-          />
-          <span>Edit</span>
-        </button>
-        <button className="delete_button" onClick={() => openPopup(<DeletePlan data={data} />)}>
-          <Image
-            src="/close-red-14x14.svg"
-            alt="delete icon"
-            width="14"
-            height="14"
-            className="delete_icon"
-          />
-          <span>Delete</span>
-        </button>
-      </div>
+      <MoreButtonDayPlan data={data} />
     </div>
   );
 }

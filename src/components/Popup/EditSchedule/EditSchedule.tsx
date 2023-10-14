@@ -20,7 +20,6 @@ export default function EditSchedule({ data }: { data: DayPlanDataStore[number] 
   const { closePopup } = usePopupContext();
   const userData = useUserDataStore();
   const [isNotMoving, setIsNotMoving] = useState(data.placeToName === undefined ? true : false);
-  //const [isGroupPaid, setIsGroupPaid] = useState(false);
 
   const [isGroupPaid, setIsGroupPaid] = useState(() => {
     const initialValue = findOutPaidUser(

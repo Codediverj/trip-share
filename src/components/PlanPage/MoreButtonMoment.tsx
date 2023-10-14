@@ -6,7 +6,7 @@ import { usePopupContext } from "@/contexts/popup/PopupContext";
 import EditMoment from "../Popup/EditMoment/EditMoment";
 import { MomentDataType } from "./singleMoment.types";
 
-function MoreButton({ data }: { data: MomentDataType }) {
+function MoreButtonMoment({ data }: { data: MomentDataType }) {
   const [isMoreOpen, setIsMoreOpen] = useState(false);
   const { openPopup } = usePopupContext();
 
@@ -50,4 +50,4 @@ function MoreButton({ data }: { data: MomentDataType }) {
   );
 }
 
-export default MoreButton;
+export default MoreButtonMoment;
