@@ -8,6 +8,7 @@ import styles from "./DayPlan.module.scss";
 import { useUserDataStore } from "@/contexts/userData/userData.provider";
 import { DayPlanDataStore } from "@/contexts/dayPlanData/dayPlanData.types";
 import MoreButtonDayPlan from "./MoreButtonDayPlan";
+import { usePlanDataStore } from "@/contexts/planData/planData.provider";
 
 function DayPlanContentSingle({
   data,
@@ -17,6 +18,7 @@ function DayPlanContentSingle({
   selectedDate: Date;
 }) {
   const userData = useUserDataStore();
+  const planData = usePlanDataStore();
 
   const isPaid = useMemo(() => {
     if (data.isGroupActivity) {
@@ -71,7 +73,7 @@ function DayPlanContentSingle({
         <div className="bottom_part">
           <div className="price_part">
             <span className="each">{data.isGroupActivity ? "Group" : "For me"}</span>
-            <span className="price">${calExpense}</span>
+            <span className="price">{`${calExpense} ${planData.currency}`}</span>
           </div>
 
           <div className="join_list">

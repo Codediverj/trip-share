@@ -4,9 +4,11 @@ import { useUserDataStore } from "@/contexts/userData/userData.provider";
 import BalenceOweTo from "../Expense/BalenceOweTo";
 import ExpenseItem from "../Expense/ExpenseItem";
 import { myExpense, ExpenseItemType as ExpenseItemType } from "@/utils/myExpense.utils";
+import { usePlanDataStore } from "@/contexts/planData/planData.provider";
 
 function Expense() {
   const userData = useUserDataStore();
+  const planData = usePlanDataStore();
   const allExpenseData = useExpenseDataStore();
 
   const filteredMyExpenses = allExpenseData.filter((item) =>
@@ -25,7 +27,7 @@ function Expense() {
         <div className="total_expense">
           <div className="total_expense_head">
             <h4>My Total Expense</h4>
-            <h5>$ {totalExpense.toFixed(2)}</h5>
+            <h5>{`${totalExpense.toFixed(2)} ${planData.currency}`}</h5>
           </div>
 
           <ul className="expense_list">

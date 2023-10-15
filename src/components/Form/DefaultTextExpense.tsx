@@ -1,6 +1,7 @@
 "use client";
 import React from "react";
 import styles from "./Form.module.scss";
+import { usePlanDataStore } from "@/contexts/planData/planData.provider";
 
 interface DefaultTextExpenseProps {
   name: string;
@@ -21,11 +22,13 @@ export default function DefaultTextExpense({
   onChange,
   onClick,
 }: DefaultTextExpenseProps) {
+  const planData = usePlanDataStore();
+
   return (
     <div
       className={`${isGroupActivity ? styles.group_total_expense : styles.personal_total_expense}`}
     >
-      <span>$</span>
+      <span>{nextText}</span>
       <input
         className={`${
           isGroupActivity ? styles.group_total_expense_input : styles.personal_total_expense_input
@@ -37,7 +40,7 @@ export default function DefaultTextExpense({
         onClick={onClick}
         onChange={onChange}
       />
-      <span>{nextText}</span>
+      <span>{planData.currency}</span>
     </div>
   );
 }
