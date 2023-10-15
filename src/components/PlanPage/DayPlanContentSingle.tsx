@@ -9,6 +9,7 @@ import { useUserDataStore } from "@/contexts/userData/userData.provider";
 import { DayPlanDataStore } from "@/contexts/dayPlanData/dayPlanData.types";
 import MoreButtonDayPlan from "./MoreButtonDayPlan";
 import { usePlanDataStore } from "@/contexts/planData/planData.provider";
+import { findOutPaidUser } from "@/utils/findoutPaidUser.utils";
 
 function DayPlanContentSingle({
   data,
@@ -29,6 +30,10 @@ function DayPlanContentSingle({
     ).every((expense) => expense.paidUser);
   }, [data.isGroupActivity, data.Single_Plan_Expense, userData.userId]);
 
+  const PaidId = useMemo(() => {
+    return findOutPaidUser(data.isGroupActivity, data.Single_Plan_Expense, userData.userId);
+  }, [data.Single_Plan_Expense, data.isGroupActivity, userData.userId]);
+
   const calExpense = useMemo(() => {
     const expenseTotal = data.Single_Plan_Expense.reduce(
       (total: number, item: { expense: number }) => total + item.expense,
@@ -39,6 +44,16 @@ function DayPlanContentSingle({
       : (expenseTotal / data.Single_Plan_Expense.length).toFixed(2);
     return calculatedExpense;
   }, [data.Single_Plan_Expense, data.isGroupActivity]);
+
+  const matchedNickname = findMatchingNickname(data.Single_Plan_Expense);
+  function findMatchingNickname(data: any) {
+    for (let i = 0; i < data.length; i++) {
+      if (data[i].attendedUser.attendedUserId === PaidId) {
+        return data[i].attendedUser.attendedUserNickname;
+      }
+    }
+    return null;
+  }
 
   return (
     <div className={styles.day_plan_content_single}>
@@ -86,7 +101,7 @@ function DayPlanContentSingle({
                   height="14"
                   className="paid_icon"
                 />
-                <span>Paid</span>
+                <span>{data.isGroupActivity ? `${matchedNickname} Paid for All` : `I Paid`}</span>
               </div>
             ) : (
               <div className="unpaid">
