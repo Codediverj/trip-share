@@ -22,12 +22,13 @@ import { Plan } from "../../api/plan/plan.types";
 
 //util
 import { formatDateStartEnd } from "../../../utils/formatDateStartEnd.utils";
+import { subscribeToChannel } from "@/utils/supabaseRealtime.utils";
 
 export default function HomePage() {
   const defaultPlanImage =
     "https://images.unsplash.com/photo-1543158266-0066955047b1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80";
 
-  const { isPopupOpen, popupContent, openPopup, closePopup } = usePopupContext();
+  const { isPopupOpen, popupContent, closePopup } = usePopupContext();
 
   const supabase = createClientComponentClient();
   const userData = useUserDataStore();
@@ -38,6 +39,13 @@ export default function HomePage() {
         .then((data) => setPlanAllList(data))
         .catch((error) => console.error(error));
     }
+    const channel = subscribeToChannel(supabase, (payload) => {
+      listPlan(supabase, userData.userId).then(setPlanAllList).catch(console.error);
+    });
+
+    return () => {
+      channel.unsubscribe();
+    };
   }, [supabase, userData.userId]);
 
   const today = new Date();

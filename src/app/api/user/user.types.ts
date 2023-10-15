@@ -1,8 +1,8 @@
 export type User = {
   userId: string;
-  nickname: string;
-  profileImage: string;
+  nickname?: string;
+  profileImage?: string;
   createdAt: Date;
-  email: string;
+  email?: string;
   travelerCode: string;
 };

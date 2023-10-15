@@ -10,6 +10,7 @@ import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { useUserDataStore } from "@/contexts/userData/userData.provider";
 import { listPlan } from "@/app/api/plan/plan.apis";
 import { Plan } from "@/app/api/plan/plan.types";
+import { subscribeToChannel } from "@/utils/supabaseRealtime.utils";
 
 function HomeHeader() {
   const supabase = createClientComponentClient();
@@ -21,6 +22,13 @@ function HomeHeader() {
         .then((data) => setPlanAllList(data))
         .catch((error) => console.error(error));
     }
+    const channel = subscribeToChannel(supabase, (payload) => {
+      listPlan(supabase, userData.userId).then(setPlanAllList).catch(console.error);
+    });
+
+    return () => {
+      channel.unsubscribe();
+    };
   }, [supabase, userData.userId]);
 
   const today = new Date();
