@@ -13,28 +13,24 @@ const PopupContext = createContext<PopupContextType | undefined>(undefined);
 export const usePopupContext = () => {
   const context = useContext(PopupContext);
   if (!context) {
-    throw new Error(
-      "usePopupContext must be used within a PopupContextProvider"
-    );
+    throw new Error("usePopupContext must be used within a PopupContextProvider");
   }
   return context;
 };
 
-export const PopupContextProvider: React.FC<{ children: React.ReactNode }> = ({
-  children,
-}) => {
+export const PopupContextProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
-  const [popupContent, setPopupContent] = useState<React.ReactNode | null>(
-    null
-  );
+  const [popupContent, setPopupContent] = useState<React.ReactNode | null>(null);
 
   const openPopup = (content: React.ReactNode) => {
     setIsPopupOpen(true);
     setPopupContent(content);
+    document.body.style.overflow = "hidden";
   };
 
   const closePopup = () => {
     setIsPopupOpen(false);
+    document.body.style.overflow = "";
   };
 
   const contextValue: PopupContextType = {
@@ -44,9 +40,5 @@ export const PopupContextProvider: React.FC<{ children: React.ReactNode }> = ({
     closePopup,
   };
 
-  return (
-    <PopupContext.Provider value={contextValue}>
-      {children}
-    </PopupContext.Provider>
-  );
+  return <PopupContext.Provider value={contextValue}>{children}</PopupContext.Provider>;
 };

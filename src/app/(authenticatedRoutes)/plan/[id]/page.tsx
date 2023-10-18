@@ -27,13 +27,7 @@ import { formatDateStartEnd } from "../../../../utils/formatDateStartEnd.utils";
 import { totaldays } from "../../../../utils/totaldays.utils";
 import { cx } from "@/utils/classname.utils";
 
-export default function PlanPage({
-  children,
-  params,
-}: {
-  children: ReactNode;
-  params: { id: string };
-}) {
+export default function PlanPage({ params }: { params: { id: string } }) {
   const [activeTab, setActiveTab] = useState(0);
   const handleTabClick = (index: number) => {
     setActiveTab(index);

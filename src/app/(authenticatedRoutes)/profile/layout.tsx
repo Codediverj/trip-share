@@ -37,6 +37,7 @@ export default function ProfileLayout({ children }: { children: React.ReactNode 
         nickname: newNickname,
         email: userData.email,
         traveler_code: userData.travelerCode,
+        created_at: userData.createdAt,
       })
       .select()
       .single()

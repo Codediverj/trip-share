@@ -9,6 +9,49 @@ export type Json =
 export interface Database {
   public: {
     Tables: {
+      Moment: {
+        Row: {
+          id: number
+          memo: string
+          moment_date: string
+          moment_image: string | null
+          plan_id: string
+          title: string
+          writer: string
+        }
+        Insert: {
+          id?: number
+          memo: string
+          moment_date: string
+          moment_image?: string | null
+          plan_id: string
+          title: string
+          writer: string
+        }
+        Update: {
+          id?: number
+          memo?: string
+          moment_date?: string
+          moment_image?: string | null
+          plan_id?: string
+          title?: string
+          writer?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "Moment_plan_id_fkey"
+            columns: ["plan_id"]
+            referencedRelation: "Plan"
+            referencedColumns: ["plan_id"]
+          },
+          {
+            foreignKeyName: "Moment_writer_fkey"
+            columns: ["writer"]
+            referencedRelation: "User"
+            referencedColumns: ["user_id"]
+          }
+        ]
+      }
       People_Join: {
         Row: {
           plan_id: string
@@ -185,24 +228,24 @@ export interface Database {
       }
       User: {
         Row: {
-          created_at: string | null
-          email: string | null
+          created_at: string
+          email: string
           nickname: string | null
           profile_image: string | null
           traveler_code: string
           user_id: string
         }
         Insert: {
-          created_at?: string | null
-          email?: string | null
+          created_at: string
+          email: string
           nickname?: string | null
           profile_image?: string | null
           traveler_code: string
           user_id: string
         }
         Update: {
-          created_at?: string | null
-          email?: string | null
+          created_at?: string
+          email?: string
           nickname?: string | null
           profile_image?: string | null
           traveler_code?: string
@@ -225,7 +268,16 @@ export interface Database {
       [_ in never]: never
     }
     Enums: {
-      Currency: "USD" | "CAD"
+      Currency:
+        | "USD"
+        | "CAD"
+        | "KRW"
+        | "EUR"
+        | "GBP"
+        | "CHF"
+        | "AUD"
+        | "JPY"
+        | "NZD"
     }
     CompositeTypes: {
       [_ in never]: never

@@ -8,10 +8,11 @@
   font-size: 14px;
   color: #2e313c;
   width: 100%;
+  &::placeholder {
+    color: #c1c7d7;
+  }
 }
-.input_box::placeholder {
-  color: #c1c7d7;
-}
+
 .input_box_code {
   border: 1px solid #6276cc;
   padding: 10px 14px;
@@ -21,6 +22,15 @@
   font-size: 14px;
   color: #2e313c;
   width: 100%;
+  text-align: center !important;
+  &::-webkit-outer-spin-button,
+  &::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  &[type="number"] {
+    -moz-appearance: textfield;
+  }
 }
 .input_box_code::placeholder {
   color: #c1c7d7;
@@ -28,6 +38,12 @@
   font-size: 20px;
   font-weight: 700;
   color: #eceef5;
+}
+.error_message {
+  color: #c80000;
+  font-family: var(--poppins);
+  font-weight: 500;
+  font-size: 13px;
 }
 
 /* Date Input */

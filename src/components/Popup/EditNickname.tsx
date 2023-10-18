@@ -10,13 +10,19 @@ interface EditNicknameProps {
 
 export default function EditNickname({ nickname, onSave }: EditNicknameProps) {
   const [inputValue, setInputValue] = useState(nickname || "");
+  const [errorMessage, setErrorMessage] = useState<string>("");
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(event.target.value);
   };
 
   const handleSave = () => {
-    onSave(inputValue);
+    if (inputValue.length > 15) {
+      setErrorMessage("Nickname cannot exceed 15 characters");
+    } else {
+      setErrorMessage("");
+      onSave(inputValue);
+    }
   };
 
   return (
@@ -27,6 +33,7 @@ export default function EditNickname({ nickname, onSave }: EditNicknameProps) {
         value={inputValue}
         onChange={handleInputChange}
         placeholder={"Nickname"}
+        errorMessage={errorMessage}
       />
 
       <button

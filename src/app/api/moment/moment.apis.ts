@@ -21,10 +21,12 @@ export const getMomentData = async (
     momentDate: DateTime.fromISO(moment.moment_date).toJSDate(),
     memo: moment.memo,
     momentImage: moment.moment_image || undefined,
-    writer: {
-      writerUserId: moment.User.user_id,
-      writerNickName: moment.User.nickname || undefined,
-      writerImage: moment.User.profile_image || undefined,
-    },
+    writer: moment.User
+      ? {
+          writerUserId: moment.User.user_id,
+          writerNickName: moment.User.nickname || undefined,
+          writerImage: moment.User.profile_image || undefined,
+        }
+      : undefined,
   }));
 };

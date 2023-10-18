@@ -3,6 +3,8 @@ import styles from "./DayPlan.module.scss";
 import DayPlanContentSingle from "./DayPlanContentSingle";
 import AddNewScheduleButton from "../AddNewScheduleButton";
 import { useDayPlanDataStore } from "@/contexts/dayPlanData/dayPlanData.provider";
+import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import { useEffect } from "react";
 
 function DayPlanContent({ selectedDate }: { selectedDate: Date }) {
   const dayPlanData = useDayPlanDataStore();
@@ -12,6 +14,12 @@ function DayPlanContent({ selectedDate }: { selectedDate: Date }) {
     return data.order > max ? data.order : max;
   }, -1);
   const nextOrder = maxOrder + 1;
+
+  const supabase = createClientComponentClient();
+  useEffect(() => {
+    console.log("fjsldkjfljsdlfjls");
+    supabase.rpc("hello_world").then(console.log);
+  }, []);
 
   return (
     <div className={styles.day_plan_content}>

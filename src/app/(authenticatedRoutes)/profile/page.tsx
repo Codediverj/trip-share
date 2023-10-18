@@ -16,19 +16,23 @@ import { useUserDataStore } from "@/contexts/userData/userData.provider";
 
 //Component
 import GeneratedTravlerCode from "../../../components/GenerateTravelerCode";
+import { Database } from "@/supabase.types";
 
 export default function ProfilePage() {
   const { openPopup } = usePopupContext();
-  const supabase = createClientComponentClient();
+  const supabase = createClientComponentClient<Database>();
   const [travelerCode, setTravelerCode] = useState("0000");
   const userData = useUserDataStore(); //server
   const [userDataState, setUserDataState] = useState(userData); //client
   const router = useRouter();
 
   useEffect(() => {
+    if (!userData || !userData.userId) return;
+
     supabase
       .from("User")
       .select()
+      .eq("user_id", userData.userId)
       .single()
       .then(({ data, error }) => {
         if (error) {
@@ -39,7 +43,7 @@ export default function ProfilePage() {
           setUserDataState(data);
         }
       });
-  }, []);
+  }, [supabase, userData]);
 
   useEffect(() => {
     generateQRCode(travelerCode);
