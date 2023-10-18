@@ -1,6 +1,7 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./Popup.module.scss";
+import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 
 // Popup useContext
 import { usePopupContext } from "../../contexts/popup/PopupContext";
@@ -14,6 +15,21 @@ export default function EditPlan() {
   const { closePopup } = usePopupContext();
   const planContextData = usePlanDataStore();
   const [planData, setPlanData] = useState<PlanDataStore>(planContextData);
+  const supabase = createClientComponentClient();
+  const [options, setOptions] = useState([]);
+  useEffect(() => {
+    supabase.rpc("hello_world").then((response) => {
+      if (response.data) {
+        setOptions(
+          response.data.map((value: string, index: number) => (
+            <option key={index} value={value}>
+              {value}
+            </option>
+          ))
+        );
+      }
+    });
+  }, [supabase]);
 
   const handleInputChange = (event: any) => {
     const { name, value } = event.target;
@@ -80,12 +96,14 @@ export default function EditPlan() {
       />
 
       <h3 className={styles.input_box_h3}>Default Currency for this trip</h3>
-      <DefaultText
+      <select
+        className={styles.select_box}
         name="currency"
-        value={planData.currency}
         onChange={handleInputChange}
-        placeholder={"$ / ￥ / ₩ / €"}
-      />
+        value={planData.currency}
+      >
+        {options}
+      </select>
 
       <button
         className={`${styles.full_bg_button} ${styles.popup_button_text}`}

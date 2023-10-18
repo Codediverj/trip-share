@@ -1,6 +1,7 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./Popup.module.scss";
+import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 
 // Popup useContext
 import { usePopupContext } from "../../contexts/popup/PopupContext";
@@ -13,13 +14,29 @@ import ImageSelectInput from "../Form/ImageSelectInput";
 
 export default function AddNewPlan() {
   const { closePopup } = usePopupContext();
+  const supabase = createClientComponentClient();
+  const [options, setOptions] = useState([]);
+  useEffect(() => {
+    supabase.rpc("hello_world").then((response) => {
+      if (response.data) {
+        setOptions(
+          response.data.map((value: string, index: number) => (
+            <option key={index} value={value}>
+              {value}
+            </option>
+          ))
+        );
+      }
+    });
+  }, [supabase]);
+
   const [planData, setPlanData] = useState<Omit<Plan, "planId">>({
     title: "",
     startDate: new Date(),
     endDate: new Date(),
     backgroundImage:
       "https://images.unsplash.com/photo-1543158266-0066955047b1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
-    currency: "",
+    currency: "USD",
   });
 
   const handleInputChange = (event: any) => {
@@ -83,12 +100,14 @@ export default function AddNewPlan() {
       />
 
       <h3 className={styles.input_box_h3}>Default Currency for this trip</h3>
-      <DefaultText
+      <select
+        className={styles.select_box}
         name="currency"
-        value={planData.currency}
         onChange={handleInputChange}
-        placeholder={"$ / ￥ / ₩ / €"}
-      />
+        value={planData.currency}
+      >
+        {options}
+      </select>
 
       <button
         className={`${styles.full_bg_button} ${styles.popup_button_text}`}
