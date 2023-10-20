@@ -11,14 +11,8 @@ export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
   const code = searchParams.get("code");
 
-  //기존코드
-  // if (code) {
-  //   await supabase.auth.exchangeCodeForSession(code);
-  // }
-
   console.log("code", code);
   if (code) {
-    //다른 아이디로 로그인 했다면, signout 해주기...
     const {
       data: { session },
     } = await supabase.auth.getSession();
@@ -43,7 +37,7 @@ export async function GET(req: NextRequest) {
 
     if (existUser) {
       // sign in
-      console.log(user);
+      console.log("User already exists:", user);
     } else {
       // sign up
       console.log(user);

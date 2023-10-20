@@ -17,7 +17,7 @@ export default function AddNewPlan() {
   const supabase = createClientComponentClient();
   const [options, setOptions] = useState([]);
   useEffect(() => {
-    supabase.rpc("hello_world").then((response) => {
+    supabase.rpc("currency_options").then((response) => {
       if (response.data) {
         setOptions(
           response.data.map((value: string, index: number) => (

@@ -2,7 +2,6 @@
 
 // import dynamic from "next/dynamic";
 import { useEffect } from "react";
-import { TestComp } from "./testComp";
 
 const RootPage = () => {
   const now = +new Date();

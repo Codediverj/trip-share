@@ -230,7 +230,7 @@ export interface Database {
         Row: {
           created_at: string
           email: string
-          nickname: string | null
+          nickname: string
           profile_image: string | null
           traveler_code: string
           user_id: string
@@ -238,7 +238,7 @@ export interface Database {
         Insert: {
           created_at: string
           email: string
-          nickname?: string | null
+          nickname: string
           profile_image?: string | null
           traveler_code: string
           user_id: string
@@ -246,7 +246,7 @@ export interface Database {
         Update: {
           created_at?: string
           email?: string
-          nickname?: string | null
+          nickname?: string
           profile_image?: string | null
           traveler_code?: string
           user_id?: string
@@ -265,7 +265,10 @@ export interface Database {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      currency_options: {
+        Args: Record<PropertyKey, never>
+        Returns: unknown
+      }
     }
     Enums: {
       Currency:

@@ -17,6 +17,8 @@ import { useUserDataStore } from "@/contexts/userData/userData.provider";
 //Component
 import GeneratedTravlerCode from "../../../components/GenerateTravelerCode";
 import { Database } from "@/supabase.types";
+import { User } from "@/app/api/user/user.types";
+import { DateTime } from "luxon";
 
 export default function ProfilePage() {
   const { openPopup } = usePopupContext();
@@ -40,7 +42,14 @@ export default function ProfilePage() {
         }
         if (data) {
           setTravelerCode(data.traveler_code);
-          setUserDataState(data);
+          setUserDataState({
+            userId: data.user_id,
+            nickname: data.nickname,
+            profileImage: data.profile_image || undefined,
+            createdAt: DateTime.fromISO(data.created_at).toJSDate(),
+            email: data.email,
+            travelerCode: data.traveler_code,
+          });
         }
       });
   }, [supabase, userData]);
@@ -61,13 +70,15 @@ export default function ProfilePage() {
     }
     supabase
       .from("User")
-      .upsert({
-        user_id: userData.userId,
-        profile_image: userData.profileImage,
-        nickname: userData.nickname,
-        email: userData.email,
+      .update({
+        //user_id: userData.userId,
+        //profile_image: userData.profileImage,
+        //nickname: userData.nickname,
+        //email: userData.email,
         traveler_code: newCode,
+        //created_at: userData.createdAt,
       })
+      .eq("user_id", userData.userId)
       .select()
       .single()
       .then(({ data, error }) => {
@@ -77,7 +88,7 @@ export default function ProfilePage() {
         if (data) {
           setUserDataState((prevData) => {
             if (prevData) {
-              return { ...prevData, traveler_code: newCode };
+              return { ...prevData, travelerCode: newCode };
             }
             return prevData;
           });

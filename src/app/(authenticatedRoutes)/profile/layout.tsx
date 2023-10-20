@@ -14,12 +14,13 @@ import EditProfileImage from "../../../components/Popup/EditProfileImage";
 
 //UserData(Context)
 import { useUserDataStore } from "@/contexts/userData/userData.provider";
+import { Database } from "@/supabase.types";
 
 export default function ProfileLayout({ children }: { children: React.ReactNode }) {
   const { isPopupOpen, popupContent, openPopup, closePopup } = usePopupContext();
   const userData = useUserDataStore();
   const [userDataState, setUserDataState] = useState(userData);
-  const supabase = createClientComponentClient();
+  const supabase = createClientComponentClient<Database>();
 
   useEffect(() => {
     setUserDataState(userData);
@@ -31,14 +32,10 @@ export default function ProfileLayout({ children }: { children: React.ReactNode 
     }
     supabase
       .from("User")
-      .upsert({
-        user_id: userData.userId,
-        profile_image: userData.profileImage,
+      .update({
         nickname: newNickname,
-        email: userData.email,
-        traveler_code: userData.travelerCode,
-        created_at: userData.createdAt,
       })
+      .eq("user_id", userData.userId)
       .select()
       .single()
       .then(({ data, error }) => {
@@ -64,13 +61,10 @@ export default function ProfileLayout({ children }: { children: React.ReactNode 
     }
     supabase
       .from("User")
-      .upsert({
-        user_id: userData.userId,
-        profile_image: userData.profileImage,
-        nickname: profileImage,
-        email: userData.email,
-        traveler_code: userData.travelerCode,
+      .update({
+        profile_image: profileImage,
       })
+      .eq("user_id", userData.userId)
       .select()
       .single()
       .then(({ data, error }) => {
@@ -89,6 +83,7 @@ export default function ProfileLayout({ children }: { children: React.ReactNode 
         }
       });
   };
+
   return (
     <section>
       <header>

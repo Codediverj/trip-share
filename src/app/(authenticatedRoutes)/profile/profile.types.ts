@@ -4,4 +4,5 @@ export type UserData = {
   nickname: string;
   email: string;
   traveler_code: string;
+  created_at: Date;
 };
