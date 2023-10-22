@@ -33,7 +33,7 @@ export default function DefaultTextExpense({
         className={`${
           isGroupActivity ? styles.group_total_expense_input : styles.personal_total_expense_input
         }`}
-        type="text"
+        type="number"
         placeholder={placeholder}
         name={name}
         value={value}

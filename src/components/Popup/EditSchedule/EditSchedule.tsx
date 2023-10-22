@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, FormEvent, useRef, useEffect } from "react";
+import React, { useState, FormEvent } from "react";
 import styles from "../Popup.module.scss";
 
 // Popup useContext
@@ -7,10 +7,13 @@ import { usePopupContext } from "../../../contexts/popup/PopupContext";
 import { useUserDataStore } from "@/contexts/userData/userData.provider";
 import { DayPlanDataStore } from "@/contexts/dayPlanData/dayPlanData.types";
 import { SinglePlan } from "./EditSchedule.types";
+
 import PersonalExpense from "./PersonalExpense";
 import GroupExpense from "./GroupExpense";
 import { findOutPaidUser } from "@/utils/findoutPaidUser.utils";
 import { calculateExpense } from "@/utils/calculateExpense.utils";
+
+//input components
 import LongTextBox from "@/components/Form/LongTextBox";
 import DefaultText from "@/components/Form/DefaultText";
 import RadioInput from "@/components/Form/RadioInput";
@@ -29,6 +32,9 @@ export default function EditSchedule({ data }: { data: DayPlanDataStore[number] 
     );
     return initialValue === "" ? false : true;
   });
+
+  const [fromErrorMessage, setFromErrorMessage] = useState<string>("");
+  const [toErrorMessage, setToErrorMessage] = useState<string>("");
 
   const [planData, setPlanData] = useState<Omit<SinglePlan, "singlePlanId" | "planId">>(() => ({
     placeFromId: data.placeFromId,
@@ -87,7 +93,20 @@ export default function EditSchedule({ data }: { data: DayPlanDataStore[number] 
       paidID,
     } = planData;
 
+    let hasError = false;
+
     if (!planData) {
+      return;
+    }
+    if (placeFromName === "" || undefined) {
+      setFromErrorMessage("This field cannot be empty.");
+      hasError = true;
+    }
+    if (!isNotMoving && placeToName === "") {
+      setToErrorMessage("This field cannot be empty.");
+      hasError = true;
+    }
+    if (hasError) {
       return;
     }
 
@@ -122,6 +141,7 @@ export default function EditSchedule({ data }: { data: DayPlanDataStore[number] 
           value={planData.placeFromName}
           onChange={handleInputChange}
           placeholder={"Location"}
+          errorMessage={fromErrorMessage}
         />
 
         <div className={`${styles.input_checkbox_wrap} ${isNotMoving ? styles.disabled : ""}`}>
@@ -138,6 +158,7 @@ export default function EditSchedule({ data }: { data: DayPlanDataStore[number] 
             onChange={handleInputChange}
             placeholder={"Location"}
             disabled={isNotMoving}
+            errorMessage={toErrorMessage}
           />
         </div>
 

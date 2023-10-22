@@ -22,9 +22,11 @@ export default function DefaultText({
   onChange,
 }: DefaultTextProps) {
   return (
-    <>
+    <div className={styles.default_input}>
       <input
-        className={`${codeInput ? styles.input_box_code : styles.input_box}`}
+        className={`${codeInput ? "input_box_code" : "input_box"} ${
+          errorMessage && errorMessage !== "" ? "error" : ""
+        }`}
         type={`${codeInput ? "number" : "text"}`}
         placeholder={placeholder}
         name={name}
@@ -33,6 +35,6 @@ export default function DefaultText({
         disabled={disabled}
       />
       <div className="error_message">{errorMessage}</div>
-    </>
+    </div>
   );
 }

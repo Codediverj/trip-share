@@ -19,7 +19,7 @@ export default function LongTextBox({
 }: LongTextBoxProps) {
   return (
     <textarea
-      className={styles.input_box}
+      className={styles.long_input_box}
       placeholder={placeholder}
       name={name}
       onChange={onChange}

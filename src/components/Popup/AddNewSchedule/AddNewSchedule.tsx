@@ -1,7 +1,6 @@
 "use client";
 import React, { useState, FormEvent } from "react";
 import styles from "../Popup.module.scss";
-import Image from "next/image";
 
 // Popup useContext
 import { usePopupContext } from "../../../contexts/popup/PopupContext";
@@ -28,6 +27,8 @@ export default function AddNewSchedule({
   const planContextData = usePlanDataStore();
   const [isNotMoving, setIsNotMoving] = useState(false);
   const [isGroupPaid, setIsGroupPaid] = useState(false);
+  const [fromErrorMessage, setFromErrorMessage] = useState<string>("");
+  const [toErrorMessage, setToErrorMessage] = useState<string>("");
 
   const [planData, setPlanData] = useState<Omit<SinglePlan, "singlePlanId" | "planId">>({
     date: selectedDate,
@@ -111,7 +112,20 @@ export default function AddNewSchedule({
       paidID,
     } = planData;
 
+    let hasError = false;
+
     if (!planData) {
+      return;
+    }
+    if (placeFromName === "" || undefined) {
+      setFromErrorMessage("This field cannot be empty.");
+      hasError = true;
+    }
+    if (!isNotMoving && placeToName === "") {
+      setToErrorMessage("This field cannot be empty.");
+      hasError = true;
+    }
+    if (hasError) {
       return;
     }
 
@@ -149,6 +163,7 @@ export default function AddNewSchedule({
           value={planData.placeFromName}
           onChange={handleInputChange}
           placeholder={"Location"}
+          errorMessage={fromErrorMessage}
         />
 
         <div className={`${styles.input_checkbox_wrap} ${isNotMoving ? styles.disabled : ""}`}>
@@ -165,6 +180,7 @@ export default function AddNewSchedule({
             onChange={handleInputChange}
             placeholder={"Location"}
             disabled={isNotMoving}
+            errorMessage={toErrorMessage}
           />
         </div>
 

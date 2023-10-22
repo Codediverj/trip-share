@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import styles from "./Popup.module.scss";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import { DateTime } from "luxon";
 
 // Popup useContext
 import { usePopupContext } from "../../contexts/popup/PopupContext";
@@ -17,6 +18,10 @@ export default function EditPlan() {
   const [planData, setPlanData] = useState<PlanDataStore>(planContextData);
   const supabase = createClientComponentClient();
   const [options, setOptions] = useState([]);
+  const [titleErrorMessage, setTitleErrorMessage] = useState<string>("");
+  const [fromErrorMessage, setFromErrorMessage] = useState<string>("");
+  const [toErrorMessage, setToErrorMessage] = useState<string>("");
+
   useEffect(() => {
     supabase.rpc("currency_options").then((response) => {
       if (response.data) {
@@ -40,18 +45,40 @@ export default function EditPlan() {
   };
 
   const handleEditPlan = () => {
+    const { planId, title, startDate, endDate, backgroundImage, currency } = planData;
+    const startDateLuxon = DateTime.fromJSDate(startDate);
+    const endDateLuxon = DateTime.fromJSDate(endDate);
+    let hasError = false;
+
     if (!planData) {
       return;
     }
+
+    if (title === "" || undefined) {
+      setTitleErrorMessage("This field cannot be empty.");
+      hasError = true;
+    }
+    if (startDate === null || undefined) {
+      setFromErrorMessage("This field cannot be empty.");
+      hasError = true;
+    }
+    if (endDateLuxon <= startDateLuxon) {
+      setToErrorMessage("End date must be after the start date.");
+      hasError = true;
+    }
+    if (hasError) {
+      return;
+    }
+
     fetch("/api/updatePlan", {
       method: "POST",
       body: JSON.stringify({
-        planId: planData.planId,
-        title: planData.title,
-        startDate: planData.startDate.toISOString().split("T")[0],
-        endDate: planData.endDate.toISOString().split("T")[0],
-        backgroundImage: planData.backgroundImage,
-        currency: planData.currency || undefined,
+        planId: planId,
+        title: title,
+        startDate: startDate.toISOString().split("T")[0],
+        endDate: endDate.toISOString().split("T")[0],
+        backgroundImage: backgroundImage,
+        currency: currency,
       }),
     }).then((response) => {
       if (!response.ok) {
@@ -72,6 +99,7 @@ export default function EditPlan() {
         value={planData.title}
         onChange={handleInputChange}
         placeholder={"Plan Title"}
+        errorMessage={titleErrorMessage}
       />
 
       <h3 className={styles.input_box_h3}>From</h3>
@@ -79,6 +107,7 @@ export default function EditPlan() {
         name="startDate"
         value={planData.startDate.toISOString().split("T")[0]}
         onChange={handleInputChange}
+        errorMessage={fromErrorMessage}
       />
 
       <h3 className={styles.input_box_h3}>To</h3>
@@ -86,6 +115,7 @@ export default function EditPlan() {
         name="endDate"
         value={planData.endDate.toISOString().split("T")[0]}
         onChange={handleInputChange}
+        errorMessage={toErrorMessage}
       />
 
       <h3 className={styles.input_box_h3}>Background Image</h3>

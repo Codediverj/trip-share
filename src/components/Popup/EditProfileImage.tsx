@@ -10,6 +10,7 @@ interface EditProfileImageProps {
 
 export default function EditProfileImage({ profileImage, onSave }: EditProfileImageProps) {
   const [inputValue, setInputValue] = useState(profileImage || "");
+  const [errorMessage, setErrorMessage] = useState<string>("");
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(event.target.value);
@@ -17,6 +18,12 @@ export default function EditProfileImage({ profileImage, onSave }: EditProfileIm
 
   const handleSave = () => {
     onSave(inputValue);
+    // if (inputValue.length > 15) {
+    //   setErrorMessage("Nickname cannot exceed 15 characters");
+    // } else {
+    //   setErrorMessage("");
+    //   onSave(inputValue);
+    // }
   };
 
   return (
