@@ -8,6 +8,7 @@ const LoginPage = () => {
       <div>
         <AuthForm />
       </div>
+      <button>Sign Up</button>
     </div>
   );
 };

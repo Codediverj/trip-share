@@ -1,11 +1,11 @@
 export type MomentDataType = {
-  id: string;
+  id: number;
   planId: string;
   title: string;
   momentDate: Date;
   memo: string;
   momentImage?: string;
-  writer: {
+  writer?: {
     writerUserId: string;
     writerNickName?: string;
     writerImage?: string;

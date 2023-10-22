@@ -1,5 +1,5 @@
 export type Moment = {
-  id: string;
+  id: number;
   planId: string;
   title: string;
   momentDate: Date;

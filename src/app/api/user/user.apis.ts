@@ -17,7 +17,7 @@ export const getUser = async (
   return {
     userId: data.user_id,
     nickname: data.nickname,
-    profileImage: data.profile_image,
+    profileImage: data.profile_image || "",
     createdAt: DateTime.fromISO(data.created_at).toJSDate(),
     email: data.email,
     travelerCode: data.traveler_code,

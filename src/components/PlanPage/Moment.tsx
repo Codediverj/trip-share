@@ -37,11 +37,11 @@ function Moment() {
             <div className="moment_text_box">
               <div className="writer_area">
                 <div className="profile_circle">
-                  {data.writer.writerImage && (
+                  {data.writer?.writerImage && (
                     <Image src={data.writer.writerImage} alt="image" width="30" height="30" />
                   )}
                 </div>
-                <h4 className="writer_name">{data.writer.writerNickName || "anonymous"}</h4>
+                <h4 className="writer_name">{data.writer?.writerNickName || "anonymous"}</h4>
               </div>
 
               <div className="info_area">
@@ -51,7 +51,7 @@ function Moment() {
 
               <p className="box_content">{data.memo}</p>
             </div>
-            {data.writer.writerUserId === userData.userId && <MoreButtonMoment data={data} />}
+            {data.writer?.writerUserId === userData.userId && <MoreButtonMoment data={data} />}
           </div>
         ))}
 
