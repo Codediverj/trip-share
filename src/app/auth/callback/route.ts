@@ -6,6 +6,7 @@ import { NextRequest, NextResponse } from "next/server";
 import GeneratedTravlerCode from "@/components/GenerateTravelerCode";
 import ExtractUsernameFromEmail from "@/components/ExtractUsernameFromEmail";
 
+//magin-link로 로그인 햇을때 필요한 부분. 현재는 사용하지 않게 됨.(이메일 로그인)
 export async function GET(req: NextRequest) {
   const supabase = createRouteHandlerClient({ cookies });
   const { searchParams } = new URL(req.url);

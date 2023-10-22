@@ -3,7 +3,7 @@ import React, { createContext, useContext, useEffect, useState } from "react";
 import { UserDataStore, initUserDataStore } from "./userData.types";
 import { getUser } from "@/app/api/user/user.apis";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
-import { getAllPlanDetail } from "@/app/api/plan/plan.apis";
+import { subscribeToChannel } from "@/utils/supabaseRealtime.utils";
 
 const UserDataStoreContext = createContext<UserDataStore | undefined>(undefined);
 UserDataStoreContext.displayName = "UserDataStoreContext";
@@ -21,8 +21,6 @@ export const UserDataProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   const supabase = createClientComponentClient();
 
   useEffect(() => {
-    getAllPlanDetail(supabase, "bccb6ee7-d9c3-4204-8495-09da343ef96a");
-
     supabase.auth.getUser().then(({ data: { user } }) => {
       if (user) {
         return getUser(supabase, user.id).then((userData) => {
@@ -30,7 +28,15 @@ export const UserDataProvider: React.FC<{ children: React.ReactNode }> = ({ chil
         });
       }
     });
-  }, [supabase, supabase.auth]);
+
+    const channel = subscribeToChannel(supabase, (payload) => {
+      getUser(supabase, data.userId).then(setData).catch(console.error);
+    });
+
+    return () => {
+      channel.unsubscribe();
+    };
+  }, [data.userId, supabase, supabase.auth]);
 
   return <UserDataStoreContext.Provider value={data}>{children}</UserDataStoreContext.Provider>;
 };
