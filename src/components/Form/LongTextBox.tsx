@@ -7,6 +7,7 @@ interface LongTextBoxProps {
   value?: string;
   placeholder?: string;
   rows: number;
+  errorMessage?: string;
   onChange: (event: React.ChangeEvent<HTMLTextAreaElement>) => void;
 }
 
@@ -15,16 +16,20 @@ export default function LongTextBox({
   value,
   placeholder,
   rows,
+  errorMessage,
   onChange,
 }: LongTextBoxProps) {
   return (
-    <textarea
-      className={styles.long_input_box}
-      placeholder={placeholder}
-      name={name}
-      onChange={onChange}
-      value={value}
-      rows={rows}
-    />
+    <div className={styles.long_box_wrap}>
+      <textarea
+        className={`long_input_box ${errorMessage && errorMessage !== "" ? "error" : ""}`}
+        placeholder={placeholder}
+        name={name}
+        onChange={onChange}
+        value={value}
+        rows={rows}
+      />
+      <div className="error_message">{errorMessage}</div>
+    </div>
   );
 }

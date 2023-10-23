@@ -15,6 +15,8 @@ import LongTextBox from "@/components/Form/LongTextBox";
 
 export default function EditMoment({ data }: { data: MomentDataType }) {
   const { closePopup } = usePopupContext();
+  const [titleErrorMessage, setTitleErrorMessage] = useState<string>("");
+  const [memoErrorMessage, setMemoErrorMessage] = useState<string>("");
   const [momentData, setMomentData] = useState<Omit<Moment, "planId">>({
     id: data.id,
     title: data.title,
@@ -36,6 +38,19 @@ export default function EditMoment({ data }: { data: MomentDataType }) {
     if (!momentData) {
       return;
     }
+    let hasError = false;
+    if (title === "" || undefined) {
+      setTitleErrorMessage("This field cannot be empty.");
+      hasError = true;
+    }
+    if (memo === "" || undefined) {
+      setMemoErrorMessage("This field cannot be empty.");
+      hasError = true;
+    }
+    if (hasError) {
+      return;
+    }
+
     fetch("/api/updateMoment", {
       method: "POST",
       body: JSON.stringify({
@@ -58,6 +73,7 @@ export default function EditMoment({ data }: { data: MomentDataType }) {
         value={momentData.title}
         onChange={handleInputChange}
         placeholder={"Moment Title"}
+        errorMessage={titleErrorMessage}
       />
 
       <h3 className={styles.input_box_h3}>Date</h3>
@@ -81,6 +97,7 @@ export default function EditMoment({ data }: { data: MomentDataType }) {
         onChange={handleInputChange}
         value={momentData.memo}
         rows={5}
+        errorMessage={memoErrorMessage}
       />
 
       <button

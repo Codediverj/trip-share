@@ -123,20 +123,31 @@
 }
 
 /*LongTextBox*/
-.long_input_box {
-  border: 1px solid #6276cc;
-  padding: 10px 14px;
-  border-radius: 5px;
-  font-family: var(--poppins);
-  font-weight: 500;
-  font-size: 14px;
-  color: #2e313c;
-  width: 100%;
-  &::placeholder {
-    color: #c1c7d7;
-  }
-  &.error {
-    border: 1px solid #c80000;
+.long_box_wrap {
+  :global {
+    .long_input_box {
+      border: 1px solid #6276cc;
+      padding: 10px 14px;
+      border-radius: 5px;
+      font-family: var(--poppins);
+      font-weight: 500;
+      font-size: 14px;
+      color: #2e313c;
+      width: 100%;
+      &::placeholder {
+        color: #c1c7d7;
+      }
+      &.error {
+        border: 1px solid #c80000;
+      }
+    }
+    .error_message {
+      color: #c80000;
+      font-family: var(--poppins);
+      font-weight: 500;
+      font-size: 13px;
+      margin-top: 4px;
+    }
   }
 }
 

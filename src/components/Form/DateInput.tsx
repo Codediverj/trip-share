@@ -13,7 +13,7 @@ export default function DateInput({ name, value, errorMessage, onChange }: DateI
   return (
     <div className={styles.date_input}>
       <input
-        className={`input_box ${errorMessage !== "" ? "error" : ""}`}
+        className={`input_box ${errorMessage && errorMessage !== "" ? "error" : ""}`}
         type="date"
         placeholder="Select Date"
         name={name}
