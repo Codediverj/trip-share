@@ -10,7 +10,7 @@ import GeneratedTravlerCode from "@/components/GenerateTravelerCode";
 import ExtractUsernameFromEmail from "@/components/ExtractUsernameFromEmail";
 import { useRouter } from "next/navigation";
 
-function AuthForm() {
+function LoginForm() {
   const supabase = createClientComponentClient();
   const router = useRouter();
 
@@ -74,4 +74,4 @@ function AuthForm() {
   );
 }
 
-export default dynamic(() => Promise.resolve(AuthForm), { ssr: false });
+export default dynamic(() => Promise.resolve(LoginForm), { ssr: false });

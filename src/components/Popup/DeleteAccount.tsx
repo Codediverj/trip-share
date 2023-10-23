@@ -21,8 +21,6 @@ export default function DeleteAccount() {
     if (!user) return;
 
     await supabase.from("User").delete().eq("user_id", user.id);
-
-    //redirect => 'auth/login'
   };
 
   return (

@@ -1,18 +1,18 @@
 "use client";
-import LoginForm from "./LoginForm";
-import styles from "./login.module.scss";
+import SignupForm from "./SignupForm";
+import styles from "./signup.module.scss";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 
-const LoginPage = () => {
+const SignUpPage = () => {
   const router = useRouter();
 
-  const handleSignupClick = () => {
-    router.push("/auth/signup");
+  const handleSignInClick = () => {
+    router.push("/auth/login");
   };
 
   return (
-    <div className={styles.intro}>
+    <div className={styles.signup}>
       <div className="login_content">
         <div className="logo_block">
           <Image src="/logo_icon.svg" alt="logo icon" width="52" height="52" />
@@ -20,13 +20,13 @@ const LoginPage = () => {
         </div>
 
         <div className="login">
-          <LoginForm />
+          <h2>Create Account</h2>
+          <SignupForm />
         </div>
         <div className="signup_wrap">
-          {`Don't have account?`}
-
-          <button className="signup_button" onClick={handleSignupClick}>
-            Create a new account
+          {`Already have a account?`}
+          <button className="signup_button" onClick={handleSignInClick}>
+            Login
           </button>
         </div>
       </div>
@@ -34,4 +34,4 @@ const LoginPage = () => {
   );
 };
 
-export default LoginPage;
+export default SignUpPage;
