@@ -44,6 +44,8 @@ export default function AddNewPlan() {
     currency: "USD",
   });
 
+  console.log(planData);
+
   const handleInputChange = (event: any) => {
     const { name, value } = event.target;
     setPlanData((prevPlanData) => ({
@@ -62,7 +64,7 @@ export default function AddNewPlan() {
       return;
     }
 
-    if (title === "" || undefined) {
+    if (!title || !title.trim()) {
       setTitleErrorMessage("This field cannot be empty.");
       hasError = true;
     }

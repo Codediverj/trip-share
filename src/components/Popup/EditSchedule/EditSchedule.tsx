@@ -24,6 +24,8 @@ export default function EditSchedule({ data }: { data: DayPlanDataStore[number] 
   const userData = useUserDataStore();
   const [isNotMoving, setIsNotMoving] = useState(data.placeToName === undefined ? true : false);
 
+  console.log("not moving", isNotMoving);
+
   const [isGroupPaid, setIsGroupPaid] = useState(() => {
     const initialValue = findOutPaidUser(
       data.isGroupActivity,
@@ -98,11 +100,15 @@ export default function EditSchedule({ data }: { data: DayPlanDataStore[number] 
     if (!planData) {
       return;
     }
-    if (placeFromName === "" || undefined) {
+    // if (["", undefined].includes(placeFromName))
+    // if (placeFromName === "" || undefined) {
+
+    if (!placeFromName || !placeFromName.trim()) {
       setFromErrorMessage("This field cannot be empty.");
       hasError = true;
     }
-    if (!isNotMoving && placeToName === "") {
+
+    if (!isNotMoving && (!placeToName || !placeToName.trim())) {
       setToErrorMessage("This field cannot be empty.");
       hasError = true;
     }
@@ -146,12 +152,7 @@ export default function EditSchedule({ data }: { data: DayPlanDataStore[number] 
 
         <div className={`${styles.input_checkbox_wrap} ${isNotMoving ? styles.disabled : ""}`}>
           <h3 className={styles.input_box_h3}>To</h3>
-          <CheckBox
-            checked={isNotMoving}
-            onChange={handleCheckboxChange}
-            text="I am not moving"
-            isNotMoving={isNotMoving}
-          />
+          <CheckBox checked={isNotMoving} onChange={handleCheckboxChange} text="I am not moving" />
           <DefaultText
             name="placeToName"
             value={planData.placeToName || ""}

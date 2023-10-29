@@ -117,7 +117,7 @@ export default function AddNewSchedule({
     if (!planData) {
       return;
     }
-    if (placeFromName === "" || undefined) {
+    if (!placeFromName || !placeFromName.trim()) {
       setFromErrorMessage("This field cannot be empty.");
       hasError = true;
     }
@@ -168,12 +168,7 @@ export default function AddNewSchedule({
 
         <div className={`${styles.input_checkbox_wrap} ${isNotMoving ? styles.disabled : ""}`}>
           <h3 className={styles.input_box_h3}>To</h3>
-          <CheckBox
-            checked={isNotMoving}
-            onChange={handleCheckboxChange}
-            text="I am not moving"
-            isNotMoving={isNotMoving}
-          />
+          <CheckBox checked={isNotMoving} onChange={handleCheckboxChange} text="I am not moving" />
           <DefaultText
             name="placeToName"
             value={planData.placeToName || ""}

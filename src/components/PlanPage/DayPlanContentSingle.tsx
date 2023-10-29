@@ -11,6 +11,9 @@ import MoreButtonDayPlan from "./MoreButtonDayPlan";
 import { usePlanDataStore } from "@/contexts/planData/planData.provider";
 import { findOutPaidUser } from "@/utils/findoutPaidUser.utils";
 
+//drag and drop
+import { useDrag, useDrop } from "react-dnd";
+
 function DayPlanContentSingle({
   data,
   selectedDate,

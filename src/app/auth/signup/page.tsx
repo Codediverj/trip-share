@@ -15,7 +15,7 @@ const SignUpPage = () => {
     <div className={styles.signup}>
       <div className="login_content">
         <div className="logo_block">
-          <Image src="/logo_icon.svg" alt="logo icon" width="52" height="52" />
+          <Image src="/static/logo_icon.svg" alt="logo icon" width="52" height="52" />
           <h1>TripShare</h1>
         </div>
 

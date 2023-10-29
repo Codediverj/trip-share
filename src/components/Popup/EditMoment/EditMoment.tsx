@@ -39,11 +39,11 @@ export default function EditMoment({ data }: { data: MomentDataType }) {
       return;
     }
     let hasError = false;
-    if (title === "" || undefined) {
+    if (!title || !title.trim()) {
       setTitleErrorMessage("This field cannot be empty.");
       hasError = true;
     }
-    if (memo === "" || undefined) {
+    if (!memo || !memo.trim()) {
       setMemoErrorMessage("This field cannot be empty.");
       hasError = true;
     }

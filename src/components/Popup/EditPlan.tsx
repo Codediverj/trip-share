@@ -54,7 +54,7 @@ export default function EditPlan() {
       return;
     }
 
-    if (title === "" || undefined) {
+    if (!title || !title.trim()) {
       setTitleErrorMessage("This field cannot be empty.");
       hasError = true;
     }

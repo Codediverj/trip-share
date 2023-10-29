@@ -6,11 +6,10 @@ import Image from "next/image";
 interface CheckBoxProps {
   text?: string;
   checked?: boolean;
-  isNotMoving?: boolean;
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-export default function CheckBox({ text, checked, isNotMoving, onChange }: CheckBoxProps) {
+export default function CheckBox({ text, checked, onChange }: CheckBoxProps) {
   return (
     <label className={`${styles.input_disable_checkbox} ${styles.checkbox_label}`}>
       <input
@@ -20,7 +19,7 @@ export default function CheckBox({ text, checked, isNotMoving, onChange }: Check
         className={styles.checkbox_input}
       />
       {text}
-      <span className={`${styles.custom_checkbox} ${isNotMoving ? styles.clicked : ""}`}></span>
+      <span className={`${styles.custom_checkbox} ${checked ? styles.clicked : ""}`}></span>
     </label>
   );
 }
