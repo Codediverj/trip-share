@@ -2,15 +2,9 @@
 import SignupForm from "./SignupForm";
 import styles from "./signup.module.scss";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 const SignUpPage = () => {
-  const router = useRouter();
-
-  const handleSignInClick = () => {
-    router.push("/auth/login");
-  };
-
   return (
     <div className={styles.signup}>
       <div className="login_content">
@@ -25,9 +19,10 @@ const SignUpPage = () => {
         </div>
         <div className="signup_wrap">
           {`Already have a account?`}
-          <button className="signup_button" onClick={handleSignInClick}>
+
+          <Link className="signup_button" href="/auth/login">
             Login
-          </button>
+          </Link>
         </div>
       </div>
     </div>

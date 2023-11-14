@@ -15,49 +15,16 @@ function LoginForm() {
   const router = useRouter();
 
   useEffect(() => {
-    supabase.auth.onAuthStateChange(async (event) => {
+    const subscription = supabase.auth.onAuthStateChange((event) => {
+      console.log(event);
       if (event === "SIGNED_IN") {
-        const {
-          data: { user },
-        } = await supabase.auth.getUser();
-
-        const { data: existUser } = await supabase
-          .from("user")
-          .select("*")
-          .eq("user_id", user?.id)
-          .single();
-        // const response = await supabase.from("user").select("*").eq("user_id", user?.id).single();
-        // const data = response.data;
-
-        if (existUser) {
-          // sign in
-          console.log("User already exists:", user);
-        } else {
-          // sign up
-          console.log(user);
-          supabase
-            .from("User")
-            .insert({
-              user_id: user?.id,
-              created_at: new Date(),
-              profile_image: "/profile_default_image.svg",
-              nickname: ExtractUsernameFromEmail(user?.email || ""),
-              email: user?.email,
-              traveler_code: GeneratedTravlerCode(),
-            })
-            .select()
-            .single()
-            .then(({ data, error }) => {
-              console.log(data);
-              if (error) {
-                console.log(error);
-              }
-            });
-        }
-
         router.replace("/home");
       }
-    });
+    }).data.subscription;
+
+    return () => {
+      subscription.unsubscribe();
+    };
   }, [router, supabase]);
 
   return (

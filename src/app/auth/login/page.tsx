@@ -3,15 +3,8 @@ import Link from "next/link";
 import LoginForm from "./LoginForm";
 import styles from "./login.module.scss";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
 
 const LoginPage = () => {
-  const router = useRouter();
-
-  const handleSignupClick = () => {
-    router.push("/auth/signup");
-  };
-
   return (
     <div className={styles.intro}>
       <div className="login_content">
@@ -26,17 +19,17 @@ const LoginPage = () => {
         <div className="signup_wrap">
           {`Don't have account?`}
 
-          <button className="signup_button" onClick={handleSignupClick}>
+          <Link className="signup_button" href="/auth/signup">
             Create a new account
-          </button>
+          </Link>
         </div>
 
         <div className="signup_wrap">
           {`Forgot Password?`}
 
-          <button className="signup_button">
-            <Link href="/auth/forgot-password">Reset Password</Link>
-          </button>
+          <Link className="signup_button" href="/auth/forgot-password">
+            Reset Password
+          </Link>
         </div>
       </div>
     </div>

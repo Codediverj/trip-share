@@ -5,6 +5,7 @@ import { Auth } from "@supabase/auth-ui-react";
 import { ThemeSupa } from "@supabase/auth-ui-shared";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
+import styles from "./resetpw.module.scss";
 
 const ResetPasswordPage = () => {
   const supabase = createClientComponentClient();
@@ -19,14 +20,16 @@ const ResetPasswordPage = () => {
   }, [router, supabase.auth]);
 
   return (
-    <Auth
-      supabaseClient={supabase}
-      view="update_password"
-      appearance={{ theme: ThemeSupa }}
-      theme="light"
-      showLinks={false}
-      providers={[]}
-    />
+    <div className={styles.resetpw}>
+      <Auth
+        supabaseClient={supabase}
+        view="update_password"
+        appearance={{ theme: ThemeSupa }}
+        theme="light"
+        showLinks={false}
+        providers={[]}
+      />
+    </div>
   );
 };
 

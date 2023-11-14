@@ -1,0 +1,30 @@
+.resetpw {
+  padding: 10px;
+  :global {
+    label {
+      display: none;
+    }
+    .supabase-auth-ui_ui-button {
+      border: 0 none;
+      padding: 14px 0;
+      border-radius: 10px;
+      background: #6276cc; /*867bd5*/
+      font-family: var(--poppins);
+      font-weight: 500;
+      font-size: 14px;
+    }
+    input {
+      border: 1px solid #6276cc;
+      padding: 10px 14px;
+      border-radius: 5px;
+      font-family: var(--poppins);
+      font-weight: 500;
+      font-size: 14px;
+      color: #2e313c;
+      width: 100%;
+      &::placeholder {
+        color: #c1c7d7;
+      }
+    }
+  }
+}

@@ -12,12 +12,12 @@ import { useRouter } from "next/navigation";
 
 async function SignupForm() {
   const supabase = createClientComponentClient();
-  const router = useRouter();
 
-  // const {error} = await supabase.auth.signUp({
-  //   email: ,
-  //   password: ,
-  // });
+  useEffect(() => {
+    supabase.auth.onAuthStateChange((event) => {
+      console.log(event);
+    });
+  }, [supabase]);
 
   return (
     <div>
@@ -28,9 +28,11 @@ async function SignupForm() {
         theme="default"
         showLinks={false}
         providers={[]}
+        redirectTo={`${location.origin}/auth/signup-callback`}
       />
     </div>
   );
 }
 
+//client loading
 export default dynamic(() => Promise.resolve(SignupForm), { ssr: false });
