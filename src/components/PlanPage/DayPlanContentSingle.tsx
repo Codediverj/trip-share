@@ -13,10 +13,7 @@ import { DayPlanDataStore } from "@/contexts/dayPlanData/dayPlanData.types";
 import MoreButtonDayPlan from "./MoreButtonDayPlan";
 import { usePlanDataStore } from "@/contexts/planData/planData.provider";
 import { findOutPaidUser } from "@/utils/findoutPaidUser.utils";
-
-//drag and drop
-import { useDrag, useDrop } from "react-dnd";
-import { supabase } from "@supabase/auth-ui-shared";
+import OrderChangeButton from "./OrderChangeButton";
 
 function DayPlanContentSingle({
   data,
@@ -64,7 +61,6 @@ function DayPlanContentSingle({
   }
 
   // 4가지 시나리오 (업데이트 체크 할지말지 정하는 로직)
-
   // (표시 안함) setShowUpdateIndicator(false)
   //1. data.updated_by가 내 userID일 경우 => 그냥 패스(새로운 업데이트 없음)
   //2. data.updated_by가 내 userID가 아니면서, data.updated_at이 data.lastCheckTime보다 과거면 => 이미 열어본것
@@ -103,6 +99,7 @@ function DayPlanContentSingle({
 
   return (
     <div className={`${styles.day_plan_content_single} ${UpdateCheck ? styles.update_bg : ""}`}>
+      <OrderChangeButton data={data} />
       <div className="top_part">
         <h4 className="number">{data.order}</h4>
         <h3 className="location">
@@ -164,7 +161,6 @@ function DayPlanContentSingle({
           </div>
         </div>
       )}
-
       <MoreButtonDayPlan data={data} />
     </div>
   );
