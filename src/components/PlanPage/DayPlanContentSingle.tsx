@@ -1,8 +1,11 @@
 "use client";
-import React, { useMemo } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import styles from "./DayPlan.module.scss";
+import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import { Database } from "@/supabase.types";
+import { DateTime } from "luxon";
 
 //useContext
 import { useUserDataStore } from "@/contexts/userData/userData.provider";
@@ -13,6 +16,7 @@ import { findOutPaidUser } from "@/utils/findoutPaidUser.utils";
 
 //drag and drop
 import { useDrag, useDrop } from "react-dnd";
+import { supabase } from "@supabase/auth-ui-shared";
 
 function DayPlanContentSingle({
   data,
@@ -23,6 +27,7 @@ function DayPlanContentSingle({
 }) {
   const userData = useUserDataStore();
   const planData = usePlanDataStore();
+  const supabase = createClientComponentClient<Database>();
 
   const isPaid = useMemo(() => {
     if (data.isGroupActivity) {
@@ -58,8 +63,46 @@ function DayPlanContentSingle({
     return null;
   }
 
+  // 4가지 시나리오 (업데이트 체크 할지말지 정하는 로직)
+
+  // (표시 안함) setShowUpdateIndicator(false)
+  //1. data.updated_by가 내 userID일 경우 => 그냥 패스(새로운 업데이트 없음)
+  //2. data.updated_by가 내 userID가 아니면서, data.updated_at이 data.lastCheckTime보다 과거면 => 이미 열어본것
+
+  // (업데이트 표시 보여주기) setShowUpdateIndicator(true)
+  //3. data.updated_by가 내 userID가 아니면서, data.updated_at이 data.lastCheckTime보다 미래면
+  //4. data.updated_by가 내 userID가 아니면서, UpdateCheck 테이블에 데이터 없는 경우
+
+  const UpdateCheck = useMemo(() => {
+    const { updatedBy, updatedAt, lastCheckTime } = data;
+
+    if (updatedBy !== userData.userId) {
+      const updatedAtDateTime = DateTime.fromJSDate(updatedAt);
+      const lastCheckTimeDateTime = lastCheckTime ? DateTime.fromJSDate(lastCheckTime) : undefined;
+
+      //1
+      if (updatedBy === userData.userId) {
+        return false;
+      }
+      //2
+      else if (lastCheckTimeDateTime !== undefined && updatedAtDateTime <= lastCheckTimeDateTime) {
+        return false;
+      }
+      //3
+      else if (lastCheckTimeDateTime !== undefined && updatedAtDateTime > lastCheckTimeDateTime) {
+        return true;
+      }
+      //4
+      else if (lastCheckTimeDateTime === undefined) {
+        return true;
+      }
+    } else {
+      return false;
+    }
+  }, [data, userData.userId]);
+
   return (
-    <div className={styles.day_plan_content_single}>
+    <div className={`${styles.day_plan_content_single} ${UpdateCheck ? styles.update_bg : ""}`}>
       <div className="top_part">
         <h4 className="number">{data.order}</h4>
         <h3 className="location">

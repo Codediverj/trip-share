@@ -50,11 +50,15 @@ export async function POST(request: Request) {
 
   const joined = joinUsers.map((user) => user.user_id);
 
+  console.log(`isGroupActivity: ${body.isGroupActivity} /// paidId: ${body.paidID}`);
+
   const expenseList = joined.map((userId) => ({
     single_plan_id: singlePlanCreated.single_plan_id,
     expense: body.isGroupActivity ? body.expense / joined.length : body.expense,
     attended_user_id: userId,
-    paid_user_id: body.isGroupActivity ? body.paidID : userId === body.paidID ? body.paidID : null,
+    paid_user_id:
+      (body.isGroupActivity ? body.paidID : userId === body.paidID ? body.paidID : undefined) ||
+      undefined,
   }));
 
   const {
@@ -63,7 +67,7 @@ export async function POST(request: Request) {
     status: singlePlanExpenseStatus,
   } = await supabase.from("Single_Plan_Expense").insert(expenseList).select();
   if (singlePlanExpenseError)
-    return NextResponse.json(singlePlanCreateError, { status: singlePlanExpenseStatus });
+    return NextResponse.json(singlePlanExpenseError, { status: singlePlanExpenseStatus });
 
   return NextResponse.json({ good: true });
 }

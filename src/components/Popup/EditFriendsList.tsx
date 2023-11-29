@@ -180,7 +180,7 @@ export default function EditFriendsList({ planId }: { planId: string }) {
             placeholder={"0000"}
             codeInput={true}
           />
-          <span className="or">- OR -</span>
+          {/* <span className="or">- OR -</span>
           <button className={`${styles.line_button} scan_button`}>
             <Image
               src="/camera.svg"
@@ -190,7 +190,7 @@ export default function EditFriendsList({ planId }: { planId: string }) {
               className="camera_icon"
             />
             Scan QR code
-          </button>
+          </button> */}
           {newTravelerCode !== "" && (
             <button className="search_traveler_button" onClick={searchTraveler}>
               Search Traveler

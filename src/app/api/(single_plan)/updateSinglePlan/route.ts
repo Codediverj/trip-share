@@ -56,7 +56,9 @@ export async function POST(request: Request) {
     single_plan_id: singlePlanUpdate.single_plan_id,
     expense: body.isGroupActivity ? body.expense / joined.length : body.expense,
     attended_user_id: userId,
-    paid_user_id: body.isGroupActivity ? body.paidID : userId === body.paidID ? body.paidID : null,
+    paid_user_id:
+      (body.isGroupActivity ? body.paidID : userId === body.paidID ? body.paidID : undefined) ||
+      undefined,
   }));
 
   await supabase.from("Single_Plan_Expense").delete().eq("single_plan_id", body.singlePlanId);

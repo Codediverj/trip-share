@@ -3,6 +3,7 @@ export type DayPlanDataStore = {
   planId: string;
   date: Date;
   order: number;
+  lastCheckTime?: Date;
   placeFromId: string;
   placeFromName: string;
   placeToId?: string;

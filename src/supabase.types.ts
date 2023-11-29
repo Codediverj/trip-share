@@ -41,12 +41,14 @@ export interface Database {
           {
             foreignKeyName: "Moment_plan_id_fkey"
             columns: ["plan_id"]
+            isOneToOne: false
             referencedRelation: "Plan"
             referencedColumns: ["plan_id"]
           },
           {
             foreignKeyName: "Moment_writer_fkey"
             columns: ["writer"]
+            isOneToOne: false
             referencedRelation: "User"
             referencedColumns: ["user_id"]
           }
@@ -69,12 +71,14 @@ export interface Database {
           {
             foreignKeyName: "People_Join_plan_id_fkey"
             columns: ["plan_id"]
+            isOneToOne: false
             referencedRelation: "Plan"
             referencedColumns: ["plan_id"]
           },
           {
             foreignKeyName: "People_Join_user_id_fkey"
             columns: ["user_id"]
+            isOneToOne: false
             referencedRelation: "User"
             referencedColumns: ["user_id"]
           }
@@ -163,20 +167,23 @@ export interface Database {
           {
             foreignKeyName: "Single_Plan_created_by_fkey"
             columns: ["created_by"]
-            referencedRelation: "users"
-            referencedColumns: ["id"]
+            isOneToOne: false
+            referencedRelation: "User"
+            referencedColumns: ["user_id"]
           },
           {
             foreignKeyName: "Single_Plan_plan_id_fkey"
             columns: ["plan_id"]
+            isOneToOne: false
             referencedRelation: "Plan"
             referencedColumns: ["plan_id"]
           },
           {
             foreignKeyName: "Single_Plan_updated_by_fkey"
             columns: ["updated_by"]
-            referencedRelation: "users"
-            referencedColumns: ["id"]
+            isOneToOne: false
+            referencedRelation: "User"
+            referencedColumns: ["user_id"]
           }
         ]
       }
@@ -209,20 +216,56 @@ export interface Database {
           {
             foreignKeyName: "Single_Plan_Expense_attended_user_id_fkey"
             columns: ["attended_user_id"]
+            isOneToOne: false
             referencedRelation: "User"
             referencedColumns: ["user_id"]
           },
           {
             foreignKeyName: "Single_Plan_Expense_paid_user_id_fkey"
             columns: ["paid_user_id"]
+            isOneToOne: false
             referencedRelation: "User"
             referencedColumns: ["user_id"]
           },
           {
             foreignKeyName: "Single_Plan_Expense_single_plan_id_fkey"
             columns: ["single_plan_id"]
+            isOneToOne: false
             referencedRelation: "Single_Plan"
             referencedColumns: ["single_plan_id"]
+          }
+        ]
+      }
+      UpdateCheck: {
+        Row: {
+          check_time: string
+          single_plan_id: string
+          user_id: string
+        }
+        Insert: {
+          check_time?: string
+          single_plan_id: string
+          user_id?: string
+        }
+        Update: {
+          check_time?: string
+          single_plan_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "UpdateCheck_single_plan_id_fkey"
+            columns: ["single_plan_id"]
+            isOneToOne: false
+            referencedRelation: "Single_Plan"
+            referencedColumns: ["single_plan_id"]
+          },
+          {
+            foreignKeyName: "UpdateCheck_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "User"
+            referencedColumns: ["user_id"]
           }
         ]
       }
@@ -255,6 +298,7 @@ export interface Database {
           {
             foreignKeyName: "User_user_id_fkey"
             columns: ["user_id"]
+            isOneToOne: true
             referencedRelation: "users"
             referencedColumns: ["id"]
           }

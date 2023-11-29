@@ -8,11 +8,16 @@ export const getSinglePlanForDate = async (
   planId: string,
   selectedDate: DateTime
 ): Promise<DayPlanDataStore> => {
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
   const { data, error } = await supabase
     .from("Single_Plan")
     .select(
-      "*, Single_Plan_Expense(*, attend:User!Single_Plan_Expense_attended_user_id_fkey(*),paid:User!Single_Plan_Expense_paid_user_id_fkey(*))"
+      "*, Single_Plan_Expense(*, attend:User!Single_Plan_Expense_attended_user_id_fkey(*),paid:User!Single_Plan_Expense_paid_user_id_fkey(*)), updateCheckTime:UpdateCheck(check_time)"
     )
+    .eq("updateCheckTime.user_id", user!.id)
     .match({ plan_id: planId, date: selectedDate.toFormat("yyyy-MM-dd") })
     .order("order", { ascending: true });
   if (error) throw error;
@@ -22,6 +27,9 @@ export const getSinglePlanForDate = async (
     planId: singlePlan.plan_id,
     date: DateTime.fromISO(singlePlan.date).toJSDate(),
     order: singlePlan.order,
+    lastCheckTime: singlePlan.updateCheckTime[0]
+      ? DateTime.fromISO(singlePlan.updateCheckTime[0].check_time).toJSDate()
+      : undefined,
     placeFromId: singlePlan.place_from_id,
     placeFromName: singlePlan.place_from_name,
     placeToId: singlePlan.place_to_id || undefined,

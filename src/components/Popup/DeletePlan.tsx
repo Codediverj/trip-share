@@ -20,6 +20,9 @@ export default function DeletePlan({ data }: { data: DayPlanDataStore[number] })
       method: "POST",
       body: JSON.stringify({
         singlePlanId: data.singlePlanId,
+        order: data.order,
+        planId: data.planId,
+        date: data.date,
       }),
     }).then(() => closePopup());
   };
