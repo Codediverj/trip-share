@@ -119,9 +119,9 @@ export default function ProfilePage() {
         <button className="blue" onClick={signOut}>
           Sign Out
         </button>
-        <button className="red second" onClick={() => openPopup(<DeleteAccount />)}>
+        {/* <button className="red second" onClick={() => openPopup(<DeleteAccount />)}>
           Delete Account
-        </button>
+        </button> */}
       </div>
     </div>
   );

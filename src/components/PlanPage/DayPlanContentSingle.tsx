@@ -1,10 +1,8 @@
 "use client";
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useMemo } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import styles from "./DayPlan.module.scss";
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
-import { Database } from "@/supabase.types";
 import { DateTime } from "luxon";
 
 //useContext
@@ -24,7 +22,6 @@ function DayPlanContentSingle({
 }) {
   const userData = useUserDataStore();
   const planData = usePlanDataStore();
-  const supabase = createClientComponentClient<Database>();
 
   const isPaid = useMemo(() => {
     if (data.isGroupActivity) {
