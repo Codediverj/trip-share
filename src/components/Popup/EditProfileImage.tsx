@@ -10,16 +10,14 @@ interface EditProfileImageProps {
 }
 
 export default function EditProfileImage({ profileImage, onSave }: EditProfileImageProps) {
-  const [inputValue, setInputValue] = useState(profileImage || "");
-  const [errorMessage, setErrorMessage] = useState<string>("");
-
   const { onFileChange, uploadSelectedFile, selectedFile } = useVisionZUpload("/api/imageUpload");
+  const [tempProfileImage, setTempProfileImage] = useState<string | undefined>(profileImage);
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
-
     if (file) {
       onFileChange(file);
+      setTempProfileImage(URL.createObjectURL(file));
     }
   };
 
@@ -27,12 +25,6 @@ export default function EditProfileImage({ profileImage, onSave }: EditProfileIm
     const { uploadId } = await uploadSelectedFile();
     console.log("uploadId", uploadId);
     onSave(uploadId);
-    // if (inputValue.length > 15) {
-    //   setErrorMessage("Nickname cannot exceed 15 characters");
-    // } else {
-    //   setErrorMessage("");
-    //   onSave(inputValue);
-    // }
   };
 
   return (
@@ -40,7 +32,9 @@ export default function EditProfileImage({ profileImage, onSave }: EditProfileIm
       <h2 className={styles.popupBox_title}>Edit Profile Image</h2>
       <ImageSelectInput name={"profileImage"} onChange={handleInputChange} accept={"image/*"} />
       <div className={styles.edit_profile_view_image}>
-        {profileImage && <Image src={profileImage} alt="profile image" width="136" height="136" />}
+        {tempProfileImage && (
+          <Image src={tempProfileImage} alt="profile image" width="136" height="136" />
+        )}
       </div>
 
       <button
