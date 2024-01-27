@@ -42,7 +42,7 @@ function PlanWithList() {
             otherUserData.map((friend) => (
               <li key={friend.user_id}>
                 <Image
-                  src={friend.User?.profile_image ? friend.User.profile_image : "기본 이미지 URL"}
+                  src={friend.User?.profile_image ? friend.User.profile_image : ""}
                   alt="profile image"
                   width="50"
                   height="50"

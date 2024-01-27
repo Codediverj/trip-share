@@ -8,5 +8,6 @@ export async function POST(req: NextRequest) {
 
 export async function GET(req: NextRequest) {
   const { status, body } = await getVisionZUpload(req.nextUrl.searchParams.get("uploadId")!);
+  console.log(body);
   return NextResponse.json(body, { status });
 }

@@ -35,6 +35,16 @@ function HomeHeader() {
   const pastPlans = planAllList.filter((plan) => new Date(plan.endDate) < today);
   const futurePlans = planAllList.filter((plan) => new Date(plan.endDate) >= today);
 
+  const [profileImageSrc, setProfileImageSrc] = useState("");
+
+  useEffect(() => {
+    if (userData && userData.profileImage) {
+      fetch(`/api/imageUpload?uploadId=${userData.profileImage}`)
+        .then((res) => res.json())
+        .then(setProfileImageSrc);
+    }
+  }, [userData]);
+
   return (
     <header>
       <h2 className={styles.header_h2}>{`${userData.nickname}'s Trips`}</h2>
@@ -57,7 +67,7 @@ function HomeHeader() {
       <div className={styles.profile_button}>
         {userData.profileImage && (
           <Link href={`/profile`}>
-            <Image src={userData.profileImage} alt="plus icon" width="40" height="40" />
+            <Image src={profileImageSrc} alt="plus icon" width="40" height="40" />
           </Link>
         )}
       </div>

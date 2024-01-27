@@ -6,6 +6,7 @@ interface ImageSelectInputProps {
   name: string;
   accept: string;
   errorMessage?: string;
+  //value: File | null;
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 

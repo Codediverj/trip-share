@@ -13,8 +13,7 @@ export default function EditProfileImage({ profileImage, onSave }: EditProfileIm
   const [inputValue, setInputValue] = useState(profileImage || "");
   const [errorMessage, setErrorMessage] = useState<string>("");
 
-  const { onFileChange, fileAccept, uploadSelectedFile, isUploading, selectedFile } =
-    useVisionZUpload("/api/imageUpload");
+  const { onFileChange, uploadSelectedFile, selectedFile } = useVisionZUpload("/api/imageUpload");
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -39,7 +38,7 @@ export default function EditProfileImage({ profileImage, onSave }: EditProfileIm
   return (
     <div>
       <h2 className={styles.popupBox_title}>Edit Profile Image</h2>
-      <ImageSelectInput name={"profileImage"} accept={fileAccept} onChange={handleInputChange} />
+      <ImageSelectInput name={"profileImage"} onChange={handleInputChange} accept={"image/*"} />
       <div className={styles.edit_profile_view_image}>
         {profileImage && <Image src={profileImage} alt="profile image" width="136" height="136" />}
       </div>
