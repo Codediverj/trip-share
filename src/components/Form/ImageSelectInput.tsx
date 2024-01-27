@@ -4,14 +4,14 @@ import styles from "./Form.module.scss";
 
 interface ImageSelectInputProps {
   name: string;
-  value?: string;
+  accept: string;
   errorMessage?: string;
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 export default function ImageSelectInput({
   name,
-  value,
+  accept,
   errorMessage,
   onChange,
 }: ImageSelectInputProps) {
@@ -20,10 +20,10 @@ export default function ImageSelectInput({
       <div className="find_input_box">
         <input
           className="input_box"
-          type="text"
+          type="file"
           placeholder="Select Image"
           name={name}
-          value={value}
+          accept={accept}
           onChange={onChange}
         />
         <button>Find Image</button>

@@ -21,9 +21,15 @@ export default function ProfileLayout({ children }: { children: React.ReactNode 
   const userData = useUserDataStore();
   const [userDataState, setUserDataState] = useState(userData);
   const supabase = createClientComponentClient<Database>();
+  const [profileImageSrc, setProfileImageSrc] = useState("");
 
   useEffect(() => {
     setUserDataState(userData);
+    if (userData && userData.profileImage) {
+      fetch(`/api/imageUpload?uploadId=${userData.profileImage}`)
+        .then((res) => res.json())
+        .then(setProfileImageSrc);
+    }
   }, [userData]);
 
   const handleNicknameSave = (newNickname: string) => {
@@ -114,12 +120,7 @@ export default function ProfileLayout({ children }: { children: React.ReactNode 
             <div className={styles.profle_image}>
               {/*profile imge Components => URL*/}
               <div className={styles.profle_image_wrap}>
-                <Image
-                  src={`${userDataState.profileImage}`}
-                  alt="profile image"
-                  width="80"
-                  height="80"
-                />
+                <Image src={profileImageSrc} alt="profile image" width="80" height="80" />
               </div>
               <div className={styles.profle_edit_icon}>
                 <Image
@@ -130,7 +131,7 @@ export default function ProfileLayout({ children }: { children: React.ReactNode 
                   onClick={() =>
                     openPopup(
                       <EditProfileImage
-                        profileImage={userDataState.profileImage}
+                        profileImage={profileImageSrc}
                         onSave={handleProfileImageSave}
                       />
                     )

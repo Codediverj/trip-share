@@ -6,7 +6,7 @@ export const initUserDataStore = (): UserDataStore => {
   return {
     userId: "",
     nickname: "",
-    profileImage: "/profile_default_image.svg",
+    profileImage: "",
     createdAt: new Date(),
     email: "",
     travelerCode: "0000",

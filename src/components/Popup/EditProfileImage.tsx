@@ -2,6 +2,7 @@ import { useState } from "react";
 import styles from "./Popup.module.scss";
 import Image from "next/image";
 import ImageSelectInput from "../Form/ImageSelectInput";
+import { useVisionZUpload } from "@visionz/upload-helper-react";
 
 interface EditProfileImageProps {
   profileImage?: string;
@@ -12,12 +13,21 @@ export default function EditProfileImage({ profileImage, onSave }: EditProfileIm
   const [inputValue, setInputValue] = useState(profileImage || "");
   const [errorMessage, setErrorMessage] = useState<string>("");
 
+  const { onFileChange, fileAccept, uploadSelectedFile, isUploading, selectedFile } =
+    useVisionZUpload("/api/imageUpload");
+
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setInputValue(event.target.value);
+    const file = event.target.files?.[0];
+
+    if (file) {
+      onFileChange(file);
+    }
   };
 
-  const handleSave = () => {
-    onSave(inputValue);
+  const handleSave = async () => {
+    const { uploadId } = await uploadSelectedFile();
+    console.log("uploadId", uploadId);
+    onSave(uploadId);
     // if (inputValue.length > 15) {
     //   setErrorMessage("Nickname cannot exceed 15 characters");
     // } else {
@@ -29,11 +39,9 @@ export default function EditProfileImage({ profileImage, onSave }: EditProfileIm
   return (
     <div>
       <h2 className={styles.popupBox_title}>Edit Profile Image</h2>
-      <ImageSelectInput name={"profileImage"} value={inputValue} onChange={handleInputChange} />
+      <ImageSelectInput name={"profileImage"} accept={fileAccept} onChange={handleInputChange} />
       <div className={styles.edit_profile_view_image}>
-        {profileImage && (
-          <Image src={`${profileImage}`} alt="profile image" width="136" height="136" />
-        )}
+        {profileImage && <Image src={profileImage} alt="profile image" width="136" height="136" />}
       </div>
 
       <button
