@@ -2,8 +2,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import styles from "../plan.module.scss";
-import { ReactNode, useState } from "react";
-import { profileMockData } from "../data"; //temp data
+import { ReactNode, useState, useEffect } from "react";
 
 // Popup
 import Popup from "../../../../components/Popup/Popup";
@@ -26,6 +25,7 @@ import Moment from "@/components/PlanPage/Moment";
 import { formatDateStartEnd } from "../../../../utils/formatDateStartEnd.utils";
 import { totaldays } from "../../../../utils/totaldays.utils";
 import { cx } from "@/utils/classname.utils";
+import { ImageWithFetch } from "@/components/ImageWithFetch";
 
 export default function PlanPage({ params }: { params: { id: string } }) {
   const [activeTab, setActiveTab] = useState(0);
@@ -40,16 +40,27 @@ export default function PlanPage({ params }: { params: { id: string } }) {
     ? totaldays(planContextData.startDate, planContextData.endDate)
     : 0;
 
+  const [bgImageSrc, setBgImageSrc] = useState("");
+
+  useEffect(() => {
+    if (planContextData && planContextData.backgroundImage) {
+      fetch(`/api/imageUpload?uploadId=${planContextData.backgroundImage}`)
+        .then((res) => res.json())
+        .then(setBgImageSrc);
+    }
+  }, [planContextData]);
+
   return (
     <section>
       <header className={styles.plan_header}>
         <Image
-          src={profileMockData.background}
-          alt="Background"
-          width="900"
-          height="700"
+          src={bgImageSrc || "/plan_bg_default_image.jpg"}
+          alt="Plan background Image"
+          width={900}
+          height={700}
           className={styles.plan_background}
         />
+
         <div className="back_button">
           <Link href={`/home`}>
             <Image src="/back_button.svg" alt="Back icon" width="30" height="30" />

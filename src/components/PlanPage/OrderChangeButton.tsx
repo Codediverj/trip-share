@@ -15,8 +15,6 @@ function OrderChangeButton({ data }: { data: DayPlanDataStore[number] }) {
     });
   };
 
-  const planGoDown = () => {};
-
   return (
     <div className="order_change_wrap">
       <button className="top_button" onClick={(e) => planOrderChange("up")}>

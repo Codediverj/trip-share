@@ -12,6 +12,7 @@ import "swiper/css";
 
 //util
 import { formatDateStartEnd } from "../../utils/formatDateStartEnd.utils";
+import { ImageWithFetch } from "../ImageWithFetch";
 
 interface SwiperCompProps {
   pastPlans: Plan[];
@@ -23,14 +24,12 @@ export default function SwiperComp({ pastPlans }: SwiperCompProps) {
       {pastPlans.map((plan) => (
         <SwiperSlide className={styles.completed_swipe_item} key={plan.planId}>
           <Link href={`/plan/${plan.planId}`}>
-            <Image
-              src={
-                plan.backgroundImage ||
-                "https://images.unsplash.com/photo-1543158266-0066955047b1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"
-              }
-              alt="plus icon"
-              width="125"
-              height="135"
+            <ImageWithFetch
+              uploadId={plan.backgroundImage || ""}
+              alt="Plan background Image"
+              width={125}
+              height={135}
+              imgType="planbg"
             />
             <h5>{plan.title}</h5>
             <p>{formatDateStartEnd(plan.startDate, plan.endDate)}</p>

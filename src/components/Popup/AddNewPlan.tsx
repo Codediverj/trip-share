@@ -12,6 +12,7 @@ import { Plan } from "@/app/api/plan/plan.types";
 import DefaultText from "../Form/DefaultText";
 import DateInput from "../Form/DateInput";
 import ImageSelectInput from "../Form/ImageSelectInput";
+import { useVisionZUpload } from "@visionz/upload-helper-react";
 
 export default function AddNewPlan() {
   const { closePopup } = usePopupContext();
@@ -20,6 +21,7 @@ export default function AddNewPlan() {
   const [titleErrorMessage, setTitleErrorMessage] = useState<string>("");
   const [fromErrorMessage, setFromErrorMessage] = useState<string>("");
   const [toErrorMessage, setToErrorMessage] = useState<string>("");
+  const { onFileChange, uploadSelectedFile, selectedFile } = useVisionZUpload("/api/imageUpload");
 
   useEffect(() => {
     supabase.rpc("currency_options").then((response) => {
@@ -39,8 +41,7 @@ export default function AddNewPlan() {
     title: "",
     startDate: new Date(),
     endDate: new Date(),
-    backgroundImage:
-      "https://images.unsplash.com/photo-1543158266-0066955047b1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
+    backgroundImage: "",
     currency: "USD",
   });
 
@@ -54,7 +55,14 @@ export default function AddNewPlan() {
     }));
   };
 
-  const addNewPlan = () => {
+  const handleImageChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      onFileChange(file);
+    }
+  };
+
+  const addNewPlan = async () => {
     const { title, startDate, endDate, backgroundImage, currency } = planData;
     const startDateLuxon = DateTime.fromJSDate(startDate);
     const endDateLuxon = DateTime.fromJSDate(endDate);
@@ -80,13 +88,15 @@ export default function AddNewPlan() {
       return;
     }
 
+    const { uploadId } = await uploadSelectedFile();
+
     fetch("/api/plan", {
       method: "POST",
       body: JSON.stringify({
         title: title,
         startDate: startDate.toISOString().split("T")[0],
         endDate: endDate.toISOString().split("T")[0],
-        backgroundImage: backgroundImage,
+        backgroundImage: uploadId,
         currency: currency,
       }),
     }).then(() => closePopup());
@@ -122,11 +132,7 @@ export default function AddNewPlan() {
       />
 
       <h3 className={styles.input_box_h3}>Background Image</h3>
-      <ImageSelectInput
-        name={"backgroundImage"}
-        value={planData.backgroundImage}
-        onChange={handleInputChange}
-      />
+      <ImageSelectInput name={"backgroundImage"} onChange={handleImageChange} accept={"image/*"} />
 
       <h3 className={styles.input_box_h3}>Default Currency for this trip</h3>
       <select

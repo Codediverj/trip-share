@@ -2,7 +2,6 @@
 import React, { useMemo } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import styles from "./DayPlan.module.scss";
 import { DateTime } from "luxon";
 
 //useContext
@@ -95,7 +94,7 @@ function DayPlanContentSingle({
   }, [data, userData.userId]);
 
   return (
-    <div className={`${styles.day_plan_content_single} ${UpdateCheck ? styles.update_bg : ""}`}>
+    <div className={`day_plan_content_single ${UpdateCheck ? "update_bg" : ""}`}>
       <OrderChangeButton data={data} />
       <div className="top_part">
         <h4 className="number">{data.order}</h4>

@@ -11,6 +11,7 @@ import { PlanDataStore } from "@/contexts/planData/planData.types";
 import DefaultText from "../Form/DefaultText";
 import DateInput from "../Form/DateInput";
 import ImageSelectInput from "../Form/ImageSelectInput";
+import { useVisionZUpload } from "@visionz/upload-helper-react";
 
 export default function EditPlan() {
   const { closePopup } = usePopupContext();
@@ -21,6 +22,7 @@ export default function EditPlan() {
   const [titleErrorMessage, setTitleErrorMessage] = useState<string>("");
   const [fromErrorMessage, setFromErrorMessage] = useState<string>("");
   const [toErrorMessage, setToErrorMessage] = useState<string>("");
+  const { onFileChange, uploadSelectedFile, selectedFile } = useVisionZUpload("/api/imageUpload");
 
   useEffect(() => {
     supabase.rpc("currency_options").then((response) => {
@@ -44,8 +46,15 @@ export default function EditPlan() {
     }));
   };
 
-  const handleEditPlan = () => {
-    const { planId, title, startDate, endDate, backgroundImage, currency } = planData;
+  const handleImageChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      onFileChange(file);
+    }
+  };
+
+  const handleEditPlan = async () => {
+    const { planId, title, startDate, endDate, currency } = planData;
     const startDateLuxon = DateTime.fromJSDate(startDate);
     const endDateLuxon = DateTime.fromJSDate(endDate);
     let hasError = false;
@@ -70,6 +79,8 @@ export default function EditPlan() {
       return;
     }
 
+    const { uploadId } = await uploadSelectedFile();
+
     fetch("/api/updatePlan", {
       method: "POST",
       body: JSON.stringify({
@@ -77,7 +88,7 @@ export default function EditPlan() {
         title: title,
         startDate: startDate.toISOString().split("T")[0],
         endDate: endDate.toISOString().split("T")[0],
-        backgroundImage: backgroundImage,
+        backgroundImage: uploadId,
         currency: currency,
       }),
     }).then((response) => {
@@ -119,11 +130,7 @@ export default function EditPlan() {
       />
 
       <h3 className={styles.input_box_h3}>Background Image</h3>
-      <ImageSelectInput
-        name={"backgroundImage"}
-        value={planData.backgroundImage}
-        onChange={handleInputChange}
-      />
+      <ImageSelectInput name={"backgroundImage"} onChange={handleImageChange} accept={"image/*"} />
 
       <h3 className={styles.input_box_h3}>Default Currency for this trip</h3>
       <select

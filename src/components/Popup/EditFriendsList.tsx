@@ -10,6 +10,7 @@ import { useUserDataStore } from "@/contexts/userData/userData.provider";
 import { usePopupContext } from "../../contexts/popup/PopupContext";
 import { usePlanDataStore } from "@/contexts/planData/planData.provider";
 import DefaultText from "../Form/DefaultText";
+import { ImageWithFetch } from "../ImageWithFetch";
 
 const initialSearchResultUser = {
   userId: "",
@@ -115,13 +116,15 @@ export default function EditFriendsList({ planId }: { planId: string }) {
               <div className="edit_friends_list_item" key={index}>
                 <div className="edit_friends_list_item_inner">
                   <div className="left_info">
-                    <Image
-                      src={friend.profileImage || "/profile_default_image.svg"}
-                      alt="profile image"
-                      width="30"
-                      height="30"
+                    <ImageWithFetch
+                      uploadId={friend.profileImage || ""}
+                      alt="image"
+                      width={30}
+                      height={30}
+                      imgType="profile"
                       className="edit_friends_list_item_image"
                     />
+
                     <span className="edit_friends_list_name">{`${friend.nickname} (${friend.travelerCode})`}</span>
                     {userData.userId === friend.userId ? (
                       <div className="edit_friends_owner">Me</div>

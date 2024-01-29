@@ -21,7 +21,7 @@ export async function GET(req: NextRequest) {
       .insert({
         user_id: user?.id,
         created_at: new Date(),
-        profile_image: "/profile_default_image.svg",
+        profile_image: "",
         nickname: ExtractUsernameFromEmail(user?.email || ""),
         email: user?.email,
         traveler_code: GeneratedTravlerCode(),

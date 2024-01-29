@@ -2,12 +2,7 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import styles from "./HomePage.module.scss";
-
-interface MainImgProps {
-  randomImage: string;
-  randomName: string;
-  date: string;
-}
+import { ImageWithFetch } from "../ImageWithFetch";
 
 function MainImage({ backgroundImage, planTitle, date, id }: any) {
   return (
@@ -16,7 +11,13 @@ function MainImage({ backgroundImage, planTitle, date, id }: any) {
         <Link href={`/plan/${id}`}>
           <div className={styles.continue_plan_item_img}>
             <div>
-              <Image src={backgroundImage} alt="plus icon" width="900" height="700" />
+              <ImageWithFetch
+                uploadId={backgroundImage || ""}
+                alt="Plan background Image"
+                width={900}
+                height={700}
+                imgType="planbg"
+              />
             </div>
           </div>
           <div className={styles.continue_plan_txt_box}>

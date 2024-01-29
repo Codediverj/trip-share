@@ -23,7 +23,7 @@ export default function EditProfileImage({ profileImage, onSave }: EditProfileIm
 
   const handleSave = async () => {
     const { uploadId } = await uploadSelectedFile();
-    console.log("uploadId", uploadId);
+    //console.log("uploadId", uploadId);
     onSave(uploadId);
   };
 

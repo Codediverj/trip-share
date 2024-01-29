@@ -12,6 +12,7 @@ import DefaultText from "@/components/Form/DefaultText";
 import DateInput from "@/components/Form/DateInput";
 import ImageSelectInput from "@/components/Form/ImageSelectInput";
 import LongTextBox from "@/components/Form/LongTextBox";
+import { useVisionZUpload } from "@visionz/upload-helper-react";
 
 export default function EditMoment({ data }: { data: MomentDataType }) {
   const { closePopup } = usePopupContext();
@@ -24,6 +25,7 @@ export default function EditMoment({ data }: { data: MomentDataType }) {
     momentImage: data.momentImage,
     memo: data.memo,
   });
+  const { onFileChange, uploadSelectedFile, selectedFile } = useVisionZUpload("/api/imageUpload");
 
   const handleInputChange = (event: any) => {
     const { name, value } = event.target;
@@ -33,7 +35,14 @@ export default function EditMoment({ data }: { data: MomentDataType }) {
     }));
   };
 
-  const editMoment = () => {
+  const handleImageChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      onFileChange(file);
+    }
+  };
+
+  const editMoment = async () => {
     const { id, title, momentDate, momentImage, memo } = momentData;
     if (!momentData) {
       return;
@@ -51,13 +60,15 @@ export default function EditMoment({ data }: { data: MomentDataType }) {
       return;
     }
 
+    const { uploadId } = await uploadSelectedFile();
+
     fetch("/api/updateMoment", {
       method: "POST",
       body: JSON.stringify({
         id: id,
         title: title,
         momentDate: momentDate.toISOString().split("T")[0],
-        momentImage: momentImage,
+        momentImage: uploadId,
         memo: memo || undefined,
       }),
     }).then(() => closePopup());
@@ -84,11 +95,7 @@ export default function EditMoment({ data }: { data: MomentDataType }) {
       />
 
       <h3 className={styles.input_box_h3}>Image</h3>
-      <ImageSelectInput
-        name={"momentImage"}
-        value={momentData.momentImage}
-        onChange={handleInputChange}
-      />
+      <ImageSelectInput name={"backgroundImage"} onChange={handleImageChange} accept={"image/*"} />
 
       <h3 className={styles.input_box_h3}>Memo</h3>
       <LongTextBox

@@ -1,6 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
-import Link from "next/link";
 import styles from "./Moment.module.scss";
 import AddNewMomentButton from "../AddNewMomentButton";
 
@@ -10,6 +9,7 @@ import AddNewMoment from "../Popup/AddNewMoment/AddNewMoment";
 import { useMomentDataStore } from "@/contexts/momentData/momentData.provider";
 import { useUserDataStore } from "@/contexts/userData/userData.provider";
 import MoreButtonMoment from "./MoreButtonMoment";
+import { ImageWithFetch } from "@/components/ImageWithFetch";
 
 function Moment() {
   const { openPopup } = usePopupContext();
@@ -31,15 +31,25 @@ function Moment() {
           <div className="moment_item" key={data.id}>
             {data.momentImage && (
               <div className="box_image">
-                <Image src={data.momentImage} alt="image" width="614" height="534" />
+                <ImageWithFetch
+                  uploadId={data.momentImage}
+                  alt="image"
+                  width={614}
+                  height={534}
+                  imgType="content"
+                />
               </div>
             )}
             <div className="moment_text_box">
               <div className="writer_area">
                 <div className="profile_circle">
-                  {data.writer?.writerImage && (
-                    <Image src={data.writer.writerImage} alt="image" width="30" height="30" />
-                  )}
+                  <ImageWithFetch
+                    uploadId={data.writer?.writerImage || ""}
+                    alt="image"
+                    width={30}
+                    height={30}
+                    imgType="profile"
+                  />
                 </div>
                 <h4 className="writer_name">{data.writer?.writerNickName || "anonymous"}</h4>
               </div>
